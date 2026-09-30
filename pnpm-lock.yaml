@@ -1067,9 +1067,6 @@ importers:
       happy-dom:
         specifier: 20.14.5
         version: 20.14.5
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       unbuild:
         specifier: 3.6.1
         version: 3.6.1(typescript@5.9.3)(vue-sfc-transformer@0.1.17(@vue/compiler-core@3.5.42)(esbuild@0.28.2)(vue@3.5.42(typescript@5.9.3)))(vue-tsc@3.3.11(typescript@5.9.3))(vue@3.5.42(typescript@5.9.3))
@@ -1080,7 +1077,7 @@ importers:
   packages/api-gen:
     dependencies:
       '@shopwell/api-client':
-        specifier: workspace:*
+        specifier: 1.6.0
         version: link:../api-client
       ofetch:
         specifier: 1.5.1
@@ -1122,9 +1119,6 @@ importers:
       picocolors:
         specifier: 1.1.1
         version: 1.1.1
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       unbuild:
         specifier: 3.6.1
         version: 3.6.1(typescript@5.9.3)(vue-sfc-transformer@0.1.17(@vue/compiler-core@3.5.42)(esbuild@0.28.2)(vue@3.5.42(typescript@5.9.3)))(vue-tsc@3.3.11(typescript@5.9.3))(vue@3.5.42(typescript@5.9.3))
@@ -1144,13 +1138,13 @@ importers:
         specifier: 4.5.2
         version: 4.5.2(magic-string@0.30.21)(magicast@0.5.5)(oxc-parser@0.150.0)(rolldown@1.2.9)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.4)(rollup@4.62.4)(vite@8.3.0(@types/node@26.6.2)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.89.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(webpack@5.105.4(esbuild@0.28.2)(lightningcss@1.33.0)))
       '@shopwell/api-client':
-        specifier: workspace:*
+        specifier: 1.6.0
         version: link:../api-client
       '@shopwell/composables':
-        specifier: workspace:*
+        specifier: 1.13.0
         version: link:../composables
       '@shopwell/helpers':
-        specifier: workspace:*
+        specifier: 1.8.0
         version: link:../helpers
       '@tresjs/cientos':
         specifier: 5.8.1
@@ -1201,9 +1195,6 @@ importers:
       nuxt:
         specifier: 4.5.2
         version: 4.5.2(1903ce9216b2ffcb08307385939485b7)
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -1220,10 +1211,10 @@ importers:
   packages/composables:
     dependencies:
       '@shopwell/api-client':
-        specifier: workspace:*
+        specifier: 1.6.0
         version: link:../api-client
       '@shopwell/helpers':
-        specifier: workspace:*
+        specifier: 1.8.0
         version: link:../helpers
       '@vueuse/core':
         specifier: 14.4.0
@@ -1250,9 +1241,6 @@ importers:
       happy-dom:
         specifier: 20.14.5
         version: 20.14.5
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -1277,9 +1265,6 @@ importers:
       happy-dom:
         specifier: 20.14.5
         version: 20.14.5
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       unbuild:
         specifier: 3.6.1
         version: 3.6.1(typescript@5.9.3)(vue-sfc-transformer@0.1.17(@vue/compiler-core@3.5.42)(esbuild@0.28.2)(vue@3.5.42(typescript@5.9.3)))(vue-tsc@3.3.11(typescript@5.9.3))(vue@3.5.42(typescript@5.9.3))
@@ -1293,13 +1278,13 @@ importers:
         specifier: 4.5.2
         version: 4.5.2(magic-string@1.4.1)(magicast@0.5.5)(oxc-parser@0.150.0)(rolldown@1.2.9)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.9)(rollup@4.62.4)(vite@8.3.0(@types/node@26.6.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(webpack@5.105.4(esbuild@0.28.2)(lightningcss@1.33.0)))
       '@shopwell/api-client':
-        specifier: workspace:*
+        specifier: 1.6.0
         version: link:../api-client
       '@shopwell/composables':
-        specifier: workspace:*
+        specifier: 1.13.0
         version: link:../composables
       '@shopwell/helpers':
-        specifier: workspace:*
+        specifier: 1.8.0
         version: link:../helpers
       defu:
         specifier: 6.1.7
@@ -1320,9 +1305,6 @@ importers:
       nuxt:
         specifier: 4.5.2
         version: 4.5.2(@babel/plugin-proposal-decorators@7.25.9(@babel/core@7.29.7))(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7))(@netlify/blobs@9.1.2)(@oxc-project/types@0.150.0)(@parcel/watcher@2.6.0)(@types/node@26.6.2)(@vercel/blob@1.0.2)(@vitejs/devtools-kit@0.4.10(cac@6.7.14)(typescript@5.9.3)(vite@8.3.0(@types/node@26.6.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(@vue/compiler-sfc@3.5.42)(cac@6.7.14)(commander@14.0.3)(db0@0.3.4)(encoding@0.1.13)(esbuild@0.28.2)(ioredis@5.11.1)(lightningcss@1.33.0)(magicast@0.5.5)(oxc-parser@0.150.0)(oxlint@1.80.0)(rolldown@1.2.4)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.9)(rollup@4.62.4))(rollup@4.62.4)(terser@5.51.2)(tsx@4.23.15)(typescript@5.9.3)(vite@8.3.0(@types/node@26.6.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vue-tsc@3.3.11(typescript@5.9.3))(webpack@5.105.4(esbuild@0.28.2)(lightningcss@1.33.0))(yaml@2.9.1)
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       unbuild:
         specifier: 3.6.1
         version: 3.6.1(typescript@5.9.3)(vue-sfc-transformer@0.1.17(@vue/compiler-core@3.5.42)(esbuild@0.28.2)(vue@3.5.42(typescript@5.9.3)))(vue-tsc@3.3.11(typescript@5.9.3))(vue@3.5.42(typescript@5.9.3))
@@ -1362,9 +1344,6 @@ importers:
       nuxt:
         specifier: 4.5.2
         version: 4.5.2(@babel/plugin-proposal-decorators@7.25.9(@babel/core@7.29.7))(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7))(@netlify/blobs@9.1.2)(@oxc-project/types@0.150.0)(@parcel/watcher@2.6.0)(@types/node@26.6.2)(@vercel/blob@1.0.2)(@vitejs/devtools-kit@0.4.10(cac@7.0.0)(srvx@1.0.5)(typescript@5.9.3)(vite@8.3.0(@types/node@26.6.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(@vue/compiler-sfc@3.5.42)(cac@7.0.0)(commander@14.0.3)(db0@0.3.4)(encoding@0.1.13)(esbuild@0.28.2)(ioredis@5.11.1)(lightningcss@1.33.0)(magicast@0.5.5)(oxc-parser@0.150.0)(oxlint@1.80.0)(rolldown@1.2.4)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.9)(rollup@4.62.4))(rollup@4.62.4)(srvx@1.0.5)(terser@5.51.2)(tsx@4.23.15)(typescript@5.9.3)(vite@8.3.0(@types/node@26.6.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vue-tsc@3.3.11(typescript@5.9.3))(webpack@5.105.4(esbuild@0.28.2)(lightningcss@1.33.0))(yaml@2.9.1)
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       typescript:
         specifier: 5.9.3
         version: 5.9.3
