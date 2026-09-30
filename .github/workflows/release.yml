@@ -145,10 +145,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline
 
-      - name: Build published packages
-        run: |
-          pnpm --filter @shopwell/composables build
-          pnpm --filter @shopwell/nuxt-module build
+      - name: Build workspace packages
+        run: pnpm run build --filter='./packages/*'
 
       - name: Publish synced packages in dependency order
         shell: bash
