@@ -572,10 +572,16 @@ apiClient.invoke("readProductGet get /product", {
 
 Full changelog for stable version is available [here](https://github.com/shopwell-shop/frontends/blob/main/packages/api-client/CHANGELOG.md)
 
-### Latest changes: 1.6.0
+### Latest changes: 1.7.0
 
 ### Minor Changes
 
-- [#2642](https://github.com/shopwell-shop/frontends/pull/2642) [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Update the default Store API schema and types from `6.7.10.1` to `6.7.12.1`.
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Added `isTimeoutError()` to tell a request that ran into `fetchOptions.timeout` apart from other errors. Such a request rejects without an HTTP status, so `instanceof ApiClientError` does not match it. The request may already have reached the API and been processed, so the server-side outcome is unknown, and a mutation must not be retried without checking.
 
-- [#2676](https://github.com/shopwell-shop/frontends/pull/2676) [`458494e`](https://github.com/shopwell-shop/frontends/commit/458494e8bd2be88d4fbf161636a109c8f4efc443) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Update the default Store API schema and types from `6.7.12.1` to `6.7.13.0`.
+  A per-request `signal` no longer switches off `timeout`. Both are combined, so whichever fires first aborts the request. Before, ofetch ignored `timeout` as soon as a `signal` was set. Combining needs `AbortSignal.any`, so runtimes without it keep the old behaviour. The admin client forwards the signal and timeout to its token refresh as well.
+
+  A `timeout` is now validated before it is used. It is rounded up to whole milliseconds and capped at the largest value a timer can hold, and a value that is not a finite positive number is ignored instead of failing the request. A per-request `timeout: undefined` now falls back to the client timeout instead of dropping it.
+
+### Patch Changes
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Add `WithApiOverrides` to merge local operation or schema overlays onto the types shipped with the client.

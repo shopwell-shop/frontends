@@ -192,13 +192,17 @@ The API Client instance is aware of your custom API types thanks to declaring `#
 
 Full changelog for stable version is available [here](https://github.com/shopwell-shop/frontends/blob/main/packages/nuxt-module/CHANGELOG.md)
 
-### Latest changes: 1.5.2
+### Latest changes: 1.6.0
+
+### Minor Changes
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - `apiClientConfig.timeout` now works. Set it in milliseconds under `runtimeConfig.apiClientConfig` or `runtimeConfig.public.apiClientConfig`, next to `headers`, and the plugin forwards it to the API client. Unset by default. Only a positive number arms it, and a numeric string is coerced. Any other value is ignored and logged once as a warning naming the config path the value came from, instead of being dropped silently. It aborts a request whose response headers do not arrive in time, including one still opening its connection. It does not abort a response that stalls after its headers arrived, unless the call passes its own `signal`.
+
+  `apiClientConfig` under the `shopwell` module options is deprecated, and now works as a fallback. It had never been read before, so a value set there in the past becomes active with this release. It is read last, only when neither `runtimeConfig` path holds a valid value, and Nuxt warns at build time when a timeout is set there. Move to `runtimeConfig.apiClientConfig`; the fallback goes away in the next major.
 
 ### Patch Changes
 
-- [#2598](https://github.com/shopwell-shop/frontends/pull/2598) [`204c8f4`](https://github.com/shopwell-shop/frontends/commit/204c8f45f737e724db6d00b80c5faef8ddb77cb4) Thanks [@dependabot](https://github.com/apps/dependabot)! - Fix Nuxt plugin injection typing for Nuxt 4.5 and maintenance mode error handling.
-
-- Updated dependencies [[`2ddf156`](https://github.com/shopwell-shop/frontends/commit/2ddf156805b2941fe2069e78453fb3c4eb6d44ac), [`204c8f4`](https://github.com/shopwell-shop/frontends/commit/204c8f45f737e724db6d00b80c5faef8ddb77cb4), [`7020545`](https://github.com/shopwell-shop/frontends/commit/70205458cb9357a068029d0aaef41898ab94b354), [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e), [`458494e`](https://github.com/shopwell-shop/frontends/commit/458494e8bd2be88d4fbf161636a109c8f4efc443), [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e), [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e), [`8913956`](https://github.com/shopwell-shop/frontends/commit/89139563924163e57cafdd9770fe603f2dbd8cba), [`458494e`](https://github.com/shopwell-shop/frontends/commit/458494e8bd2be88d4fbf161636a109c8f4efc443)]:
-  - @shopwell/helpers@1.8.0
-  - @shopwell/composables@1.13.0
-  - @shopwell/api-client@1.6.0
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Resolve plugin configuration types from the published package entrypoint.
+- Updated dependencies [[`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95)]:
+  - @shopwell/api-client@1.7.0
+  - @shopwell/composables@1.14.0

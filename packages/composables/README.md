@@ -166,60 +166,46 @@ All composable functions are fully typed with TypeScript and they are registed g
 
 Full changelog for stable version is available [here](https://github.com/shopwell-shop/frontends/blob/main/packages/composables/CHANGELOG.md)
 
-### Latest changes: 1.13.0
+### Latest changes: 1.14.0
 
 ### Minor Changes
 
-- [#2663](https://github.com/shopwell-shop/frontends/pull/2663) [`7020545`](https://github.com/shopwell-shop/frontends/commit/70205458cb9357a068029d0aaef41898ab94b354) Thanks [@mkucmus](https://github.com/mkucmus)! - `useCmsElementImage` now honours the `ariaLabel` and `isDecorative` fields of a CMS image element, which were ignored before, and returns both. `imageAttrs.alt` is empty for a decorative image. `ariaLabel` names the link the image sits in, as it does in the Storefront, so it is not copied into `alt`.
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Let the CMS tree lookups follow a changing `content`, and fix `resolveCmsComponent().isResolved`
 
-  Both fields are optional on the image element config, because a Shopwell instance that has never had them set does not return them. `useCmsElementConfig` accepts optional config members now, so `getConfigValue` keeps the declared value type for them instead of widening to `{}`.
+  **`useCmsSection` and `useCmsBlock` accept a `ref` or a getter.** Both took a plain object and closed over it, so `getPositionContent()` and `getSlotContent()` kept reading the tree captured at setup: a component receiving a new `content` prop had to remount to see it, and calling the function again did not help. Both now accept `MaybeRefOrGetter` and resolve it with `toValue()` on every call.
 
-  `SliderElementConfig` gained the `"none"` value for `navigationDots` and `navigationArrows`. The Administration offers it, the type did not list it.
-
-- [#2642](https://github.com/shopwell-shop/frontends/pull/2642) [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add `createDraftQuoteVersion` and `deleteDraftQuoteVersion` to `useB2bQuoteManagement`.
-
-  Quote write operations such as `declineQuoteWithComment` expect the identifier of a temporary storefront draft version, not the `versionId` property of the quote entity. `createDraftQuoteVersion` wraps `POST /quote/{id}/draft-version` and returns that identifier, throwing when the API responds without one; `deleteDraftQuoteVersion` discards the draft again.
+  Passing a plain object still works exactly as before, so nothing has to change. To benefit, pass a getter and read the lookups through a `computed`:
 
   ```ts
-  const { createDraftQuoteVersion, declineQuoteWithComment } =
-    useB2bQuoteManagement();
-
-  const versionId = await createDraftQuoteVersion(quoteId);
-
-  await declineQuoteWithComment(quoteId, {
-    comment: "Too expensive",
-    lineItemId,
-    versionId,
-  });
+  const { getSlotContent } = useCmsBlock(() => props.content);
+  const leftContent = computed(() => getSlotContent("left"));
   ```
 
-- [#2642](https://github.com/shopwell-shop/frontends/pull/2642) [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add `declineQuoteWithComment` to `useB2bQuoteManagement`, following the Store API `POST /quote/{id}/decline` schema, which as of `6.7.12` also carries `lineItemId` and `versionId` next to `comment`.
+  The returned `section` and `block` are still the value read when the composable was called, so they do not follow a replacement — use the source you passed in when you need that.
 
-  `declineQuote` keeps its `(quoteId, comment)` signature and is deprecated. It will be removed in the next major.
+  **`resolveCmsComponent().isResolved` now means resolved.** It compared the resolved value with `content.type`, while Vue's `resolveComponent` returns the _component name_ when nothing is registered — two strings that never match, so `isResolved` was `true` even when nothing resolved, and code guarding a fallback with `!isResolved` never ran. It is now derived from `resolvedComponent !== undefined`. Check `resolvedComponent` directly if you want the component itself.
 
-  ```ts
-  const { declineQuoteWithComment, createDraftQuoteVersion } =
-    useB2bQuoteManagement();
+  The `resolved` field, which appears only when resolving throws, is now marked `@deprecated`. It always equals `isResolved`, so read that instead.
 
-  const versionId = await createDraftQuoteVersion(quoteId);
-
-  await declineQuoteWithComment(quoteId, {
-    comment: "Too expensive",
-    lineItemId,
-    versionId,
-  });
-  ```
+  Note what is not fixed here: `getSlotContent()` still returns `undefined` at runtime for a slot the block does not carry, while its return type promises a value. The signature stays as it is because correcting it would be a breaking type change; the JSDoc now says so, and callers should keep guarding on the result.
 
 ### Patch Changes
 
-- [#2676](https://github.com/shopwell-shop/frontends/pull/2676) [`458494e`](https://github.com/shopwell-shop/frontends/commit/458494e8bd2be88d4fbf161636a109c8f4efc443) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Realign the composables with the `6.7.13.0` Store API schema:
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Add an optional notification action (label + link) so add-to-cart toasts can offer a "View cart" shortcut, and keep those toasts visible a little longer.
 
-  - `useB2bQuoteManagement`: `getQuote()` now invokes `readQuote post /quote/{id}` (was `readQuote post /quote/detail/{id}`) and `createOrderFromQuote()` now invokes `createOrderFromQuote post /quote/{id}/order` (was `createOrderFromQuote post /quote/order/{id}`), matching the renamed endpoints.
-  - `useListing`: `getSortingOrders` is typed as `Schemas["ProductListingResult"]["availableSortings"]` instead of the removed `Schemas["ProductSorting"][]`.
-  - `useProductSearch`: the `associations` option is typed as `Partial<Schemas["Associations"]>` instead of the removed `Schemas["Association"]`.
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Fall back `getStorefrontUrl()` to a sales channel domain
 
-- [#2660](https://github.com/shopwell-shop/frontends/pull/2660) [`8913956`](https://github.com/shopwell-shop/frontends/commit/89139563924163e57cafdd9770fe603f2dbd8cba) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - `useCmsElementImage` now returns the translated media `alt` in `imageAttrs`. It read `element.data.media.alt` from the entity root, which the Store API fills with the system language value, so the `alt` attribute ignored the language of the current request. The value is now resolved with `getTranslatedProperty()` and falls back to the root property when `translated` is missing.
+  `useUser().register()` injects `storefrontUrl` from `getStorefrontUrl()`. Shopwell rejects that value unless it matches a **Sales Channel → Domains** entry, so guest checkout against the public demo (`devStorefrontUrl` pointing at the starter Vercel host) never reached `POST /checkout/order`.
 
-- Updated dependencies [[`2ddf156`](https://github.com/shopwell-shop/frontends/commit/2ddf156805b2941fe2069e78453fb3c4eb6d44ac), [`204c8f4`](https://github.com/shopwell-shop/frontends/commit/204c8f45f737e724db6d00b80c5faef8ddb77cb4), [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e), [`458494e`](https://github.com/shopwell-shop/frontends/commit/458494e8bd2be88d4fbf161636a109c8f4efc443)]:
-  - @shopwell/helpers@1.8.0
-  - @shopwell/api-client@1.6.0
+  `getStorefrontUrl()` now uses the preferred URL when it is one of the current sales channel domains, and otherwise the domain for the active language (or the first configured domain).
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Refresh the cart after `register()`
+
+  `useUser().register()` changed the session context without refreshing the cart, while `login()` and `logout()` both did. Registration is the first point at which the backend learns the customer's billing country, which drives tax rates, shipping surcharges and customer-group prices, so the cart totals held in `useCart()` could stay at their pre-registration values while the order was placed at the recalculated ones.
+
+  `register()` now awaits `refreshCart()` after `refreshSessionContext()`, so a caller that awaits `register()` cannot observe the pre-registration totals afterwards. Note this makes `register()` resolve slightly later than before, and a failing cart refresh now rejects `register()` even though the customer was created — the same property `refreshSessionContext()` on the preceding line already had.
+
+  `login()` and `logout()` still call `refreshCart()` without awaiting it and are unchanged here.
+
+- Updated dependencies [[`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95)]:
+  - @shopwell/api-client@1.7.0

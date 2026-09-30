@@ -1,6 +1,6 @@
 {
   "name": "@shopwell/api-gen",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Shopwell CLI for API client generation.",
   "author": "Shopwell",
   "type": "module",
@@ -57,7 +57,7 @@
     "vitest": "5.0.0"
   },
   "dependencies": {
-    "@shopwell/api-client": "1.6.0",
+    "@shopwell/api-client": "1.7.0",
     "ofetch": "1.5.1",
     "openapi-typescript": "7.13.0",
     "oxfmt": "0.65.0",

@@ -1,6 +1,6 @@
 {
   "name": "@shopwell/nuxt-module",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "description": "Nuxt 3 module for Shopwell Frontends",
   "author": "Shopwell",
   "repository": {
@@ -43,9 +43,9 @@
   },
   "dependencies": {
     "@nuxt/kit": "4.5.2",
-    "@shopwell/composables": "1.13.1",
+    "@shopwell/composables": "1.14.0",
     "@shopwell/helpers": "1.8.0",
-    "@shopwell/api-client": "1.6.0",
+    "@shopwell/api-client": "1.7.0",
     "defu": "6.1.7",
     "h3": "1.15.11",
     "js-cookie": "3.0.7"

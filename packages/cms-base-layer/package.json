@@ -1,6 +1,6 @@
 {
   "name": "@shopwell/cms-base-layer",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "Vue CMS Nuxt Layer for Shopwell",
   "author": "Shopwell",
   "repository": {
@@ -42,8 +42,8 @@
     "@iconify-json/carbon": "1.2.27",
     "@nuxt/image": "2.1.0",
     "@nuxt/kit": "4.5.2",
-    "@shopwell/api-client": "1.6.0",
-    "@shopwell/composables": "1.13.1",
+    "@shopwell/api-client": "1.7.0",
+    "@shopwell/composables": "1.14.0",
     "@shopwell/helpers": "1.8.0",
     "@tresjs/cientos": "5.8.1",
     "@tresjs/nuxt": "^5.6.3",

@@ -409,9 +409,9 @@ await split({
 
 Full changelog for stable version is available [here](https://github.com/shopwell-shop/frontends/blob/main/packages/api-gen/CHANGELOG.md)
 
-### Latest changes: 1.5.2
+### Latest changes: 1.5.3
 
 ### Patch Changes
 
-- Updated dependencies [[`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e), [`458494e`](https://github.com/shopwell-shop/frontends/commit/458494e8bd2be88d4fbf161636a109c8f4efc443)]:
-  - @shopwell/api-client@1.6.0
+- Updated dependencies [[`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95)]:
+  - @shopwell/api-client@1.7.0
