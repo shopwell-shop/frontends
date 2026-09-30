@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@4.0.0/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "shopwell/frontends" }
+    { "repo": "shopwell-shop/frontends" }
   ],
   "commit": false,
   "fixed": [],
