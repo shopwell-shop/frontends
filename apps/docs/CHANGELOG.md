@@ -339,7 +339,7 @@
 
 ### Patch Changes
 
-- [#141](https://github.com/shopwell-shop/frontends/pull/141) [`19229ca1`](https://github.com/shopwell-shop/frontends/commit/19229ca10c9222955f77fc06594a51967be426dd) Thanks [@patzick](https://github.com/patzick)! - updated documentation links to https://frontends.shopwell.com
+- [#141](https://github.com/shopwell-shop/frontends/pull/141) [`19229ca1`](https://github.com/shopwell-shop/frontends/commit/19229ca10c9222955f77fc06594a51967be426dd) Thanks [@patzick](https://github.com/patzick)! - updated documentation links to https://frontends.shopwell.cn
 
 - [#153](https://github.com/shopwell-shop/frontends/pull/153) [`1139a1ac`](https://github.com/shopwell-shop/frontends/commit/1139a1ac9ac5925ebab29ff5ce9f1a062da2821b) Thanks [@mkucmus](https://github.com/mkucmus)! - New example of how to implement a footer navigation
 

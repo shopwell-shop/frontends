@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     // shopwell: {
     /**
      * SSR Shopwell Endpoint
-     * More here: https://developer.shopwell.com/frontends/introduction/templates/custom-vue-project.html#shopwell-endpoint-on-the-ssr-mode
+     * More here: https://developer.shopwell.cn/frontends/introduction/templates/custom-vue-project.html#shopwell-endpoint-on-the-ssr-mode
      */
     //   endpoint: ""
     // },

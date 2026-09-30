@@ -11,7 +11,7 @@ describe("useNewsletter", () => {
     });
 
     await vm.newsletterSubscribe({
-      email: "test@shopwell.com",
+      email: "test@shopwell.cn",
       option: "subscribe",
     });
 
@@ -26,13 +26,13 @@ describe("useNewsletter", () => {
     const { vm, injections } = useSetup(useNewsletter);
     injections.apiClient.invoke.mockResolvedValue({ data: {} });
 
-    await vm.newsletterUnsubscribe("sometestemail@shopwell.com");
+    await vm.newsletterUnsubscribe("sometestemail@shopwell.cn");
 
     expect(injections.apiClient.invoke).toHaveBeenCalledWith(
       expect.stringContaining("unsubscribeToNewsletter"),
       {
         body: {
-          email: "sometestemail@shopwell.com",
+          email: "sometestemail@shopwell.cn",
         },
       },
     );

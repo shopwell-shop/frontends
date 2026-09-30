@@ -124,7 +124,7 @@ export default defineNuxtModule<ShopwellNuxtOptions>({
       icon: "fa6-brands:shopwell",
       view: {
         type: "iframe",
-        src: "https://developer.shopwell.com/frontends/",
+        src: "https://developer.shopwell.cn/frontends/",
       },
     });
 
@@ -134,7 +134,7 @@ export default defineNuxtModule<ShopwellNuxtOptions>({
       icon: "carbon:assembly-cluster",
       view: {
         type: "iframe",
-        src: "https://developer.shopwell.com/frontends/guides/cms/",
+        src: "https://developer.shopwell.cn/frontends/guides/cms/",
       },
     });
   },

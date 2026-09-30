@@ -14,7 +14,7 @@ The example shows how to embed Amazon Pay button even without fully integrated b
 ## Requirements
 
 - A basic knowledge of [Amazon Pay](https://developer.amazon.com/docs/amazon-pay-checkout/introduction.html) official documentation - thanks to this, you will understand the further configuration and potential issues
-- [Amazon Pay App](https://store.shopwell.com/en/swag117522576433f/amazon-pay.html) installed in your shop
+- [Amazon Pay App](https://store.shopwell.cn/en/swag117522576433f/amazon-pay.html) installed in your shop
 - Some Nuxt.js project
 
 ## Setup
@@ -181,6 +181,6 @@ In this case, the app still does not support fully integration for headless appr
 
 ## Resources
 
-- [📖 &nbsp;Composable Frontends Documentation](https://developer.shopwell.com/frontends)
+- [📖 &nbsp;Composable Frontends Documentation](https://developer.shopwell.cn/frontends)
 - [Amazon Pay docs](https://developer.amazon.com/docs/amazon-pay-checkout/introduction.html)
 - [Setting up the Shopwell 6 Admin API client](https://www.npmjs.com/package/@shopwell/api-client#admin-api-client-setup)

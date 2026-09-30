@@ -41,7 +41,7 @@ _Just some thoughts and guides about how the documentation should work._
 
 ## Workflow
 
-\*This repository is embedded into [developer-portal](https://github.com/shopwell-shop/developer-portal) under the [/frontends/](https://developer.shopwell.com/frontends/). This repository is also connected to the Shopwell Dev Docs connector GitHub app which manages commit status checks in PRs and triggers production deployments.
+\*This repository is embedded into [developer-portal](https://github.com/shopwell-shop/developer-portal) under the [/frontends/](https://developer.shopwell.cn/frontends/). This repository is also connected to the Shopwell Dev Docs connector GitHub app which manages commit status checks in PRs and triggers production deployments.
 
 ## Development
 

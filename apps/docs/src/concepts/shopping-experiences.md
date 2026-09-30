@@ -15,7 +15,7 @@ nav:
 
 # Shopping Experiences
 
-This guide will discuss how to use and customize [Shopping Experiences](https://docs.shopwell.com/en/shopwell-6-en/content/ShoppingExperiences) in your Shopwell Frontends project.
+This guide will discuss how to use and customize [Shopping Experiences](https://docs.shopwell.cn/en/shopwell-6-en/content/ShoppingExperiences) in your Shopwell Frontends project.
 
 ## How it works
 

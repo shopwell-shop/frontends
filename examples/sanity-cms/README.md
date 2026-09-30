@@ -1,7 +1,7 @@
 # Sanity CMS example
 
 > **Content + commerce** - a [Sanity](https://www.sanity.io/) Page Builder for
-> editorial content, [Shopwell](https://developer.shopwell.com/frontends/) for
+> editorial content, [Shopwell](https://developer.shopwell.cn/frontends/) for
 > live products and cart, composed in Nuxt 4.
 
 ![Shopwell Frontends](./public/shopwell-frontends-logo.png)
@@ -132,7 +132,7 @@ on mount) and never baked into the cacheable SSR HTML.
 
 ## Learn more
 
-- Integration guide: **https://developer.shopwell.com/frontends/resources/integrations/cms/sanity.html**
+- Integration guide: **https://developer.shopwell.cn/frontends/resources/integrations/cms/sanity.html**
 - [`@nuxtjs/sanity` docs](https://sanity.nuxtjs.org/) · [Sanity docs](https://www.sanity.io/docs)
 
 ## Try it online

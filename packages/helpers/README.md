@@ -2,9 +2,9 @@
 
 Welcome to `@shopwell/helpers` package.
 
-For getting started documentation visit [https://developer.shopwell.com/frontends/](https://developer.shopwell.com/frontends/)
+For getting started documentation visit [https://developer.shopwell.cn/frontends/](https://developer.shopwell.cn/frontends/)
 
-Documentation specific for this package: [helpers](https://developer.shopwell.com/frontends/packages/helpers.html)
+Documentation specific for this package: [helpers](https://developer.shopwell.cn/frontends/packages/helpers.html)
 
 ## Reusable classes
 

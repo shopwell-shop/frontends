@@ -52,7 +52,7 @@ technical URL such as `/detail/{id}`, `/navigation/{id}`, or
 available.
 
 More about the Shopwell sitemap can be found
-[here](https://docs.shopwell.com/en/shopwell-6-en/settings/sitemap).
+[here](https://docs.shopwell.cn/en/shopwell-6-en/settings/sitemap).
 
 ## Frontends sitemap
 

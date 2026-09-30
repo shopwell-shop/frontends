@@ -408,7 +408,7 @@ const manufacturerFilter = {
 
 `ListingFilter.code`: **properties**
 
-[Properties](https://docs.shopwell.com/en/shopwell-6-en/products/properties?category=shopwell-6-en/catalogues) is a generic type of filter responsible for displaying property entities that can describe a product that is configured on the backend side.
+[Properties](https://docs.shopwell.cn/en/shopwell-6-en/products/properties?category=shopwell-6-en/catalogues) is a generic type of filter responsible for displaying property entities that can describe a product that is configured on the backend side.
 
 Despite being in the same filter group, every entity of property defined in the admin panel is available separately.
 
@@ -691,7 +691,7 @@ You have three different options for presenting your variants to your audience. 
 Hover over `Cataloges` > Click on `Products` > Use the Search or Pagination to find your Product > Click on the Product with Variants you want to change > Click on the Tab `Variants` > Click on the Button `Storefront presentation` > A new window/modals opens > Click on `Product lists` on the left side > Here you can change the configuration of how the product with variants should be presented.
 
 :::info Additional ressources
-More about Variants can be found in the [Customer documentation](https://docs.shopwell.com/en/shopwell-6-en/catalogues/products#variants). If you want to customise a product, please also check [Custom products](https://docs.shopwell.com/en/shopwell-6-en/extensions/customproducts) and do not use variants.
+More about Variants can be found in the [Customer documentation](https://docs.shopwell.cn/en/shopwell-6-en/catalogues/products#variants). If you want to customise a product, please also check [Custom products](https://docs.shopwell.cn/en/shopwell-6-en/extensions/customproducts) and do not use variants.
 :::
 
 ### Display single product (main product)

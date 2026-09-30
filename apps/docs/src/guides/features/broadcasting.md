@@ -40,7 +40,7 @@ export default defineNuxtConfig({
 
 <!-- /automd -->
 
-For more information, please visit the [troubleshooting page](https://developer.shopwell.com/frontends/resources/troubleshooting.html#broadcasting-and-bfcache-compatibility)
+For more information, please visit the [troubleshooting page](https://developer.shopwell.cn/frontends/resources/troubleshooting.html#broadcasting-and-bfcache-compatibility)
 
 ## Synchronizing changes between tabs
 

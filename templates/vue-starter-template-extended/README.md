@@ -143,5 +143,5 @@ Optional enhancements:
 ## Learn More
 
 - [Nuxt Documentation](https://nuxt.com/docs)
-- [Shopwell Frontends Documentation](https://developer.shopwell.com/frontends)
+- [Shopwell Frontends Documentation](https://developer.shopwell.cn/frontends)
 - [UnoCSS Documentation](https://unocss.dev/)

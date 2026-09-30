@@ -2,7 +2,7 @@
 
 This example should help get you started developing [Shopwell Frontends](https://github.com/shopwell-shop/frontends).
 
-📖 Visit [Integrations > Payments > Paypal](https://developer.shopwell.com/frontends/resources/integrations/payments/paypal.html) docs for further information.
+📖 Visit [Integrations > Payments > Paypal](https://developer.shopwell.cn/frontends/resources/integrations/payments/paypal.html) docs for further information.
 
 ## Customization
 

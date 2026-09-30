@@ -16,7 +16,7 @@ head:
 The example explains how **Custom Products** feature is implemented in `vue-demo-store` template (already done), but also can be used as a guide how to deal with the process in any project.
 
 :::warning Custom Products for Shopwell 6 is an extension that is part of the Shopwell Rise plan.
-[Read more](https://docs.shopwell.com/en/shopwell-6-en/extensions/customproducts).
+[Read more](https://docs.shopwell.cn/en/shopwell-6-en/extensions/customproducts).
 :::
 
 ## Logic: Composable function
@@ -124,7 +124,7 @@ const addToCartProxy = async () => {
 
 Used composable function allows to use `addToCart()` method and `isActive` computed property. Both are described in "Example of usage" chapter above.
 
-There was a condition added to use a different method to add to cart a product if the product is enhanced by Custom Product template ([how to set it up](https://docs.shopwell.com/en/shopwell-6-en/extensions/customproducts)):
+There was a condition added to use a different method to add to cart a product if the product is enhanced by Custom Product template ([how to set it up](https://docs.shopwell.cn/en/shopwell-6-en/extensions/customproducts)):
 
 - if the product has a Custom Product template, then use `customizedProductAddToCart()` method.
 - otherwise, don't change the adding to cart behavior and use the default one

@@ -7,7 +7,7 @@
     "type": "git",
     "url": "git+https://github.com/shopwell-shop/frontends.git"
   },
-  "homepage": "https://developer.shopwell.com/frontends/concepts/internal-structure.html#nuxt-module",
+  "homepage": "https://developer.shopwell.cn/frontends/concepts/internal-structure.html#nuxt-module",
   "keywords": [
     "Nuxt",
     "Shopwell",

@@ -12,7 +12,7 @@ export default <RouterOptions>{
      * {{ product.translated.name }}/{{ product.productNumber }}
      *
      * For more information please visit:
-     * https://docs.shopwell.com/en/shopwell-6-en/settings/seo
+     * https://docs.shopwell.cn/en/shopwell-6-en/settings/seo
      *
      * ----------------------------------------------
      *

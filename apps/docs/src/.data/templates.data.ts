@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 
 import { defineLoader } from "vitepress";
 
-const DOCS_BASE = "https://developer.shopwell.com/frontends";
+const DOCS_BASE = "https://developer.shopwell.cn/frontends";
 
 export interface Template {
   id: string;

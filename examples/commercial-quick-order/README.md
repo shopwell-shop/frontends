@@ -1,6 +1,6 @@
 # B2B Quick Order
 
-This example should help get you started developing [Shopwell Frontends](https://github.com/shopwell-shop/frontends) & Quick Order from [Commercial Features](https://docs.shopwell.com/en/shopwell-6-en/commercial-features/b2b-components)
+This example should help get you started developing [Shopwell Frontends](https://github.com/shopwell-shop/frontends) & Quick Order from [Commercial Features](https://docs.shopwell.cn/en/shopwell-6-en/commercial-features/b2b-components)
 
 ⚠️ The implementation does not require an API Schema defined on the Quick Order extension side. The required definitions are added in `./api-types/storeApiTypes.overrides.ts`. However, when any extension has it implemented - that will land right into base OpenAPI schema -> like here `api-types/storeApiTypes.d` as a result of [api-gen](https://www.npmjs.com/package/@shopwell/api-gen) command.
 
@@ -38,7 +38,7 @@ In order to use the example, you need to:
 - Provide the credentials for the customer (previous step) by editing `.env` file:
 
   ```sh
-  VITE_TEST_LOGIN_EMAIL="myb2bcustomer@shopwell.com"
+  VITE_TEST_LOGIN_EMAIL="myb2bcustomer@shopwell.cn"
   VITE_TEST_LOGIN_PASSWORD="!@#verysecretpasswd"
   ```
 

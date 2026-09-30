@@ -59,7 +59,7 @@ import { encodeUrlPath } from "@shopwell/helpers";
  * // Returns: { url: '/media/image/product.jpg' }
  * ```
  *
- * @see {@link https://developer.shopwell.com/docs/guides/plugins/plugins/content/media/remote-thumbnail-generation.html | Shopwell Remote Thumbnail Generation}
+ * @see {@link https://developer.shopwell.cn/docs/guides/plugins/plugins/content/media/remote-thumbnail-generation.html | Shopwell Remote Thumbnail Generation}
  * @see {@link https://image.nuxt.com/providers/custom | Nuxt Image Custom Providers}
  */
 

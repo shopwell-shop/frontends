@@ -12,7 +12,7 @@ import { captureStoreApi } from "../utils/store-api";
 
 // A full purchase, and ProductPage.addToCart alone budgets 60s for its retries.
 require("dotenv").config({ path: findEnv() });
-const userEmail = process.env.USER_EMAIL || "test@shopwell.com";
+const userEmail = process.env.USER_EMAIL || "test@shopwell.cn";
 const password = process.env.PASSWORD || "shopwell123";
 
 test.setTimeout(90000);

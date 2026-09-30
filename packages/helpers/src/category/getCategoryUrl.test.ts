@@ -50,9 +50,9 @@ describe("getCategoryUrl", () => {
       getCategoryUrl({
         id: "123123123",
         type: "link",
-        externalLink: "https://shopwell.com",
+        externalLink: "https://shopwell.cn",
       }),
-    ).toBe("https://shopwell.com");
+    ).toBe("https://shopwell.cn");
   });
 
   it("should return SEO URL", () => {

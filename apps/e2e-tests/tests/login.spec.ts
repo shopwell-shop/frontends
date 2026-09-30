@@ -4,7 +4,7 @@ import { LoginForm } from "../page-objects/LoginPage";
 import { findEnv } from "../utils/helpers";
 
 require("dotenv").config({ path: findEnv() });
-const userEmail = process.env.USER_EMAIL || "test@shopwell.com";
+const userEmail = process.env.USER_EMAIL || "test@shopwell.cn";
 const password = process.env.PASSWORD || "shopwell123";
 
 test.describe("Login user", { tag: "@frontends" }, () => {

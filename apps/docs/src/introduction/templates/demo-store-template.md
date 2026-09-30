@@ -18,7 +18,7 @@ The sections below describe the template as it exists today, for reading and ref
 
 The vue-demo-store template is connected to a Shopwell Cloud instance by default. However, you can change the [configuration](#configure) to use your own instance.
 
-We recommend using [devenv](https://developer.shopwell.com/docs/guides/installation/devenv.html) and Composable Frontends on your local machine. But if you want to use Docker and Composable Frontends, you should have a look at the [docker-composable-frontends](https://github.com/shopwell-shopLabs/docker-composable-frontends) repository.
+We recommend using [devenv](https://developer.shopwell.cn/docs/guides/installation/devenv.html) and Composable Frontends on your local machine. But if you want to use Docker and Composable Frontends, you should have a look at the [docker-composable-frontends](https://github.com/shopwell-shopLabs/docker-composable-frontends) repository.
 
 ## Directory structure
 
@@ -82,7 +82,7 @@ export default defineNuxtConfig({
     // shopwell: {
     /**
      * SSR Shopwell Endpoint
-     * More here: https://developer.shopwell.com/frontends/introduction/templates/custom-vue-project.html#shopwell-endpoint-on-the-ssr-mode
+     * More here: https://developer.shopwell.cn/frontends/introduction/templates/custom-vue-project.html#shopwell-endpoint-on-the-ssr-mode
      */
     //   endpoint: ""
     // },

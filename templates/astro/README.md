@@ -13,7 +13,7 @@ This repository shows an example of application built using Shopwell Frontends F
 
 Astro 7 requires Node.js `>=22.12.0`.
 
-Go to [Documentation > Requirements](https://developer.shopwell.com/frontends/framework/requirements.html) to see the details.
+Go to [Documentation > Requirements](https://developer.shopwell.cn/frontends/framework/requirements.html) to see the details.
 
 ## Set up your Shopwell 6 instance
 

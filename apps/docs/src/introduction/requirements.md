@@ -23,7 +23,7 @@ Shopwell Frontends does not differ between provisioning of the Shopwell API. Bot
 
 Every development instance / setup template is pre-configured with a public demo API. That way you don't have to set up a Shopwell instance yourself.
 
-<PageRef title="Install Shopwell 6" sub="Set up Shopwell 6 for development" page="https://developer.shopwell.com/docs/guides/installation/" target="_blank" />
+<PageRef title="Install Shopwell 6" sub="Set up Shopwell 6 for development" page="https://developer.shopwell.cn/docs/guides/installation/" target="_blank" />
 
 ## IDE
 

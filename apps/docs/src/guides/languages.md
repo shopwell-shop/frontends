@@ -30,7 +30,7 @@ Frontend source for:
 
 ## Configuration
 
-More about backend translations can be found [here](https://docs.shopwell.com/en/shopwell-6-en/tutorials-and-faq/translations)
+More about backend translations can be found [here](https://docs.shopwell.cn/en/shopwell-6-en/tutorials-and-faq/translations)
 
 For the frontend app we recommend to use `vue-i18n` module.
 
@@ -181,7 +181,7 @@ i18n: {
 
 <!-- /automd -->
 
-The `localeId` attribute corresponds to a specific language identifier, which can be located within the Shopwell administrative panel. Additional information is available at this link: https://docs.shopwell.com/en/shopwell-6-en/settings/languages
+The `localeId` attribute corresponds to a specific language identifier, which can be located within the Shopwell administrative panel. Additional information is available at this link: https://docs.shopwell.cn/en/shopwell-6-en/settings/languages
 
 ## Multi domain example
 

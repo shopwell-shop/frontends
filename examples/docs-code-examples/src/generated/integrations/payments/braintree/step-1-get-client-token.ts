@@ -16,7 +16,7 @@ const currencyId = sessionContext.value?.currency?.id;
 const salesChannelId = sessionContext.value?.salesChannel?.id;
 
 const configResponse = await fetch(
-  `https://braintree.shopwell.com/api/client/config?shop-id=${shopId}&currency-id=${currencyId}&sales-channel-id=${salesChannelId}`,
+  `https://braintree.shopwell.cn/api/client/config?shop-id=${shopId}&currency-id=${currencyId}&sales-channel-id=${salesChannelId}`,
   {
     method: "POST",
     headers: {

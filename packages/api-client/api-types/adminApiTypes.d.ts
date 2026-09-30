@@ -39577,7 +39577,7 @@ export type operations = {
       /** Whether the media should be private */
       private?: boolean;
       /** Optional list of external thumbnail URLs for the media entity. Used for CDNs that pre-generated thumbnails alongside the main media file.
-       *     Not to be confused with [remote thumbnails](https://developer.shopwell.com/docs/guides/plugins/plugins/content/media/remote-thumbnail-generation.html#remote-thumbnail-generation), which are generated based on a pattern. */
+       *     Not to be confused with [remote thumbnails](https://developer.shopwell.cn/docs/guides/plugins/plugins/content/media/remote-thumbnail-generation.html#remote-thumbnail-generation), which are generated based on a pattern. */
       thumbnails?: components["schemas"]["ExternalThumbnail"][];
       /** URL of the external media file */
       url: string;

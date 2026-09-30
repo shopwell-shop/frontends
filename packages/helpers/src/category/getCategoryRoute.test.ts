@@ -70,9 +70,9 @@ describe("getCategoryRoute", () => {
       getCategoryRoute({
         id: "123123123",
         type: "link",
-        externalLink: "https://shopwell.com",
+        externalLink: "https://shopwell.cn",
       }),
-    ).toEqual("https://shopwell.com");
+    ).toEqual("https://shopwell.cn");
   });
 
   it("should return SEO URL", () => {

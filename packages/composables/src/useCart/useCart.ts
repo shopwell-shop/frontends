@@ -100,7 +100,7 @@ export type UseCartReturn = {
 /**
  * Cart management logic.
  *
- * Used as [Shared](https://developer.shopwell.com/frontends/concepts/composables/shared-composables.html) Composable `useCart`
+ * Used as [Shared](https://developer.shopwell.cn/frontends/concepts/composables/shared-composables.html) Composable `useCart`
  *
  * @category Cart & Checkout
  */

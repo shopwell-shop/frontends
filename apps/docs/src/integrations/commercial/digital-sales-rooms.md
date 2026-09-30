@@ -15,4 +15,4 @@ nav:
 
 # Digital Sales Rooms
 
-The Customer Documentation about the Admin Extension for Digital Sales Rooms can be found [here](https://docs.shopwell.com/en/shopwell-6-en/extensions/digital-sales-rooms).
+The Customer Documentation about the Admin Extension for Digital Sales Rooms can be found [here](https://docs.shopwell.cn/en/shopwell-6-en/extensions/digital-sales-rooms).

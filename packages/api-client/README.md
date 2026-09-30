@@ -562,7 +562,7 @@ apiClient.invoke("readProductGet get /product", {
 
 ## Links
 
-- [📘 Documentation](https://developer.shopwell.com/frontends)
+- [📘 Documentation](https://developer.shopwell.cn/frontends)
 
 - [👥 Community Discord](https://discord.com/channels/1308047705309708348/1405501315160739951) (`#composable-frontend` channel)
 

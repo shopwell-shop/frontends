@@ -9,15 +9,15 @@ The example shows how to integrate a Vue.js project with the logic provided by C
 
 ## Requirements
 
-- A knowledge about [Custom Products](https://docs.shopwell.com/en/shopwell-6-en/extensions/customproducts) extension
+- A knowledge about [Custom Products](https://docs.shopwell.cn/en/shopwell-6-en/extensions/customproducts) extension
 - Custom Products extension available
 - Some Vue.js project
 
 ## Setup
 
-1. [Setup](https://developer.shopwell.com/frontends/getting-started/templates.html) your Vue template
+1. [Setup](https://developer.shopwell.cn/frontends/getting-started/templates.html) your Vue template
 
-2. Prepare some customized products following the [documentation](https://docs.shopwell.com/en/shopwell-6-en/extensions/customproducts#add-template)
+2. Prepare some customized products following the [documentation](https://docs.shopwell.cn/en/shopwell-6-en/extensions/customproducts#add-template)
 
 ## Usage
 
@@ -73,5 +73,5 @@ or...
 
 ## Resources
 
-- [Custom Products](https://docs.shopwell.com/en/shopwell-6-en/extensions/customproducts) docs
-- [📖 &nbsp;Composable Frontends Documentation](https://developer.shopwell.com/frontends)
+- [Custom Products](https://docs.shopwell.cn/en/shopwell-6-en/extensions/customproducts) docs
+- [📖 &nbsp;Composable Frontends Documentation](https://developer.shopwell.cn/frontends)

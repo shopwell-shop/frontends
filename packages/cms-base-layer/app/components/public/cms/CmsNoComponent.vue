@@ -28,7 +28,7 @@ const docsUrl = computed(() => {
     component: expectedComponentName.value,
     type: elementType.value.toLowerCase(),
   });
-  return `https://developer.shopwell.com/frontends/guides/cms/missing-component?${params}`;
+  return `https://developer.shopwell.cn/frontends/guides/cms/missing-component?${params}`;
 });
 
 const aiPrompt = computed(() => {

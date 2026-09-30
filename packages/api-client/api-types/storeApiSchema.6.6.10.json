@@ -11627,7 +11627,7 @@
       },
       "AggregationRange": {
         "title": "AggregationRange",
-        "description": "For more information, see [Aggregations Reference > Range Aggregation](https://developer.shopwell.com/docs/resources/references/core-reference/dal-reference/aggregations-reference.html#range-aggregations)",
+        "description": "For more information, see [Aggregations Reference > Range Aggregation](https://developer.shopwell.cn/docs/resources/references/core-reference/dal-reference/aggregations-reference.html#range-aggregations)",
         "type": "object",
         "properties": {
           "name": {
@@ -20554,7 +20554,7 @@
       "post": {
         "tags": ["Cart"],
         "summary": "Add items to the cart",
-        "description": "This route adds items to the cart. An item can be a product or promotion for example. They are referenced by the `referencedId`-parameter.\n\nExample: [Working with the cart - Guide](https://developer.shopwell.com/docs/guides/integrations-api/store-api-guide/work-with-the-cart#adding-new-items-to-the-cart)",
+        "description": "This route adds items to the cart. An item can be a product or promotion for example. They are referenced by the `referencedId`-parameter.\n\nExample: [Working with the cart - Guide](https://developer.shopwell.cn/docs/guides/integrations-api/store-api-guide/work-with-the-cart#adding-new-items-to-the-cart)",
         "operationId": "addLineItem",
         "parameters": [
           {
@@ -20587,7 +20587,7 @@
       "delete": {
         "tags": ["Cart"],
         "summary": "Remove items from the cart",
-        "description": "DEPRECATED: use removeLineItem instead. This route removes items from the cart and recalculates it.\n\nExample: [Working with the cart - Guide](https://developer.shopwell.com/docs/guides/integrations-api/store-api-guide/work-with-the-cart#deleting-items-in-the-cart)",
+        "description": "DEPRECATED: use removeLineItem instead. This route removes items from the cart and recalculates it.\n\nExample: [Working with the cart - Guide](https://developer.shopwell.cn/docs/guides/integrations-api/store-api-guide/work-with-the-cart#deleting-items-in-the-cart)",
         "operationId": "removeLineItemDeprecated",
         "deprecated": true,
         "parameters": [
@@ -20624,7 +20624,7 @@
       "patch": {
         "tags": ["Cart"],
         "summary": "Update items in the cart",
-        "description": "This route updates items in the cart. A typical example is updating the quantity of an item.\n\nExample: [Working with the cart - Guide](https://developer.shopwell.com/docs/guides/integrations-api/store-api-guide/work-with-the-cart#updating-items-in-the-cart)",
+        "description": "This route updates items in the cart. A typical example is updating the quantity of an item.\n\nExample: [Working with the cart - Guide](https://developer.shopwell.cn/docs/guides/integrations-api/store-api-guide/work-with-the-cart#updating-items-in-the-cart)",
         "operationId": "updateLineItem",
         "parameters": [
           {
@@ -20659,7 +20659,7 @@
       "post": {
         "tags": ["Cart"],
         "summary": "Remove items from the cart",
-        "description": "This route removes items from the cart and recalculates it.\n\nExample: [Working with the cart - Guide](https://developer.shopwell.com/docs/guides/integrations-api/store-api-guide/work-with-the-cart#deleting-items-in-the-cart)",
+        "description": "This route removes items from the cart and recalculates it.\n\nExample: [Working with the cart - Guide](https://developer.shopwell.cn/docs/guides/integrations-api/store-api-guide/work-with-the-cart#deleting-items-in-the-cart)",
         "operationId": "removeLineItem",
         "parameters": [
           {
@@ -20706,7 +20706,7 @@
       "post": {
         "tags": ["Order"],
         "summary": "Create an order from a cart",
-        "description": "Creates a new order from the current cart and deletes the cart.\n\nIf you are using the [prepared payment flow](https://developer.shopwell.com/docs/concepts/commerce/checkout-concept/payments#2.1-prepare-payment-optional), this endpoint also receives additional transaction details. The exact name of the parameters depends on the implementation of the corresponding *payment handler*.",
+        "description": "Creates a new order from the current cart and deletes the cart.\n\nIf you are using the [prepared payment flow](https://developer.shopwell.cn/docs/concepts/commerce/checkout-concept/payments#2.1-prepare-payment-optional), this endpoint also receives additional transaction details. The exact name of the parameters depends on the implementation of the corresponding *payment handler*.",
         "operationId": "createOrder",
         "parameters": [
           {
@@ -21934,7 +21934,7 @@
         },
         "responses": {
           "200": {
-            "description": "Returns the state of the state machine\n\n    example: More information about the state machine can be found in the corresponding guide: [Using the state machine](https://developer.shopwell.com/docs/guides/plugins/plugins/checkout/order/using-the-state-machine)",
+            "description": "Returns the state of the state machine\n\n    example: More information about the state machine can be found in the corresponding guide: [Using the state machine](https://developer.shopwell.cn/docs/guides/plugins/plugins/checkout/order/using-the-state-machine)",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/StateMachineState" }
@@ -25207,7 +25207,7 @@
             "description": "",
             "content": {
               "text/calendar": {
-                "example": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//DIGITAL SALES ROOMS//Calendar//EN\nCALSCALE:GREGORIAN\nMETHOD:REQUEST\nBEGIN:VTIMEZONE\nTZID:UTC\nBEGIN:STANDARD\nDTSTART:20221016T102853Z\nTZOFFSETFROM:+0000\nTZOFFSETTO:+0000\nEND:STANDARD\nEND:VTIMEZONE\nBEGIN:VEVENT\nUID:95f79a4ecfae4794ae2b65b018330f88@shopwell.com\nDTSTAMP:20230713T102853Z\nSUMMARY:test send invitation\nDESCRIPTION:<font color=\\\"#d95959\\\">Hello</font>\nLOCATION:https://localhost.test/presentation/95f79a4ecfae47\n 94ae2b65b018330f88\nSTATUS:CANCELLED\nTRANSP:TRANSPARENT\nORGANIZER;CN=Phung Nguyen:MAILTO:p.nguyen@localhost.com\nATTENDEE;CN=p.test;RSVP=TRUE;PARTSTAT=NEEDS-ACTION:MAILTO:p.test@test.\n com\nDTSTART:20230713T121000Z\nDTEND:20230713T123000Z\nEND:VEVENT\nEND:VCALENDAR"
+                "example": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//DIGITAL SALES ROOMS//Calendar//EN\nCALSCALE:GREGORIAN\nMETHOD:REQUEST\nBEGIN:VTIMEZONE\nTZID:UTC\nBEGIN:STANDARD\nDTSTART:20221016T102853Z\nTZOFFSETFROM:+0000\nTZOFFSETTO:+0000\nEND:STANDARD\nEND:VTIMEZONE\nBEGIN:VEVENT\nUID:95f79a4ecfae4794ae2b65b018330f88@shopwell.cn\nDTSTAMP:20230713T102853Z\nSUMMARY:test send invitation\nDESCRIPTION:<font color=\\\"#d95959\\\">Hello</font>\nLOCATION:https://localhost.test/presentation/95f79a4ecfae47\n 94ae2b65b018330f88\nSTATUS:CANCELLED\nTRANSP:TRANSPARENT\nORGANIZER;CN=Phung Nguyen:MAILTO:p.nguyen@localhost.com\nATTENDEE;CN=p.test;RSVP=TRUE;PARTSTAT=NEEDS-ACTION:MAILTO:p.test@test.\n com\nDTSTART:20230713T121000Z\nDTEND:20230713T123000Z\nEND:VEVENT\nEND:VCALENDAR"
               }
             }
           }

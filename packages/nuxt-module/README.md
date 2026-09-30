@@ -7,11 +7,11 @@
 
 Nuxt [module](https://nuxt.com/docs/guide/going-further/modules) that allows you to set up a Nuxt project with Shopwell Frontends. It provides the composables and api-client packages.
 
-If you want to use these packages with a different Vue.js framework, see [the guide](https://developer.shopwell.com/frontends/introduction/templates/custom-vue-project.html) for using Shopwell Frontends in a custom project.
+If you want to use these packages with a different Vue.js framework, see [the guide](https://developer.shopwell.cn/frontends/introduction/templates/custom-vue-project.html) for using Shopwell Frontends in a custom project.
 
 ## Features
 
-- Business logic covered by [Composables](https://npmjs.com/package/@shopwell/composables) package. Registering all composable functions globally. [See the reference](https://developer.shopwell.com/frontends/packages/composables.html).
+- Business logic covered by [Composables](https://npmjs.com/package/@shopwell/composables) package. Registering all composable functions globally. [See the reference](https://developer.shopwell.cn/frontends/packages/composables.html).
 - Shopwell context shared in Nuxt application.
 - Configured [API Client](https://npmjs.com/package/@shopwell/api-client) package.
 
@@ -178,7 +178,7 @@ The API Client instance is aware of your custom API types thanks to declaring `#
 
 ## Links
 
-- [📘 Documentation](https://developer.shopwell.com/frontends)
+- [📘 Documentation](https://developer.shopwell.cn/frontends)
 
 - [📦 API Gen - Types Generator for Shopwell 6 OpenAPI Schema](https://npmjs.com/@shopwell/api-gen)
 

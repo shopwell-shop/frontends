@@ -35,7 +35,7 @@ const DynamicRender = () => {
   }
   if (import.meta.dev) {
     console.warn(
-      `[CMS] Element type "${componentName}" is not implemented.\n  → Create a component named "${componentNameToResolve}.vue" to render it.\n  📖 Docs: https://developer.shopwell.com/frontends/guides/cms/create-elements`,
+      `[CMS] Element type "${componentName}" is not implemented.\n  → Create a component named "${componentNameToResolve}.vue" to render it.\n  📖 Docs: https://developer.shopwell.cn/frontends/guides/cms/create-elements`,
     );
     return h(resolveComponent("CmsNoComponent"), { content: props.content });
   }

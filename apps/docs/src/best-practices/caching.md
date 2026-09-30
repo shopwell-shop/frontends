@@ -42,7 +42,7 @@ When enabled, the affected composables encode the Shopwell Criteria object into 
 
 ### Why GET over POST (the architectural decision)
 
-Routing reads through GET is a deliberate Shopwell platform decision, not just a frontend trick. The Store API [cache strategy](https://developer.shopwell.com/docs/resources/references/adr/2025-09-15-store-api-cache-strategy.html) is to "prefer GET for non-mutating endpoints returning non-sensitive data", because GET responses are cacheable by default under HTTP semantics while POST responses are not. Several read routes historically defaulted to POST only so a large Criteria object could travel in the request body - and that body is exactly what makes them uncacheable.
+Routing reads through GET is a deliberate Shopwell platform decision, not just a frontend trick. The Store API [cache strategy](https://developer.shopwell.cn/docs/resources/references/adr/2025-09-15-store-api-cache-strategy.html) is to "prefer GET for non-mutating endpoints returning non-sensitive data", because GET responses are cacheable by default under HTTP semantics while POST responses are not. Several read routes historically defaulted to POST only so a large Criteria object could travel in the request body - and that body is exactly what makes them uncacheable.
 
 The `_criteria` query parameter exists to remove that constraint. Its encoding - JSON -> gzip -> base64url - is defined by the platform, and `encodeForQuery` in `@shopwell/api-client/helpers` implements precisely that format, keeping the Criteria small enough to travel in the URL for typical reads (very large criteria can still exceed environment URL-length limits). On the backend, `RequestCriteriaBuilder` decodes `_criteria` and rebuilds the same Criteria it would have parsed from a POST body, so the GET and POST variants return identical data. This is a transitional design: the interim approach until the HTTP `QUERY` method (a cacheable method that carries a body) is standardized.
 
@@ -296,7 +296,7 @@ The frontend layers stop at producing cacheable requests. Whether a GET response
 
 This is where `cacheableReads` pays off. By switching reads to GET with a deterministic `_criteria` URL, the request layer produces cacheable requests; the backend reverse proxy then applies `Cache-Control`, cache tags, `sw-cache-hash`, and invalidation. None of that is handled by the frontend `@shopwell/api-client` - it only forwards Shopwell Store API headers (`sw-access-key`, `sw-context-token`, `sw-language-id`, and so on) and refreshes the context token from non-public response headers. It reads `Cache-Control` only to ignore `sw-context-token` on publicly cacheable responses; it does not set `Cache-Control` or handle cache tags or `sw-cache-hash`.
 
-When a route is cacheable, Shopwell marks it with the `_httpCache` route attribute and the `CacheResponseSubscriber` emits a public `Cache-Control` header (the documented default for cacheable Store API routes is `public, max-age=0, s-maxage=1800, stale-while-revalidate=86400, stale-if-error=7200`; non-cacheable routes get `no-cache, private`). Cache entries are scoped per context: the backend sets `sw-language-id`, `sw-currency-id`, and `sw-context-hash` response headers and adds them to `Vary`, so a reverse proxy or CDN stores separate entries per language, currency, and login/rule state. Invalidation reuses Shopwell's existing cache tags. See the [HTTP cache concept](https://developer.shopwell.com/docs/concepts/framework/http_cache.html) and the [Store API cache strategy](https://developer.shopwell.com/docs/resources/references/adr/2025-09-15-store-api-cache-strategy.html) for the full model.
+When a route is cacheable, Shopwell marks it with the `_httpCache` route attribute and the `CacheResponseSubscriber` emits a public `Cache-Control` header (the documented default for cacheable Store API routes is `public, max-age=0, s-maxage=1800, stale-while-revalidate=86400, stale-if-error=7200`; non-cacheable routes get `no-cache, private`). Cache entries are scoped per context: the backend sets `sw-language-id`, `sw-currency-id`, and `sw-context-hash` response headers and adds them to `Vary`, so a reverse proxy or CDN stores separate entries per language, currency, and login/rule state. Invalidation reuses Shopwell's existing cache tags. See the [HTTP cache concept](https://developer.shopwell.cn/docs/concepts/framework/http_cache.html) and the [Store API cache strategy](https://developer.shopwell.cn/docs/resources/references/adr/2025-09-15-store-api-cache-strategy.html) for the full model.
 
 A few consequences follow from how the backend cache works:
 
@@ -304,7 +304,7 @@ A few consequences follow from how the backend cache works:
 - If the backend responds with `no-store`/`no-cache`, nothing is cached regardless of using GET.
 - Enabling `cacheableReads` without a backend that supports the GET read routes and the `_criteria` parameter yields no caching benefit (the calls still succeed, they just are not cached).
 
-To configure the backend cache, follow the [Shopwell reverse HTTP cache guide](https://developer.shopwell.com/docs/guides/hosting/infrastructure/reverse-http-cache.html). The `_criteria` GET support is tracked in [Shopwell issue #12388](https://github.com/shopwell-shop/shopwell/issues/12388), referenced directly in the `encodeForQuery` source.
+To configure the backend cache, follow the [Shopwell reverse HTTP cache guide](https://developer.shopwell.cn/docs/guides/hosting/infrastructure/reverse-http-cache.html). The `_criteria` GET support is tracked in [Shopwell issue #12388](https://github.com/shopwell-shop/shopwell/issues/12388), referenced directly in the `encodeForQuery` source.
 
 ## Client state caching
 
@@ -337,13 +337,13 @@ Image transforms only take effect when the backend supports remote/on-the-fly th
 - [Nitro: Deployment Presets](https://nitro.build/deploy)
 - [MDN: `Cache-Control` HTTP header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control)
 - [MDN: HTTP caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)
-- [Shopwell ADR: Store API caching strategy (GET over POST, `_criteria`)](https://developer.shopwell.com/docs/resources/references/adr/2025-09-15-store-api-cache-strategy.html)
-- [Shopwell ADR: Improved HTTP cache layer](https://developer.shopwell.com/docs/resources/references/adr/2025-11-03-improved-http-cache-layer.html)
-- [Shopwell: HTTP cache concept](https://developer.shopwell.com/docs/concepts/framework/http_cache.html)
-- [Shopwell: Reverse HTTP cache (Varnish / reverse proxy)](https://developer.shopwell.com/docs/guides/hosting/infrastructure/reverse-http-cache.html)
-- [Shopwell: Caches (hosting / performance)](https://developer.shopwell.com/docs/guides/hosting/performance/caches.html)
-- [Shopwell: Store API concepts](https://developer.shopwell.com/docs/concepts/api/store-api.html)
-- [Shopwell: Remote thumbnail generation](https://developer.shopwell.com/docs/guides/plugins/plugins/content/media/remote-thumbnail-generation.html)
+- [Shopwell ADR: Store API caching strategy (GET over POST, `_criteria`)](https://developer.shopwell.cn/docs/resources/references/adr/2025-09-15-store-api-cache-strategy.html)
+- [Shopwell ADR: Improved HTTP cache layer](https://developer.shopwell.cn/docs/resources/references/adr/2025-11-03-improved-http-cache-layer.html)
+- [Shopwell: HTTP cache concept](https://developer.shopwell.cn/docs/concepts/framework/http_cache.html)
+- [Shopwell: Reverse HTTP cache (Varnish / reverse proxy)](https://developer.shopwell.cn/docs/guides/hosting/infrastructure/reverse-http-cache.html)
+- [Shopwell: Caches (hosting / performance)](https://developer.shopwell.cn/docs/guides/hosting/performance/caches.html)
+- [Shopwell: Store API concepts](https://developer.shopwell.cn/docs/concepts/api/store-api.html)
+- [Shopwell: Remote thumbnail generation](https://developer.shopwell.cn/docs/guides/plugins/plugins/content/media/remote-thumbnail-generation.html)
 - [Shopwell issue #12388: `_criteria` GET query parameter](https://github.com/shopwell-shop/shopwell/issues/12388)
 - [VueUse: `createSharedComposable`](https://vueuse.org/shared/createSharedComposable/)
 - [VueUse: `createInjectionState`](https://vueuse.org/shared/createInjectionState/)

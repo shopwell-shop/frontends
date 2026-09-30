@@ -161,7 +161,7 @@ test("failed login", async ({ page }) => {
 
   await page
     .locator("[data-testid='login-email-input']")
-    .fill("test@shopwell.com");
+    .fill("test@shopwell.cn");
   await page
     .locator("[data-testid='login-password-input']")
     .fill("Password123!@#");

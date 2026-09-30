@@ -16,7 +16,7 @@ This repository shows an example of how to use translation snippets using admin 
 
 ## Requirements
 
-Go to [Documentation > Requirements](https://developer.shopwell.com/frontends/framework/requirements.html) to see the details.
+Go to [Documentation > Requirements](https://developer.shopwell.cn/frontends/framework/requirements.html) to see the details.
 
 ## The idea
 
@@ -39,11 +39,11 @@ The problem is the translation snippets aren't exposed in `store-api` scope, so 
 
 ## Admin panel: Prepare translations
 
-Go to Settings > Snippets > Choose one > Add snippet ([visit official docs](https://docs.shopwell.com/en/shopwell-6-en/settings/snippets#creating-a-new-snippet) to see how to achieve this)
+Go to Settings > Snippets > Choose one > Add snippet ([visit official docs](https://docs.shopwell.cn/en/shopwell-6-en/settings/snippets#creating-a-new-snippet) to see how to achieve this)
 
 For readiness purposes, and to easily distinguish our _frontends_ related snippets we will use an additional prefix for a snippet's key, like:
 
-`general.currency` will become `frontends.general.currency`. Thanks to this, the results can be narrowed down only for our application when [Prefix Filter](https://developer.shopwell.com/docs/resources/references/core-reference/dal-reference/filters-reference.html#prefix) type is used in the search query.
+`general.currency` will become `frontends.general.currency`. Thanks to this, the results can be narrowed down only for our application when [Prefix Filter](https://developer.shopwell.cn/docs/resources/references/core-reference/dal-reference/filters-reference.html#prefix) type is used in the search query.
 
 ![editing snippet view](./docs/snippet_view.png)
 
@@ -54,7 +54,7 @@ Since now, the `/api/snippet` or `/api/search/snippet` will have a newly created
 The example does the requests to the Admin API, so it's a good reason to utilize the machine-to-machine authentication grant type, named [Client Credentials](https://shopwell.stoplight.io/docs/admin-api/8e1d78252fa6f-authentication#client-credentials).
 
 1. Create a role with READ rights for `snippet` and `snippet_set` only.
-2. Create an [Integration](https://docs.shopwell.com/en/shopwell-6-en/settings/system/integrationen?category=shopwell-6-en/settings/system) with that role. Shopwell generates an access key ID and a secret access key.
+2. Create an [Integration](https://docs.shopwell.cn/en/shopwell-6-en/settings/system/integrationen?category=shopwell-6-en/settings/system) with that role. Shopwell generates an access key ID and a secret access key.
 3. Copy `.env.template` to `.env` and paste them in:
 
 ```

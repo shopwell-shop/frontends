@@ -20,7 +20,7 @@ import StackBlitzLiveExample from '../../components/StackBlitzLiveExample.vue'
 :::tip Advanced Guide - prior knowledge required
 In order to follow this guide properly, we recommend that you get familiar with the payment flow and payment API concepts first.
 
-- [Payments Concept](https://developer.shopwell.com/docs/concepts/commerce/checkout-concept/payments) - especially `asynchronous` and `synchronous` chapters.
+- [Payments Concept](https://developer.shopwell.cn/docs/concepts/commerce/checkout-concept/payments) - especially `asynchronous` and `synchronous` chapters.
 - [Payment API](https://shopwell.stoplight.io/docs/store-api/8218801e50fe5-handling-the-payment)
   :::
 
@@ -43,7 +43,7 @@ const order = await createOrder(/** optional params omitted */);
 
 <!-- /automd -->
 
-Under the hood, once the order is placed, a [PaymentHandler](https://developer.shopwell.com/docs/guides/plugins/plugins/checkout/payment/add-payment-plugin#synchronous-example) is being invoked to process the payment right away:
+Under the hood, once the order is placed, a [PaymentHandler](https://developer.shopwell.cn/docs/guides/plugins/plugins/checkout/payment/add-payment-plugin#synchronous-example) is being invoked to process the payment right away:
 
 - Execute the payment logic (may vary for every payment method / provider)
 - Change the payment status according the result from previous step
@@ -154,9 +154,9 @@ See what can be achieved on Express Checkout example for PayPal provider.
 
 ## App server integration
 
-When a payment method uses an app server, for example as a [gateway](https://developer.shopwell.com/docs/guides/plugins/apps/gateways/checkout/checkout-gateway.html) or middleware, there are some key information needed to identify the client source and the store related to the app itself.
+When a payment method uses an app server, for example as a [gateway](https://developer.shopwell.cn/docs/guides/plugins/apps/gateways/checkout/checkout-gateway.html) or middleware, there are some key information needed to identify the client source and the store related to the app itself.
 
-In detached API consumer like headless app, the mentioned information can be obtained by using a [tailored endpoint](https://developer.shopwell.com/docs/guides/plugins/apps/clientside-to-app-backend.html):
+In detached API consumer like headless app, the mentioned information can be obtained by using a [tailored endpoint](https://developer.shopwell.cn/docs/guides/plugins/apps/clientside-to-app-backend.html):
 
 ⚠️ **works only for logged-in customers**
 

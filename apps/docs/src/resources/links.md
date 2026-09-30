@@ -30,12 +30,12 @@ Sorted by date, newest first
 - [Frontend API with Nuxt + Nitro = Flexibility 🐙](https://www.brocksi.net/blog/frontend-api-with-nuxt-and-nitro-will-lead-to-flexibility/)
 - [Remixing the Shopwell Checkout (Part 1)](https://elkmod.dev/blogs/remixing-shopwell-checkout)
 - [Create a vue.js composable and call any API within Shopwell Frontends](https://www.brocksi.net/blog/vue-js-composable-call-api-shopwell-frontends/)
-- [The future of Shopwell PWA](https://www.shopwell.com/de/news/the-future-of-shopwell-pwa/)
-- [Frontends - yet another storefront?](https://www.shopwell.com/en/news/frontends-yet-another-storefront/)
+- [The future of Shopwell PWA](https://www.shopwell.cn/de/news/the-future-of-shopwell-pwa/)
+- [Frontends - yet another storefront?](https://www.shopwell.cn/en/news/frontends-yet-another-storefront/)
 
 ## Presentations
 
-- [Quick-Start Composable Frontends - Shopwell Boostday 2023](https://ecommerce.shopwell.com/hubfs/Boost%20Days/Quick%20Start%20-%20Shopwell%20Composable%20Frontends.pdf) (PDF)
+- [Quick-Start Composable Frontends - Shopwell Boostday 2023](https://ecommerce.shopwell.cn/hubfs/Boost%20Days/Quick%20Start%20-%20Shopwell%20Composable%20Frontends.pdf) (PDF)
 
 ## Videos
 

@@ -21,7 +21,7 @@ describe("useCmsElementImage", () => {
         const { anchorAttrs } = useCmsElementImage({
           config: {
             url: {
-              value: "https://shopwell.com",
+              value: "https://shopwell.cn",
             },
             newTab: {
               value: true,
@@ -30,7 +30,7 @@ describe("useCmsElementImage", () => {
         } as CmsElementImage);
 
         expect(anchorAttrs.value).toEqual({
-          href: "https://shopwell.com",
+          href: "https://shopwell.cn",
           target: "_blank",
         });
       });
@@ -39,13 +39,13 @@ describe("useCmsElementImage", () => {
         const { anchorAttrs } = useCmsElementImage({
           config: {
             url: {
-              value: "https://shopwell.com",
+              value: "https://shopwell.cn",
             },
           },
         } as CmsElementImage);
 
         expect(anchorAttrs.value).toEqual({
-          href: "https://shopwell.com",
+          href: "https://shopwell.cn",
           target: "_self",
         });
       });
@@ -54,11 +54,11 @@ describe("useCmsElementImage", () => {
         const { imageContainerAttrs } = useCmsElementImage({
           data: {
             newTab: true,
-            url: "https://shopwell.com/logo.png",
+            url: "https://shopwell.cn/logo.png",
           },
           config: {
             url: {
-              value: "https://shopwell.com",
+              value: "https://shopwell.cn",
             },
             newTab: {
               value: true,
@@ -67,7 +67,7 @@ describe("useCmsElementImage", () => {
         } as CmsElementImage);
 
         expect(imageContainerAttrs.value).toEqual({
-          href: "https://shopwell.com/logo.png",
+          href: "https://shopwell.cn/logo.png",
           target: "blank",
           rel: "noopener noreferrer",
         });
@@ -81,7 +81,7 @@ describe("useCmsElementImage", () => {
           },
           config: {
             url: {
-              value: "https://shopwell.com",
+              value: "https://shopwell.cn",
             },
             newTab: {
               value: true,
@@ -109,13 +109,13 @@ describe("useCmsElementImage", () => {
       it("should return imageContainerAttrs with url but no newTab", () => {
         const { imageContainerAttrs } = useCmsElementImage({
           data: {
-            url: "https://shopwell.com/logo.png",
+            url: "https://shopwell.cn/logo.png",
             newTab: false,
           },
         } as CmsElementImage);
 
         expect(imageContainerAttrs.value).toEqual({
-          href: "https://shopwell.com/logo.png",
+          href: "https://shopwell.cn/logo.png",
         });
       });
 
@@ -123,24 +123,24 @@ describe("useCmsElementImage", () => {
         const { imageLink } = useCmsElementImage({
           data: {
             newTab: true,
-            url: "https://shopwell.com/logo.png",
+            url: "https://shopwell.cn/logo.png",
           },
         } as CmsElementImage);
 
         expect(imageLink.value).toEqual({
           newTab: true,
-          url: "https://shopwell.com/logo.png",
+          url: "https://shopwell.cn/logo.png",
         });
       });
       it("should return imageAttrs", () => {
         const { imageAttrs } = useCmsElementImage({
           data: {
             media: {
-              url: "https://shopwell.com/logo.png",
+              url: "https://shopwell.cn/logo.png",
               fileName: "logo.png",
               thumbnails: [
                 {
-                  url: "https://shopwell.com/logo-128px.png",
+                  url: "https://shopwell.cn/logo-128px.png",
                   width: "128",
                 },
               ],
@@ -150,8 +150,8 @@ describe("useCmsElementImage", () => {
 
         expect(imageAttrs.value).toEqual({
           alt: "",
-          src: "https://shopwell.com/logo.png",
-          srcset: "https://shopwell.com/logo-128px.png 128w",
+          src: "https://shopwell.cn/logo.png",
+          srcset: "https://shopwell.cn/logo-128px.png 128w",
         });
       });
 
@@ -159,7 +159,7 @@ describe("useCmsElementImage", () => {
         const { imageAttrs } = useCmsElementImage({
           data: {
             media: {
-              url: "https://shopwell.com/logo.png",
+              url: "https://shopwell.cn/logo.png",
               alt: "Company logo",
               translated: {
                 alt: "Firmenlogo",
@@ -175,7 +175,7 @@ describe("useCmsElementImage", () => {
         const { imageAttrs } = useCmsElementImage({
           data: {
             media: {
-              url: "https://shopwell.com/logo.png",
+              url: "https://shopwell.cn/logo.png",
               alt: "Company logo",
             },
           },
@@ -188,7 +188,7 @@ describe("useCmsElementImage", () => {
         const { imageAttrs } = useCmsElementImage({
           data: {
             media: {
-              url: "https://shopwell.com/logo.png",
+              url: "https://shopwell.cn/logo.png",
               alt: "Company logo",
               translated: {
                 alt: "",
@@ -204,7 +204,7 @@ describe("useCmsElementImage", () => {
         const { imageAttrs } = useCmsElementImage({
           data: {
             media: {
-              url: "https://shopwell.com/logo.png",
+              url: "https://shopwell.cn/logo.png",
             },
           },
         } as unknown as CmsElementManufacturerLogo);
@@ -217,7 +217,7 @@ describe("useCmsElementImage", () => {
           data: {
             ariaLabel: "Go to the summer collection",
             media: {
-              url: "https://shopwell.com/banner.png",
+              url: "https://shopwell.cn/banner.png",
             },
           },
         } as unknown as CmsElementImage);
@@ -252,7 +252,7 @@ describe("useCmsElementImage", () => {
           data: {
             ariaLabel: "Go to the sale",
             media: {
-              url: "https://shopwell.com/pattern.png",
+              url: "https://shopwell.cn/pattern.png",
               alt: "ignored",
               translated: {
                 alt: "ignoriert",
@@ -277,7 +277,7 @@ describe("useCmsElementImage", () => {
           data: {
             ariaLabel: "Go to the sale",
             media: {
-              url: "https://shopwell.com/banner.png",
+              url: "https://shopwell.cn/banner.png",
               alt: "Two mugs on a table",
             },
           },

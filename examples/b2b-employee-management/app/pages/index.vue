@@ -35,7 +35,7 @@ const {
         by administrators of their company. You can find more information about
         the B2B Employee Management
         <a
-          href="https://developer.shopwell.com/docs/products/extensions/b2b-components/employee-management/"
+          href="https://developer.shopwell.cn/docs/products/extensions/b2b-components/employee-management/"
           class="font-semibold text-blue-200 hover:text-white hover:underline"
         >
           HERE</a

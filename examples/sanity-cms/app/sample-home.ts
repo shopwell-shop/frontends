@@ -68,7 +68,7 @@ export const sampleHome = {
       heading: "Build pages, not tickets.",
       text: "Editors compose layouts in Sanity Studio. Developers ship the blocks once.",
       ctaLabel: "Learn the pattern",
-      ctaHref: "https://developer.shopwell.com/frontends/",
+      ctaHref: "https://developer.shopwell.cn/frontends/",
     },
   ],
 };

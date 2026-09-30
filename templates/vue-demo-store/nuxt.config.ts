@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     shopwell: {
       /**
        * SSR Shopwell Endpoint
-       * More here: https://developer.shopwell.com/frontends/getting-started/templates/custom-vue-project.html#shopwell-endpoint-on-the-ssr-mode
+       * More here: https://developer.shopwell.cn/frontends/getting-started/templates/custom-vue-project.html#shopwell-endpoint-on-the-ssr-mode
        */
       // endpoint: "",
     },
@@ -37,7 +37,7 @@ export default defineNuxtConfig({
     // },
     public: {
       /**
-       * More about this feature you can find here: https://developer.shopwell.com/frontends/getting-started/features/broadcasting.html
+       * More about this feature you can find here: https://developer.shopwell.cn/frontends/getting-started/features/broadcasting.html
        */
       broadcasting: false,
     },

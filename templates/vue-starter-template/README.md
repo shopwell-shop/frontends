@@ -16,7 +16,7 @@ A Nuxt storefront foundation with all Shopwell Frontends packages pre-configured
 
 ## Requirements
 
-Go to [Documentation > Requirements](https://developer.shopwell.com/frontends/framework/requirements.html) to see the details.
+Go to [Documentation > Requirements](https://developer.shopwell.cn/frontends/framework/requirements.html) to see the details.
 
 Node `^22.19.0 || ^24.11.0 || >=26.0.0`, the range in `package.json`. This
 repository uses pnpm.
@@ -122,8 +122,8 @@ Nuxt and Nitro emit these headers. A CDN such as Fastly still has to be configur
 
 ## Learn more
 
-- [Shopwell Frontends documentation](https://developer.shopwell.com/frontends/)
-- [Vue Starter Template](https://developer.shopwell.com/frontends/introduction/templates/vue-starter-template.html)
+- [Shopwell Frontends documentation](https://developer.shopwell.cn/frontends/)
+- [Vue Starter Template](https://developer.shopwell.cn/frontends/introduction/templates/vue-starter-template.html)
 
 ## Try it online
 

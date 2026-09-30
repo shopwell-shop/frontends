@@ -16,7 +16,7 @@ head:
 :::tip Advanced Guide - prior knowledge required
 In order to follow this guide properly, we recommend that you get familiar with the payment flow and payment API concepts first.
 
-- [Payment Flow in Shopwell 6](https://developer.shopwell.com/docs/concepts/commerce/checkout-concept/payments)
+- [Payment Flow in Shopwell 6](https://developer.shopwell.cn/docs/concepts/commerce/checkout-concept/payments)
 - [Payment API](https://shopwell.stoplight.io/docs/store-api/8218801e50fe5-handling-the-payment)
   :::
 
@@ -71,7 +71,7 @@ const currencyId = sessionContext.value?.currency?.id;
 const salesChannelId = sessionContext.value?.salesChannel?.id;
 
 const configResponse = await fetch(
-  `https://braintree.shopwell.com/api/client/config?shop-id=${shopId}&currency-id=${currencyId}&sales-channel-id=${salesChannelId}`,
+  `https://braintree.shopwell.cn/api/client/config?shop-id=${shopId}&currency-id=${currencyId}&sales-channel-id=${salesChannelId}`,
   {
     method: "POST",
     headers: {

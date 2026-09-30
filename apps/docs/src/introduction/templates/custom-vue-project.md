@@ -434,7 +434,7 @@ export { apiClient };
 
 :::warning
 If you need to redirect your media, you can use the `shopwell.yaml` file to configure the main media URL.
-For more details, please visit this [site](https://developer.shopwell.com/docs/guides/hosting/infrastructure/filesystem.html#flysystem-overview).
+For more details, please visit this [site](https://developer.shopwell.cn/docs/guides/hosting/infrastructure/filesystem.html#flysystem-overview).
 :::
 
 ## Next steps

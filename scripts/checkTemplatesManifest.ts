@@ -216,7 +216,7 @@ for (const template of manifest.templates) {
 
 // A docsUrl that 404s is worse than no docsUrl, so resolve each one back to the
 // markdown file the docs site builds it from.
-const DOCS_BASE = "https://developer.shopwell.com/frontends/";
+const DOCS_BASE = "https://developer.shopwell.cn/frontends/";
 const docsRoot = path.resolve(rootDir, "apps", "docs", "src");
 
 for (const template of manifest.templates) {

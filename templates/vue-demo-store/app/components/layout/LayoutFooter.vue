@@ -62,9 +62,9 @@ const gridColumns = computed<number>(() =>
           <ul class="list-none">
             <li class="pb-1">
               <a
-                href="mailto:info@shopwell.com"
+                href="mailto:info@shopwell.cn"
                 class="text-base font-medium text-secondary-500 hover:text-secondary-900"
-                >info@shopwell.com</a
+                >info@shopwell.cn</a
               >
             </li>
             <li class="pb-1">

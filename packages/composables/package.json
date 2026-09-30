@@ -7,7 +7,7 @@
     "type": "git",
     "url": "git+https://github.com/shopwell-shop/frontends.git"
   },
-  "homepage": "https://developer.shopwell.com/frontends/packages/composables.html",
+  "homepage": "https://developer.shopwell.cn/frontends/packages/composables.html",
   "keywords": [
     "shopwell",
     "vue",

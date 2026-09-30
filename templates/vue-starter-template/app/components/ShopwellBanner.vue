@@ -16,7 +16,7 @@ const links = [
   },
   {
     label: "Docs",
-    href: "https://developer.shopwell.com/frontends/",
+    href: "https://developer.shopwell.cn/frontends/",
     variant: "secondary",
     type: "link",
   },

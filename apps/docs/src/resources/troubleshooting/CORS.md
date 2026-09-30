@@ -23,7 +23,7 @@ In this guide, you will learn how to deal with CORS issues in your project.
 ## Headless setup
 
 - Your Nuxt.js frontend is hosted at https://nuxtfrontend.com.
-- Your Shopwell 6 Store API is hosted at https://shopwell.com/store-api.
+- Your Shopwell 6 Store API is hosted at https://shopwell.cn/store-api.
 
 By default, the browser blocks requests due to SOP (Same-Origin Policy) unless the API explicitly allows it by relaxing the SOP restrictions using CORS.
 

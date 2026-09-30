@@ -5,13 +5,13 @@
 [![](https://img.shields.io/github/issues/shopwell/frontends/cms-base?label=cms-base%20issues&logo=github)](https://github.com/shopwell-shop/frontends/issues?q=is%3Aopen+is%3Aissue+label%3Acms-base)
 [![](https://img.shields.io/github/license/shopwell/frontends?color=blue)](#)
 
-Nuxt [layer](https://nuxt.com/docs/getting-started/layers) that provides an implementation of all CMS components in Shopwell [based on utility-classes](https://developer.shopwell.com/frontends/concepts/styling.html).
+Nuxt [layer](https://nuxt.com/docs/getting-started/layers) that provides an implementation of all CMS components in Shopwell [based on utility-classes](https://developer.shopwell.cn/frontends/concepts/styling.html).
 
 It is useful for projects that want to use the CMS components while keeping CMS functionality separate from the styling system and design tokens.
 
 ## Features
 
-- Vue components for [Shopping Experiences](https://www.shopwell.com/en/products/shopping-experiences/) CMS
+- Vue components for [Shopping Experiences](https://www.shopwell.cn/en/products/shopping-experiences/) CMS
 - CMS sections, blocks and elements implemented with utility-class-based markup
 - 🚀 Empowered by [@shopwell/composables](https://www.npmjs.com/package/@shopwell/composables)
 
@@ -90,7 +90,7 @@ Since all CMS components are registered in your Nuxt application, you can now st
 
 > `@shopwell/cms-base-layer` no longer owns the default UnoCSS theme. If you want the shared Shopwell Frontends design tokens and UnoCSS defaults, extend `@shopwell/unocss-design-tokens-layer` as shown above.
 
-See a [short guide](https://developer.shopwell.com/frontends/guides/cms/content-pages.html#use-the-cms-base-package) on how to use `cms-base-layer` in your Nuxt project.
+See a [short guide](https://developer.shopwell.cn/frontends/guides/cms/content-pages.html#use-the-cms-base-package) on how to use `cms-base-layer` in your Nuxt project.
 
 ## Styling and Design Tokens
 
@@ -136,7 +136,7 @@ See the [UnoCSS reference](https://unocss.dev/integrations/nuxt#configuration) f
 
 This layer includes [Nuxt Image](https://image.nuxt.com/) configuration optimized for Shopwell 6 instances, with a custom provider that maps Nuxt Image modifiers to Shopwell's query parameters (`width`, `height`, `quality`, `format`, `fit`).
 
-> **Note for Cloud (SaaS) Users:** Image optimization and all modifiers used in the Nuxt Image module are handled automatically by Shopwell Cloud infrastructure powered by [Fastly CDN](https://developer.shopwell.com/docs/products/paas/shopwell/cdn/). No additional configuration or plugins are required - simply use `<NuxtImg>` and all transformations (format conversion, quality adjustment, responsive sizing) work out of the box through Fastly's Image Optimizer.
+> **Note for Cloud (SaaS) Users:** Image optimization and all modifiers used in the Nuxt Image module are handled automatically by Shopwell Cloud infrastructure powered by [Fastly CDN](https://developer.shopwell.cn/docs/products/paas/shopwell/cdn/). No additional configuration or plugins are required - simply use `<NuxtImg>` and all transformations (format conversion, quality adjustment, responsive sizing) work out of the box through Fastly's Image Optimizer.
 
 ### Features
 
@@ -244,7 +244,7 @@ For dynamic image transformations via query parameters (like `?width=800&format=
 - **Shopwell Cloud (SaaS)**: ✅ Fully supported out-of-the-box via Fastly CDN - all query parameters work automatically
 - **Self-hosted**: ⚠️ Requires additional setup:
   - Install a plugin like [FroshPlatformThumbnailProcessor](https://github.com/FriendsOfShopwell/FroshPlatformThumbnailProcessor) for on-the-fly processing, OR
-  - Configure external middleware (Thumbor, Sharp, imgproxy) via [remote thumbnail generation](https://developer.shopwell.com/docs/guides/plugins/plugins/content/media/remote-thumbnail-generation.html)
+  - Configure external middleware (Thumbor, Sharp, imgproxy) via [remote thumbnail generation](https://developer.shopwell.cn/docs/guides/plugins/plugins/content/media/remote-thumbnail-generation.html)
 
 **Without remote thumbnail generation configured**, query parameters will be ignored and only the predefined static thumbnails will be served.
 
@@ -448,13 +448,13 @@ export default defineAppConfig({
 
 ## 📘 Available components
 
-The list of available blocks and elements is [here](https://developer.shopwell.com/frontends/packages/cms-base-layer.html#available-components).
+The list of available blocks and elements is [here](https://developer.shopwell.cn/frontends/packages/cms-base-layer.html#available-components).
 
 ## 🔄 Overwriting components
 
 The procedure is:
 
-- find a component in component's [list](https://developer.shopwell.com/frontends/packages/cms-base-layer.html#available-components), using a [Vue devtools](https://devtools.vuejs.org/) or browsing the github [repository](https://github.com/shopwell-shop/frontends/tree/main/packages/cms-base-layer/app/components)
+- find a component in component's [list](https://developer.shopwell.cn/frontends/packages/cms-base-layer.html#available-components), using a [Vue devtools](https://devtools.vuejs.org/) or browsing the github [repository](https://github.com/shopwell-shop/frontends/tree/main/packages/cms-base-layer/app/components)
 - take its name
 - create a file with the same name and place it under a `components` directory that your `nuxt.config.ts` registers with `global: true` — CMS components are looked up with `resolveComponent`, so an override outside a global path is never found and this layer's version keeps rendering with no error. In the starter template that directory is `app/components/cms/`; because it is registered with `pathPrefix: false`, the name comes from the filename alone and subdirectory depth under it does not matter.
 
@@ -481,7 +481,7 @@ No additional packages needed to be installed.
 
 ## Links
 
-- [📘 Documentation](https://developer.shopwell.com/frontends)
+- [📘 Documentation](https://developer.shopwell.cn/frontends)
 
 - [👥 Community](https://discord.com/channels/1308047705309708348/1405501315160739951) (`#composable-frontend`)
 

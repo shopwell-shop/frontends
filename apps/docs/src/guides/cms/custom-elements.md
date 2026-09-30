@@ -16,7 +16,7 @@ nav:
 # Custom Elements (CMS)
 
 :::warning
-This tutorial is a continuation of example from the backend part. That can be found [here](https://developer.shopwell.com/docs/guides/plugins/plugins/content/cms/add-cms-element.html)
+This tutorial is a continuation of example from the backend part. That can be found [here](https://developer.shopwell.cn/docs/guides/plugins/plugins/content/cms/add-cms-element.html)
 :::
 
 All custom CMS elements created in the backend require corresponding implementations in the frontend application.

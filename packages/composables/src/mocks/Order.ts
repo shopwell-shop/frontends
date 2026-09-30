@@ -72,7 +72,7 @@ const Order = {
           translated: [],
           createdAt: "2023-12-14T12:00:18.413+00:00",
           updatedAt: null,
-          email: "m.danilowicz@shopwell.com",
+          email: "m.danilowicz@shopwell.cn",
           salutationId: "d5e543063dd642b48ef94b02d68e5785",
           firstName: "54maciej",
           lastName: "maciej9",

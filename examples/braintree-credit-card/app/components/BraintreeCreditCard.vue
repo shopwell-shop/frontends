@@ -30,7 +30,7 @@ function decodeJWT(token: string) {
 
 // Official Shopwell Braintree App URL (same for all shops using the official app)
 // Only change this if you're self-hosting the Braintree app infrastructure
-const BRAINTREE_APP_URL = "https://braintree.shopwell.com";
+const BRAINTREE_APP_URL = "https://braintree.shopwell.cn";
 
 // Fetch client token for Braintree SDK
 // Flow: Shopwell Store-API → JWT → Braintree App → Braintree Client Token

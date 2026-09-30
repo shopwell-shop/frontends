@@ -19,7 +19,7 @@ The integration uses Shopwell's App System to authenticate requests to the Brain
 2. **Get Braintree client config** from the Braintree app:
 
    ```
-   POST https://braintree.shopwell.com/api/client/config?shop-id=...&currency-id=...&sales-channel-id=...
+   POST https://braintree.shopwell.cn/api/client/config?shop-id=...&currency-id=...&sales-channel-id=...
    ```
 
    Headers (important!):

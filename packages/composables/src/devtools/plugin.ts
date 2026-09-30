@@ -23,9 +23,9 @@ export function registerShopwellDevtools(
     {
       id: "shopwell-frontends",
       label: "Shopwell Frontends",
-      logo: "https://shopwell.com/media/unknown/2d/80/8c/shopwell_signet_blue.svg",
+      logo: "https://shopwell.cn/media/unknown/2d/80/8c/shopwell_signet_blue.svg",
       packageName: "shopwell-frontends",
-      homepage: "shopwell.com",
+      homepage: "shopwell.cn",
       // TODO: Improve devtools typing.
       app: app as any,
       enableEarlyProxy: true,
