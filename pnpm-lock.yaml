@@ -1141,7 +1141,7 @@ importers:
         specifier: 1.6.0
         version: link:../api-client
       '@shopwell/composables':
-        specifier: 1.13.0
+        specifier: 1.13.1
         version: link:../composables
       '@shopwell/helpers':
         specifier: 1.8.0
@@ -1281,7 +1281,7 @@ importers:
         specifier: 1.6.0
         version: link:../api-client
       '@shopwell/composables':
-        specifier: 1.13.0
+        specifier: 1.13.1
         version: link:../composables
       '@shopwell/helpers':
         specifier: 1.8.0

@@ -1,5 +1,11 @@
 # @shopwell/composables
 
+## 1.13.1
+
+### Patch Changes
+
+- Send CMS associations at the correct level when `useCategorySearch().search()` uses `withCmsAssociations`.
+
 ## 1.13.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @shopwell/nuxt-module
 
+## 1.5.3
+
+### Patch Changes
+
+- Updated dependency `@shopwell/composables` to `1.13.1`.
+
 ## 1.5.2
 
 ### Patch Changes

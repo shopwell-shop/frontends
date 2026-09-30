@@ -1,5 +1,11 @@
 # @shopwell/cms-base-layer
 
+## 4.0.1
+
+### Patch Changes
+
+- Updated dependency `@shopwell/composables` to `1.13.1`.
+
 ## 4.0.0
 
 ### Major Changes
