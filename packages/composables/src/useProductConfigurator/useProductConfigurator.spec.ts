@@ -1,0 +1,139 @@
+import { describe, expect, it, vi } from "vitest";
+import { ref } from "vue";
+
+import { useProduct, useProductConfigurator } from "#imports";
+
+import { useSetup } from "../_test";
+import mockedConfigurator from "../mocks/Configurator";
+import mockedProduct from "../mocks/Product";
+
+vi.mock("../useProduct/useProduct.ts");
+
+describe("useProductConfigurator", () => {
+  vi.mocked(useProduct).mockReturnValue({
+    configurator: ref(mockedConfigurator),
+    product: ref(mockedProduct),
+  } as unknown as ReturnType<typeof useProduct>);
+
+  it("handleChange callback function was called", () => {
+    const { vm } = useSetup(useProductConfigurator);
+    const mockedFn = vi.fn();
+
+    vm.handleChange("test", "test", mockedFn);
+    expect(mockedFn).toHaveBeenCalled();
+  });
+
+  it("findVariantForSelectedOptions", async () => {
+    const { vm, injections } = useSetup(useProductConfigurator);
+    injections.apiClient.invoke.mockResolvedValue({
+      data: {
+        elements: [mockedProduct],
+      },
+    });
+
+    expect(
+      await vm.findVariantForSelectedOptions({
+        test: "test",
+      }),
+    ).toStrictEqual(mockedProduct);
+
+    expect(await vm.findVariantForSelectedOptions()).toStrictEqual(
+      mockedProduct,
+    );
+  });
+
+  it("findVariantForSelectedOptions uses the cacheable GET variant when cacheableReads is enabled", async () => {
+    vi.mocked(useProduct).mockReturnValue({
+      configurator: ref(mockedConfigurator),
+      product: ref(mockedProduct),
+    } as unknown as ReturnType<typeof useProduct>);
+    const { vm, injections } = useSetup(useProductConfigurator, {
+      shopwell: { cacheableReads: true },
+    } as Parameters<typeof useSetup>[1]);
+    injections.apiClient.invoke.mockResolvedValue({
+      data: { elements: [mockedProduct] },
+    });
+
+    await vm.findVariantForSelectedOptions({ test: "test" });
+
+    expect(injections.apiClient.invoke).toHaveBeenCalledWith(
+      "readProductGet get /product",
+      expect.objectContaining({
+        query: expect.objectContaining({ _criteria: expect.any(String) }),
+      }),
+    );
+  });
+
+  it("findVariantForSelectedOptions - error", async () => {
+    console.error = vi.fn();
+    const { vm, injections } = useSetup(useProductConfigurator);
+    injections.apiClient.invoke.mockRejectedValue("PROBLEM");
+
+    await vm.findVariantForSelectedOptions({
+      test: "test",
+    });
+    expect(console.error).toBeCalledWith(
+      "SwProductDetails:findVariantForSelectedOptions",
+      "PROBLEM",
+    );
+  });
+
+  it("product - with options", () => {
+    vi.mocked(useProduct).mockReturnValue({
+      configurator: ref(null),
+      product: ref({
+        options: [
+          {
+            id: "cc02c6cf39ad43d5856a25f8928490bf",
+          },
+          {
+            id: "aa02c6cf39ad43d5856a25f8928490bf",
+          },
+        ],
+      }),
+    } as unknown as ReturnType<typeof useProduct>);
+
+    const { vm } = useSetup(useProductConfigurator);
+
+    expect(vm.isLoadingOptions).toBe(true);
+    expect(vm.getOptionGroups).toStrictEqual([]);
+  });
+
+  it("getSelectedOptions returns selected options", () => {
+    vi.mocked(useProduct).mockReturnValue({
+      configurator: ref(mockedConfigurator),
+      product: ref(mockedProduct),
+    } as unknown as ReturnType<typeof useProduct>);
+    const { vm } = useSetup(useProductConfigurator);
+
+    expect(vm.getSelectedOptions).toEqual({
+      Colour: "cc02c6cf39ad43d5856a25f8928490bf",
+    });
+  });
+
+  it("handleChange without callback", async () => {
+    vi.mocked(useProduct).mockReturnValue({
+      configurator: ref(mockedConfigurator),
+      product: ref(mockedProduct),
+    } as unknown as ReturnType<typeof useProduct>);
+    const { vm } = useSetup(useProductConfigurator);
+
+    await vm.handleChange("test-group", "test-option");
+    expect(vm.getSelectedOptions).toMatchObject({
+      "test-group": "test-option",
+    });
+  });
+
+  it("getSelectedOptions skips optionIds not in configurator", () => {
+    vi.mocked(useProduct).mockReturnValue({
+      configurator: ref(mockedConfigurator),
+      product: ref({
+        ...mockedProduct,
+        optionIds: ["non-existent-option-id"],
+      }),
+    } as unknown as ReturnType<typeof useProduct>);
+    const { vm } = useSetup(useProductConfigurator);
+
+    expect(vm.getSelectedOptions).toEqual({});
+  });
+});

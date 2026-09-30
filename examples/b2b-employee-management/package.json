@@ -1,0 +1,26 @@
+{
+  "name": "example-b2b-employee-management",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt prepare && nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "generate-types": "shopwell-api-gen generate --apiType=store",
+    "typecheck": "nuxt prepare && nuxi typecheck"
+  },
+  "dependencies": {
+    "@shopwell/api-client": "canary",
+    "@shopwell/composables": "canary",
+    "@shopwell/nuxt-module": "canary",
+    "nuxt": "4.5.2",
+    "nuxt-toast": "1.4.0",
+    "vue": "3.5.43"
+  },
+  "devDependencies": {
+    "@shopwell/api-gen": "canary",
+    "@unocss/nuxt": "66.10.5",
+    "typescript": "5.9.3"
+  }
+}

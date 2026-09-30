@@ -1,0 +1,58 @@
+import { computed, inject, onMounted, provide, ref } from "vue";
+import type { ComputedRef } from "vue";
+
+import { useShopwellContext } from "#imports";
+import type { Schemas, operations } from "#shopwell";
+
+export type UseSalutationsReturn = {
+  /**
+   * All available salutations
+   */
+  getSalutations: ComputedRef<Schemas["Salutation"][]>;
+  /**
+   * Fetches the salutations list and assigns the result to the `salutations` property
+   */
+  fetchSalutations(): Promise<
+    operations["readSalutation post /salutation"]["response"]
+  >;
+};
+
+/**
+ * Composable for fetching the salutations list.
+ * @public
+ * @category Context & Language
+ */
+export function useSalutations(): UseSalutationsReturn {
+  const { apiClient, cacheableReads } = useShopwellContext();
+
+  const _salutations = inject("swSalutations", ref());
+  provide("swSalutations", _salutations);
+
+  const fetchSalutations = async (): Promise<
+    operations["readSalutation post /salutation"]["response"]
+  > => {
+    const result = cacheableReads
+      ? await apiClient.invoke("readSalutationGet get /salutation")
+      : await apiClient.invoke("readSalutation post /salutation");
+    _salutations.value = result.data.elements;
+    return result.data;
+  };
+
+  // created separate function for testing proposes
+  const mountedCallback = async () => {
+    if (!_salutations.value) {
+      await fetchSalutations();
+    }
+  };
+
+  const getSalutations = computed(() => {
+    return _salutations.value || [];
+  });
+
+  onMounted(mountedCallback);
+
+  return {
+    fetchSalutations,
+    getSalutations,
+  };
+}

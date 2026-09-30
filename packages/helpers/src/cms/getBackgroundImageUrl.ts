@@ -1,0 +1,49 @@
+const DEFAULT_BG_IMAGE_SIZE = 800;
+function roundUp(num: number) {
+  return num ? Math.ceil(num / 100) * 100 : DEFAULT_BG_IMAGE_SIZE;
+}
+
+const getUrlFromBackgroundImage = (url: string) => {
+  const regex = /(?:\(['"]?)(.*?)(?:['"]?\))/;
+  if (url.length > 1000) {
+    throw new Error("Url is too long");
+  }
+  const match = url.match(regex);
+
+  return !match ? url : match[1];
+};
+
+export type BackgroundImageOptions = {
+  format?: string;
+  quality?: number;
+};
+
+export function getBackgroundImageUrl<
+  T extends {
+    backgroundMedia?: {
+      metaData?: {
+        width?: number;
+        height?: number;
+      };
+    };
+  },
+>(url: string, element: T, options?: BackgroundImageOptions): string {
+  const backgroundImage = getUrlFromBackgroundImage(url);
+  const width = element.backgroundMedia?.metaData?.width ?? 0;
+  const height = element.backgroundMedia?.metaData?.height ?? 0;
+  const biggestParam =
+    width > height
+      ? `width=${roundUp(width > 1920 ? 1900 : width)}`
+      : `height=${roundUp(height > 1920 ? 1900 : height)}`;
+
+  let srcPath = `${backgroundImage}?${biggestParam}&fit=crop,smart`;
+
+  if (options?.format) {
+    srcPath += `&format=${options.format}`;
+  }
+  if (options?.quality) {
+    srcPath += `&quality=${options.quality}`;
+  }
+
+  return `url("${srcPath}")`;
+}

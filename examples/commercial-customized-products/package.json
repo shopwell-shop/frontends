@@ -1,0 +1,32 @@
+{
+  "name": "example-customized-products",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "nuxt prepare && nuxt build",
+    "dev": "nuxt prepare && nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "generate-types": "shopwell-api-gen generate --apiType=store",
+    "lint": "oxlint . && oxfmt --check .",
+    "lint:fix": "oxlint --fix . && oxfmt --write .",
+    "typecheck": "nuxt prepare && nuxi typecheck"
+  },
+  "devDependencies": {
+    "@shopwell/api-client": "canary",
+    "@shopwell/api-gen": "canary",
+    "@shopwell/composables": "canary",
+    "@shopwell/helpers": "canary",
+    "@shopwell/nuxt-module": "canary",
+    "@types/node": "22.13.14",
+    "nuxt": "4.5.2",
+    "typescript": "5.9.3",
+    "vue": "3.5.43",
+    "vue-tsc": "3.3.11",
+    "oxfmt": "0.62.0",
+    "oxlint": "1.77.0"
+  },
+  "engines": {
+    "node": "^20.x || ^22.x || ^24.x"
+  }
+}

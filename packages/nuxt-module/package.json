@@ -1,0 +1,60 @@
+{
+  "name": "@shopwell/nuxt-module",
+  "version": "1.5.2",
+  "description": "Nuxt 3 module for Shopwell Frontends",
+  "author": "Shopwell",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shopwell-shop/frontends.git"
+  },
+  "homepage": "https://developer.shopwell.com/frontends/concepts/internal-structure.html#nuxt-module",
+  "keywords": [
+    "Nuxt",
+    "Shopwell",
+    "Vue"
+  ],
+  "bugs": {
+    "url": "https://github.com/shopwell-shop/frontends/issues"
+  },
+  "license": "Apache-2.0",
+  "main": "./index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "plugin.ts",
+    "shopwell.d.ts",
+    "index.cjs"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "lint": "oxlint . && oxfmt --check .",
+    "lint:fix": "oxlint --fix . && oxfmt --write . && pnpm run typecheck",
+    "typecheck": "tsgo --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@nuxt/kit": "4.5.2",
+    "@shopwell/composables": "1.13.0",
+    "@shopwell/helpers": "1.8.0",
+    "@shopwell/api-client": "1.6.0",
+    "defu": "6.1.7",
+    "h3": "1.15.11",
+    "js-cookie": "3.0.7"
+  },
+  "devDependencies": {
+    "@nuxt/schema": "4.5.2",
+    "@typescript/native-preview": "7.0.0-dev.20260205.1",
+    "nuxt": "4.5.2",
+    "unbuild": "3.6.1",
+    "vitest": "5.0.0"
+  }
+}

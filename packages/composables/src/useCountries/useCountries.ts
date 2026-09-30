@@ -1,0 +1,91 @@
+import { encodeForQuery } from "@shopwell/api-client/helpers";
+import { defu } from "defu";
+import { computed, inject, onMounted, provide, ref } from "vue";
+import type { ComputedRef } from "vue";
+
+import { useShopwellContext } from "#imports";
+import type { Schemas, operations } from "#shopwell";
+
+export type UseCountriesReturn = {
+  mountedCallback(): Promise<void>;
+  getCountries: ComputedRef<Schemas["Country"][]>;
+  fetchCountries(): Promise<
+    operations["readCountry post /country"]["response"]
+  >;
+  getStatesForCountry(countryId: string): Schemas["CountryState"][] | null;
+  getCountriesOptions: ComputedRef<
+    {
+      label: string;
+      value: string;
+    }[]
+  >;
+};
+
+/**
+ * Composable to manage countries
+ * @public
+ * @category Context & Language
+ */
+export function useCountries(
+  criteria?: Schemas["Criteria"],
+): UseCountriesReturn {
+  const { apiClient, cacheableReads } = useShopwellContext();
+
+  const _sharedCountries = inject("swCountries", ref());
+  provide("swCountries", _sharedCountries);
+  const searchCriteria = ref(criteria ?? {});
+
+  async function fetchCountries() {
+    const queryCriteria = defu(searchCriteria.value, {
+      associations: {
+        states: {},
+      },
+    } as Schemas["Criteria"]);
+    const result = cacheableReads
+      ? await apiClient.invoke("readCountryGet get /country", {
+          query: { _criteria: encodeForQuery(queryCriteria) },
+        })
+      : await apiClient.invoke("readCountry post /country", {
+          body: queryCriteria,
+        });
+    _sharedCountries.value = result.data.elements;
+    return result.data;
+  }
+
+  const getCountries = computed(() => {
+    return _sharedCountries.value ?? [];
+  });
+
+  const getCountriesOptions = computed(() => {
+    return (
+      _sharedCountries.value?.map((element: Schemas["Country"]) => ({
+        label: element.translated.name,
+        value: element.id,
+      })) ?? []
+    );
+  });
+
+  const mountedCallback = async () => {
+    if (!_sharedCountries.value) {
+      await fetchCountries();
+    }
+  };
+
+  const getStatesForCountry = (countryId: string) => {
+    return (
+      getCountries.value.find((element: Schemas["Country"]) => {
+        return element.id === countryId;
+      })?.states || null
+    );
+  };
+
+  onMounted(mountedCallback);
+
+  return {
+    mountedCallback,
+    fetchCountries,
+    getStatesForCountry,
+    getCountries,
+    getCountriesOptions,
+  };
+}

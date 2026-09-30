@@ -1,0 +1,232 @@
+# Vue Starter Template
+
+The Vue Starter Template is a production-ready Nuxt application with all Shopwell Frontends core packages pre-configured. It provides a clean foundation for building your custom storefront without the demo content or boilerplate UI found in the Demo Store Template.
+
+:::tip Production Ready
+Unlike the Demo Store Template, the **Vue Starter Template** is designed for production use and can be used as a foundation for your custom storefront.
+:::
+
+**[Live Demo →](https://frontends-starter-template.vercel.app/)**
+
+## Setup & run
+
+<PageRef page="../try-it-out.html" title="Try it out" sub="Pick a template and an environment (StackBlitz, Codespaces, or local) and launch in seconds" />
+
+Alternatively, set up the vue-starter-template manually by running the following commands in a new directory:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/vue-starter-template/setup-run.sh" code lang="bash" no-name -->
+
+```bash
+npx tiged shopwell/frontends/templates/vue-starter-template my-store && cd my-store
+pnpm i && pnpm dev
+```
+
+<!-- /automd -->
+
+The vue-starter-template is connected to a Shopwell Cloud instance by default. However, you can change the [configuration](#configure) to use your own instance.
+
+## What's Included
+
+The template comes with:
+
+- **Nuxt 4.x** - Latest Nuxt framework with full SSR support
+- **All core packages** - Pre-installed and configured:
+  - `@shopwell/api-client` - HTTP client for Shopwell API
+  - `@shopwell/composables` - Vue composables for business logic
+  - `@shopwell/helpers` - Utility functions
+  - `@shopwell/cms-base-layer` - CMS component integration
+  - `@shopwell/unocss-design-tokens-layer` - shared UnoCSS design tokens layer
+  - `@shopwell/nuxt-module` - Nuxt module for Shopwell
+- **UnoCSS** - Utility-first CSS framework (Tailwind-compatible)
+- **i18n support** - Internationalization ready
+- **TypeScript** - Full type safety with generated Shopwell types
+- **Type generation** - Script to generate types from your Shopwell instance
+
+## Directory Structure
+
+The directory structure follows [Nuxt conventions](https://nuxt.com/docs/guide/directory-structure):
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/vue-starter-template/directory-structure.txt" code no-name -->
+
+```txt
+vue-starter-template/
+├─ app/
+│  ├─ components/
+│  │  ├─ global/       /* Frontend* SEO page resolvers (Nuxt global) */
+│  │  ├─ cms/          /* Custom/override CMS blocks & elements (Nuxt global) */
+│  │  ├─ layout/       /* Header, footer, navigation (auto-import) */
+│  │  └─ ...           /* Other auto-imported UI */
+│  ├─ pages/           /* Route pages, including [...all].vue resolver */
+│  ├─ layouts/         /* Layout components */
+│  └─ ...
+├─ public/             /* Static assets */
+├─ nuxt.config.ts      /* Nuxt configuration */
+├─ uno.config.ts       /* Template-specific UnoCSS extensions */
+├─ package.json
+├─ tsconfig.json
+```
+
+<!-- /automd -->
+
+`components/global` and `components/cms` are registered as Nuxt global component dirs so Vue `resolveComponent` can load SEO page types and CMS blocks/elements. Other components under `app/components/` stay auto-imported only (not global), which avoids Rolldown `INEFFECTIVE_DYNAMIC_IMPORT` warnings from Lazy wrappers.
+
+## Configure
+
+### Shopwell Connection
+
+To connect to your own Shopwell instance, edit the `nuxt.config.ts` file:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/vue-starter-template/shopwell-connection.ts" code lang="ts" no-name -->
+
+```ts
+import { defineNuxtConfig } from "nuxt/config";
+
+export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      shopwell: {
+        endpoint: "https://your-shop.shopwell.store/store-api",
+        accessToken: "your-access-token",
+        // Optional: Required for local development when using customer registration
+        // devStorefrontUrl: "https://your-shop.shopwell.store",
+      },
+    },
+  },
+});
+```
+
+<!-- /automd -->
+
+You can also use a `.env` file to override configuration:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/vue-starter-template/shopwell-connection-2.sh" code lang="bash" no-name -->
+
+```bash
+NUXT_PUBLIC_SHOPWELL_ENDPOINT=https://your-shop.shopwell.store/store-api
+NUXT_PUBLIC_SHOPWELL_ACCESS_TOKEN=your-access-token
+# Optional: Required for local development when using customer registration
+# Only takes effect if `devStorefrontUrl` is also present in nuxt.config.ts
+# NUXT_PUBLIC_SHOPWELL_DEV_STOREFRONT_URL=https://your-shop.shopwell.store
+```
+
+<!-- /automd -->
+
+:::info devStorefrontUrl
+The `devStorefrontUrl` option is needed when customer registration fails during local development. It tells Shopwell which sales channel domain to use when your browser's origin (e.g., `localhost:3000`) doesn't match any configured domain. Set it to a domain from your Sales Channel settings. See [Storefront URL](../../guides/storefront-url.html) for more details.
+:::
+
+### Generate Types
+
+After connecting to your Shopwell instance, generate TypeScript types:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/vue-starter-template/generate-types.sh" code lang="bash" no-name -->
+
+```bash
+npm run generate-types
+```
+
+<!-- /automd -->
+
+This command uses `@shopwell/api-gen` to create type definitions based on your Shopwell configuration.
+
+## Customizing
+
+### Adding Components
+
+Create components in the `app/components/` directory. They will be auto-imported:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/vue-starter-template/adding-components.vue" code lang="vue" no-name -->
+
+```vue
+<!-- app/components/MyCustomButton.vue -->
+<template>
+  <button class="px-4 py-2 bg-brand-primary text-brand-on-primary rounded">
+    <slot />
+  </button>
+</template>
+```
+
+<!-- /automd -->
+
+### Override CMS Components
+
+The template uses `@shopwell/cms-base-layer` for CMS integration.
+
+- Override shared `Sw*` UI in `app/components/` (auto-imported).
+- Override CMS blocks/elements under `app/components/cms/` (registered global for `resolveComponent`).
+- Override SEO page shells (`FrontendDetailPage`, …) under `app/components/global/`.
+
+For example, to override the product card:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/vue-starter-template/override-cms-components.vue" code lang="vue" no-name -->
+
+```vue
+<!-- app/components/SwProductCard.vue -->
+<template>
+  <!-- Your custom product card implementation -->
+</template>
+```
+
+<!-- /automd -->
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/vue-starter-template/override-cms-components-2.vue" code lang="vue" no-name -->
+
+```vue
+<!-- app/components/cms/element/CmsElementImage.vue -->
+<template>
+  <!-- Your custom CMS image element -->
+</template>
+```
+
+<!-- /automd -->
+
+<PageRef page="../../packages/cms-base-layer.html#overwriting-components" title="Override CMS Components" sub="Learn how to customize CMS components from the base layer" />
+
+### Styling with UnoCSS
+
+The template extends three Nuxt layers:
+
+- `@shopwell/composables/nuxt-layer`
+- `@shopwell/cms-base-layer`
+- `@shopwell/unocss-design-tokens-layer`
+
+The design-tokens layer provides the shared UnoCSS setup and token palette. Your local `uno.config.ts` should only add template-specific customizations on top of the generated config:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/vue-starter-template/styling-with-unocss.ts" code lang="ts" no-name -->
+
+```ts
+import { mergeConfigs } from "@unocss/core";
+
+import baseConfig from "./.nuxt/uno.config.mjs";
+
+export default mergeConfigs([
+  baseConfig,
+  {
+    theme: {
+      colors: {
+        "brand-primary": "#your-brand-color",
+        "brand-secondary": "#your-secondary-color",
+      },
+    },
+  },
+]);
+```
+
+<!-- /automd -->
+
+## Extending with Layers
+
+The Vue Starter Template can be extended using [Nuxt layers](https://nuxt.com/docs/getting-started/layers), allowing you to:
+
+- Inherit all features from the base template
+- Override only specific components
+- Maintain multiple brand variants from a single base
+- Keep your customizations separate and maintainable
+
+<PageRef page="./vue-starter-template-extended.html" title="Vue Starter Template Extended" sub="See an example of extending this template using Nuxt layers" />
+
+## What's Next?
+
+<PageRef page="../page-elements/navigation.html" title="Build your navigation" sub="Learn how to implement the main navigation for your store" />
+
+<PageRef page="../cms/content-pages.html" title="Work with CMS" sub="Integrate Shopwell Shopping Experiences into your frontend" />

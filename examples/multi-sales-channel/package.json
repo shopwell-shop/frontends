@@ -1,0 +1,36 @@
+{
+  "name": "example-multi-sales-channel",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt prepare && nuxt build",
+    "dev": "nuxt prepare && nuxt dev",
+    "lint": "oxlint . && oxfmt --check .",
+    "lint:fix": "oxlint --fix . && oxfmt --write .",
+    "typecheck": "nuxt prepare && nuxi typecheck",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "@nuxtjs/i18n": "10.2.4",
+    "@shopwell/api-client": "canary",
+    "@shopwell/composables": "canary",
+    "@shopwell/helpers": "canary",
+    "@unocss/nuxt": "66.10.5",
+    "js-cookie": "3.0.7",
+    "nuxt": "4.5.2",
+    "vue": "3.5.43"
+  },
+  "devDependencies": {
+    "@shopwell/api-gen": "canary",
+    "@types/node": "22.13.14",
+    "typescript": "5.9.3",
+    "vue-tsc": "3.3.11",
+    "oxfmt": "0.62.0",
+    "oxlint": "1.77.0"
+  },
+  "engines": {
+    "node": "^20.x || ^22.x || ^24.x"
+  }
+}

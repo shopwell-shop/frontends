@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "name": "my-module-playground",
+  "type": "module",
+  "scripts": {
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "generate": "nuxi generate",
+    "lint": "oxlint . && oxfmt --check .",
+    "lint:fix": "oxlint --fix . && oxfmt --write .",
+    "typecheck": "nuxt prepare && vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@shopwell/composables": "canary",
+    "@shopwell/nuxt-module": "canary",
+    "nuxt": "4.5.1"
+  },
+  "devDependencies": {
+    "oxfmt": "0.55.0",
+    "oxlint": "1.70.0"
+  }
+}

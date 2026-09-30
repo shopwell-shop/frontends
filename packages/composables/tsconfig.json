@@ -1,0 +1,10 @@
+{
+  "extends": "tsconfig/vue-library.json",
+  "exclude": ["dist", "node_modules"],
+  "compilerOptions": {
+    "paths": {
+      "#imports": ["./src"],
+      "#shopwell": ["./types/api-types.ts"]
+    }
+  }
+}

@@ -1,0 +1,111 @@
+<script setup lang="ts">
+import {
+  type UrlRouteOutput,
+  getSmallestThumbnailUrl,
+  getTranslatedProperty,
+  isProductOnSale,
+  isProductTopSeller,
+} from "@shopwell/helpers";
+import { computed, inject } from "vue";
+
+import { useUser } from "#imports";
+import type { Schemas } from "#shopwell";
+
+type Translations = {
+  product: {
+    badges: {
+      topseller: string;
+    };
+    addToWishlist: string;
+    removeFromWishlist: string;
+  };
+};
+
+const props = defineProps<{
+  product: Schemas["Product"];
+  translations: Translations;
+  isInWishlist: boolean;
+  isLoading: boolean;
+  toggleWishlist: () => Promise<void>;
+  productLink: UrlRouteOutput;
+}>();
+
+const coverSrcPath = computed(() => {
+  return (
+    props.product?.cover?.media?.url ||
+    getSmallestThumbnailUrl(props.product?.cover?.media)
+  );
+});
+
+const coverAlt = computed(() => {
+  return (
+    getTranslatedProperty(props.product?.cover?.media, "alt") ||
+    props.product?.translated?.name
+  );
+});
+
+const isOnSale = computed(() => isProductOnSale(props.product));
+const isTopseller = computed(() => isProductTopSeller(props.product));
+
+const { isLoggedIn } = useUser();
+const loginModal = inject<{
+  open: (options?: { onSuccess?: () => void | Promise<void> }) => void;
+} | null>("loginModal", null);
+
+function handleWishlistClick() {
+  if (isLoggedIn.value || !loginModal) {
+    props.toggleWishlist();
+    return;
+  }
+  loginModal.open({ onSuccess: props.toggleWishlist });
+}
+</script>
+
+<template>
+  <div
+    class="self-stretch min-h-[350px] relative flex flex-col justify-start items-start overflow-hidden aspect-square"
+  >
+    <RouterLink
+      :to="productLink"
+      class="self-stretch h-full relative overflow-hidden"
+    >
+      <NuxtImg
+        preset="productCard"
+        class="w-full h-full absolute top-0 left-0 object-cover"
+        :src="coverSrcPath"
+        :alt="coverAlt"
+        width="400"
+        height="400"
+        densities="1x"
+        loading="lazy"
+        data-testid="product-box-img"
+      />
+    </RouterLink>
+
+    <div
+      v-if="isTopseller || isOnSale"
+      class="px-1.5 py-1 left-2 bottom-2 absolute bg-other-sale rounded inline-flex justify-center items-center"
+    >
+      <div class="text-states-on-error text-xs font-bold leading-none">
+        {{ translations.product.badges.topseller }}
+      </div>
+    </div>
+
+    <client-only>
+      <SwIconButton
+        type="secondary"
+        :aria-label="
+          isInWishlist
+            ? translations.product.removeFromWishlist
+            : translations.product.addToWishlist
+        "
+        :disabled="isLoading"
+        class="w-10 h-10 right-4 top-4 absolute bg-brand-secondary rounded-full flex items-center justify-center"
+        data-testid="product-box-toggle-wishlist-button"
+        @click="handleWishlistClick"
+      >
+        <SwWishlistIcon :filled="isInWishlist" />
+      </SwIconButton>
+    </client-only>
+  </div>
+</template>

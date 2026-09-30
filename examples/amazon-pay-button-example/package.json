@@ -1,0 +1,50 @@
+{
+  "name": "example-amazon-pay-button",
+  "version": "1.0.0",
+  "description": "Amazon Pay button implementation",
+  "repository": "shopwell/frontends",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepack": "pnpm run prepare && nuxt-module-build build",
+    "dev:playground": "pnpm run prepare && nuxi dev playground",
+    "build:playground": "pnpm run prepare && nuxi build playground",
+    "build": "pnpm run prepare && nuxt-module-build build --stub && nuxi prepare playground",
+    "lint": "oxlint . && oxfmt --check .",
+    "lint:fix": "oxlint --fix . && oxfmt --write .",
+    "typecheck": "pnpm run prepare && vue-tsc --noEmit",
+    "prepare": "nuxt-module-build prepare"
+  },
+  "dependencies": {
+    "@nuxt/kit": "4.5.2",
+    "axios": "1.19.0"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "3.4.2",
+    "@nuxt/module-builder": "1.0.3",
+    "@nuxt/schema": "4.5.2",
+    "@shopwell/composables": "canary",
+    "@shopwell/api-client": "canary",
+    "@shopwell/nuxt-module": "canary",
+    "@types/node": "22.13.14",
+    "nuxt": "4.5.2",
+    "typescript": "5.9.3",
+    "uuid": "^14.0.0",
+    "vue-tsc": "3.3.11",
+    "oxfmt": "0.62.0",
+    "oxlint": "1.77.0"
+  }
+}

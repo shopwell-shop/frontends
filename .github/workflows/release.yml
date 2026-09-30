@@ -1,0 +1,109 @@
+name: Release
+# Prepares release PR, and publishes packages when it's merged
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "*.md"
+      - "templates/**"
+      - "scripts/**"
+      - ".vscode/**"
+      - "apps/**"
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  publish-canary:
+    name: Publish canary version
+    if: "!contains(github.event.commits[0].message, 'chore: next version release')"
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v7
+
+      # `changeset version` exits 1 when there is nothing to release (changesets v3),
+      # so skip the canary release entirely when no changesets are pending.
+      - name: Check for pending changesets
+        id: pending
+        run: |
+          if [ -n "$(find .changeset -maxdepth 1 -name '*.md' ! -name 'README.md' -print -quit)" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "No pending changesets - skipping canary release." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        if: steps.pending.outputs.found == 'true'
+      - uses: actions/setup-node@v7
+        if: steps.pending.outputs.found == 'true'
+        with:
+          node-version: "24"
+          cache: "pnpm"
+      - name: install
+        if: steps.pending.outputs.found == 'true'
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      - name: Build packages
+        if: steps.pending.outputs.found == 'true'
+        run: pnpm run build --filter='./packages/*'
+
+      - name: Generate shapshot
+        if: steps.pending.outputs.found == 'true'
+        run: |
+          pnpm up -r --workspace templates
+          pnpm run version --snapshot canary
+        env:
+          GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
+
+      - name: Publish canary packages
+        if: steps.pending.outputs.found == 'true'
+        run: pnpm changeset publish --no-git-tag --tag canary
+
+  release:
+    name: Create release PR or publish merged changesets
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      packages: write
+      pull-requests: write
+      issues: read
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: "pnpm"
+      - name: install
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      - name: Build packages
+        run: pnpm run build --filter='./packages/*'
+
+      # v2 is the release line built for the changesets v3 CLI; it also renamed
+      # every input and dropped the GITHUB_TOKEN env var in favour of `github-token`.
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          version-script: pnpm run version
+          publish-script: pnpm run changeset publish
+          commit-message: "chore: release"
+          pr-title: "chore: next version release"

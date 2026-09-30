@@ -1,0 +1,32 @@
+{
+  "name": "example-mollie-credit-card",
+  "version": "0.0.9",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt prepare && nuxt build",
+    "dev": "nuxt prepare && nuxt dev",
+    "lint": "oxlint . && oxfmt --check .",
+    "lint:fix": "oxlint --fix . && oxfmt --write .",
+    "typecheck": "nuxt prepare && nuxi typecheck",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "generate-types": "shopwell-api-gen generate --apiType=store"
+  },
+  "devDependencies": {
+    "@shopwell/composables": "canary",
+    "@shopwell/nuxt-module": "canary",
+    "@shopwell/api-client": "canary",
+    "@shopwell/api-gen": "canary",
+    "@types/node": "22.13.14",
+    "nuxt": "4.5.2",
+    "typescript": "5.9.3",
+    "vue": "3.5.43",
+    "vue-tsc": "3.3.11",
+    "oxfmt": "0.62.0",
+    "oxlint": "1.77.0"
+  },
+  "engines": {
+    "node": "^20.x || ^22.x || ^24.x"
+  }
+}

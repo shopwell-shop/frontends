@@ -1,0 +1,824 @@
+# @shopwell/composables
+
+## 1.13.0
+
+### Minor Changes
+
+- [#2663](https://github.com/shopwell-shop/frontends/pull/2663) [`7020545`](https://github.com/shopwell-shop/frontends/commit/70205458cb9357a068029d0aaef41898ab94b354) Thanks [@mkucmus](https://github.com/mkucmus)! - `useCmsElementImage` now honours the `ariaLabel` and `isDecorative` fields of a CMS image element, which were ignored before, and returns both. `imageAttrs.alt` is empty for a decorative image. `ariaLabel` names the link the image sits in, as it does in the Storefront, so it is not copied into `alt`.
+
+  Both fields are optional on the image element config, because a Shopwell instance that has never had them set does not return them. `useCmsElementConfig` accepts optional config members now, so `getConfigValue` keeps the declared value type for them instead of widening to `{}`.
+
+  `SliderElementConfig` gained the `"none"` value for `navigationDots` and `navigationArrows`. The Administration offers it, the type did not list it.
+
+- [#2642](https://github.com/shopwell-shop/frontends/pull/2642) [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add `createDraftQuoteVersion` and `deleteDraftQuoteVersion` to `useB2bQuoteManagement`.
+
+  Quote write operations such as `declineQuoteWithComment` expect the identifier of a temporary storefront draft version, not the `versionId` property of the quote entity. `createDraftQuoteVersion` wraps `POST /quote/{id}/draft-version` and returns that identifier, throwing when the API responds without one; `deleteDraftQuoteVersion` discards the draft again.
+
+  ```ts
+  const { createDraftQuoteVersion, declineQuoteWithComment } =
+    useB2bQuoteManagement();
+
+  const versionId = await createDraftQuoteVersion(quoteId);
+
+  await declineQuoteWithComment(quoteId, {
+    comment: "Too expensive",
+    lineItemId,
+    versionId,
+  });
+  ```
+
+- [#2642](https://github.com/shopwell-shop/frontends/pull/2642) [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add `declineQuoteWithComment` to `useB2bQuoteManagement`, following the Store API `POST /quote/{id}/decline` schema, which as of `6.7.12` also carries `lineItemId` and `versionId` next to `comment`.
+
+  `declineQuote` keeps its `(quoteId, comment)` signature and is deprecated. It will be removed in the next major.
+
+  ```ts
+  const { declineQuoteWithComment, createDraftQuoteVersion } =
+    useB2bQuoteManagement();
+
+  const versionId = await createDraftQuoteVersion(quoteId);
+
+  await declineQuoteWithComment(quoteId, {
+    comment: "Too expensive",
+    lineItemId,
+    versionId,
+  });
+  ```
+
+### Patch Changes
+
+- [#2676](https://github.com/shopwell-shop/frontends/pull/2676) [`458494e`](https://github.com/shopwell-shop/frontends/commit/458494e8bd2be88d4fbf161636a109c8f4efc443) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Realign the composables with the `6.7.13.0` Store API schema:
+
+  - `useB2bQuoteManagement`: `getQuote()` now invokes `readQuote post /quote/{id}` (was `readQuote post /quote/detail/{id}`) and `createOrderFromQuote()` now invokes `createOrderFromQuote post /quote/{id}/order` (was `createOrderFromQuote post /quote/order/{id}`), matching the renamed endpoints.
+  - `useListing`: `getSortingOrders` is typed as `Schemas["ProductListingResult"]["availableSortings"]` instead of the removed `Schemas["ProductSorting"][]`.
+  - `useProductSearch`: the `associations` option is typed as `Partial<Schemas["Associations"]>` instead of the removed `Schemas["Association"]`.
+
+- [#2660](https://github.com/shopwell-shop/frontends/pull/2660) [`8913956`](https://github.com/shopwell-shop/frontends/commit/89139563924163e57cafdd9770fe603f2dbd8cba) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - `useCmsElementImage` now returns the translated media `alt` in `imageAttrs`. It read `element.data.media.alt` from the entity root, which the Store API fills with the system language value, so the `alt` attribute ignored the language of the current request. The value is now resolved with `getTranslatedProperty()` and falls back to the root property when `translated` is missing.
+
+- Updated dependencies [[`2ddf156`](https://github.com/shopwell-shop/frontends/commit/2ddf156805b2941fe2069e78453fb3c4eb6d44ac), [`204c8f4`](https://github.com/shopwell-shop/frontends/commit/204c8f45f737e724db6d00b80c5faef8ddb77cb4), [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e), [`458494e`](https://github.com/shopwell-shop/frontends/commit/458494e8bd2be88d4fbf161636a109c8f4efc443)]:
+  - @shopwell/helpers@1.8.0
+  - @shopwell/api-client@1.6.0
+
+## 1.12.1
+
+### Patch Changes
+
+- [#2568](https://github.com/shopwell-shop/frontends/pull/2568) [`6315350`](https://github.com/shopwell-shop/frontends/commit/6315350add0464abef153343897d42f5808f2003) Thanks [@patzick](https://github.com/patzick)! - Add cacheable GET support for category details and product reviews while preserving the existing POST behavior when `cacheableReads` is disabled.
+
+  - `useCategorySearch.search` now calls `GET /category/{navigationId}` and sends the complete encoded Criteria in the `_criteria` query parameter when cacheable reads are enabled.
+  - `useProductReviews.loadProductReviews` now calls `GET /product/{productId}/reviews` and sends its encoded Criteria in `_criteria` when cacheable reads are enabled.
+  - The CMS product description reviews element follows the same flag and endpoint behavior when it needs to fetch reviews directly.
+
+- [#2596](https://github.com/shopwell-shop/frontends/pull/2596) [`6572aa8`](https://github.com/shopwell-shop/frontends/commit/6572aa84431e1f4a34d6cf04e549037692d638a6) Thanks [@patzick](https://github.com/patzick)! - Reduce Rolldown/Vite build noise: scope Nuxt global components, keep the three.js async chunk warning intentional, avoid shipping full carbon icon JSON via UnoCSS runtime, and bump @vueuse to 14.4.0.
+
+- [#2514](https://github.com/shopwell-shop/frontends/pull/2514) [`744833b`](https://github.com/shopwell-shop/frontends/commit/744833b9d7d2f8ea1f5dfe65be3fa554dbe4a09f) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Allow passing custom criteria to `useCountries`.
+
+- [#2552](https://github.com/shopwell-shop/frontends/pull/2552) [`e03c91b`](https://github.com/shopwell-shop/frontends/commit/e03c91be172374894d90b7a0111855b76719fee1) Thanks [@patzick](https://github.com/patzick)! - Suppress Rolldown diagnostic warnings for invalid third-party pure annotations and plugin timings in the Nuxt layer build config.
+
+- [#2591](https://github.com/shopwell-shop/frontends/pull/2591) [`38379a5`](https://github.com/shopwell-shop/frontends/commit/38379a5d52ab09008774533ef417ebe2cde3f7fd) Thanks [@patzick](https://github.com/patzick)! - Propagate session context refresh failures so login, registration, logout, and context setters cannot complete after an unverifiable context switch.
+
+- Updated dependencies [[`b767721`](https://github.com/shopwell-shop/frontends/commit/b767721847bf3391f9067eca7a045089fb22fce0), [`f16c5a0`](https://github.com/shopwell-shop/frontends/commit/f16c5a0785d6187b73c3edcf37feab7c90bd7988), [`978b02c`](https://github.com/shopwell-shop/frontends/commit/978b02c969ca4b16f5fc1d7a953ec4cce3d98173), [`33facb1`](https://github.com/shopwell-shop/frontends/commit/33facb178792c8cb26b47ab984ac48c08ab4b72b), [`9137475`](https://github.com/shopwell-shop/frontends/commit/91374753cedb2034385f642e6af11314f2971caa), [`474d3fe`](https://github.com/shopwell-shop/frontends/commit/474d3fed346816135b0c7c797990b215a8b691c0)]:
+  - @shopwell/api-client@1.5.1
+  - @shopwell/helpers@1.7.2
+
+## 1.12.0
+
+### Minor Changes
+
+- [#2486](https://github.com/shopwell-shop/frontends/pull/2486) [`5678fb0`](https://github.com/shopwell-shop/frontends/commit/5678fb008cbd86eaddd061e004de89e6f45bb7ec) Thanks [@mkucmus](https://github.com/mkucmus)! - `useSessionContext`: expose `currentLocaleCode` — the active language's locale code (e.g. `"en-GB"`), read directly from the context's `languageInfo`. The current locale can now be derived from the session context alone, without loading the full language list via `useInternationalization().getAvailableLanguages()` just to map the current `languageId` to a locale.
+
+- [#2473](https://github.com/shopwell-shop/frontends/pull/2473) [`22611e5`](https://github.com/shopwell-shop/frontends/commit/22611e542b8f42a4f34dce5186f628f9a17f457b) Thanks [@mkucmus](https://github.com/mkucmus)! - Add an opt-in `cacheableReads` flag that routes anonymous Store API reads through their cacheable GET variants instead of POST. Criteria is compressed into the `_criteria` query param via `encodeForQuery` from `@shopwell/api-client/helpers`, which lets CDNs / reverse proxies / the browser cache the responses.
+
+  Disabled by default — fully backwards compatible. Enable it in `nuxt.config` (`shopwell: { cacheableReads: true }`) or via `createShopwellContext(app, { cacheableReads: true })` for non-Nuxt setups. It is surfaced on the Shopwell context and read by the affected composables; public composable signatures are unchanged.
+
+  Affected composables: `useNavigation`, `useNavigationSearch`, `useCountries`, `useUser` (country + salutation lookups), `useSalutations`, `useInternationalization`, `useProductConfigurator`, `useProductSearch`, and `useCategorySearch.advancedSearch`.
+
+  `useListing` (product-listing), single-category `useCategorySearch.search`, and `useLandingSearch` remain POST for now: the generated Store API schema does not type `_criteria` on those GET routes (a Shopwell OpenAPI gap). The backend does honor `_criteria` on product-listing GET at runtime, so that one can be migrated later once the types are augmented.
+
+### Patch Changes
+
+- [#2462](https://github.com/shopwell-shop/frontends/pull/2462) [`8be060d`](https://github.com/shopwell-shop/frontends/commit/8be060de825ca799f98a8f045a5e7fea61f5d1a2) Thanks [@mkucmus](https://github.com/mkucmus)! - `useProductAssociations`: add optional `includeSeoUrls` option. When `true`, the cross-selling request sends `sw-include-seo-urls: true` so returned products include the `seoUrls` association. Defaults to `false` to avoid extra backend overhead.
+
+## 1.11.1
+
+### Patch Changes
+
+- [#2372](https://github.com/shopwell-shop/frontends/pull/2372) [`22fc8a7`](https://github.com/shopwell-shop/frontends/commit/22fc8a7301f6a7d2612d907ab73555978b651c00) Thanks [@patzick](https://github.com/patzick)! - Improve technical URL resolution for SSR and CSR page rendering.
+
+  This adds helpers to detect and normalize technical Shopwell paths and updates
+  `useNavigationSearch` to resolve `/navigation/*`, `/detail/*`, and
+  `/landingPage/*` routes more reliably, including fallback behavior when no SEO
+  mapping row is returned.
+
+- [#2407](https://github.com/shopwell-shop/frontends/pull/2407) [`bea7f58`](https://github.com/shopwell-shop/frontends/commit/bea7f5882cb58c6d47c84a82db5c8ecaf9bcf8ef) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Correct `useNewsletter` `subscribeToNewsletter` return type: it now resolves to the Store API response type for `POST /newsletter/subscribe` instead of `void`.
+
+- [#2435](https://github.com/shopwell-shop/frontends/pull/2435) [`b8c0091`](https://github.com/shopwell-shop/frontends/commit/b8c00913c3afb5e1e63de9565105f8f8e3bf299f) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Update `useNewsletter` so `newsletterStatus` is set from the subscribe API response, keeping `isNewsletterSubscriber` in sync without an extra status request.
+
+- Updated dependencies [[`22fc8a7`](https://github.com/shopwell-shop/frontends/commit/22fc8a7301f6a7d2612d907ab73555978b651c00)]:
+  - @shopwell/helpers@1.7.1
+
+## 1.11.0
+
+### Minor Changes
+
+- [#2318](https://github.com/shopwell-shop/frontends/pull/2318) [`b40305f`](https://github.com/shopwell-shop/frontends/commit/b40305f9e2ec51f29c279650e411bb773438faed) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - `useProductPrice` now returns `hasListPrice` (boolean indicating whether the product has a list price set). `isListPrice` is deprecated and aliased to `hasListPrice`; use `hasListPrice` in new code.
+
+### Patch Changes
+
+- [#2275](https://github.com/shopwell-shop/frontends/pull/2275) [`432dd24`](https://github.com/shopwell-shop/frontends/commit/432dd246571dfa8c149293da97d5bb16f505e54c) Thanks [@mkucmus](https://github.com/mkucmus)! - Guard against undefined config in `useCmsElementConfig`.
+
+- [#2263](https://github.com/shopwell-shop/frontends/pull/2263) [`b5f7e2a`](https://github.com/shopwell-shop/frontends/commit/b5f7e2a20c9dfdde1690e9006252d847f732bc0a) Thanks [@mkucmus](https://github.com/mkucmus)! - Fixed `getDocumentFile` return type in `useOrderDetails` to correctly return `Blob | string` instead of `Document` schema.
+
+- Updated dependencies [[`9604f22`](https://github.com/shopwell-shop/frontends/commit/9604f22678150d04c3c3156fd8ee2ce440c8c8bf), [`b5f7e2a`](https://github.com/shopwell-shop/frontends/commit/b5f7e2a20c9dfdde1690e9006252d847f732bc0a), [`9604f22`](https://github.com/shopwell-shop/frontends/commit/9604f22678150d04c3c3156fd8ee2ce440c8c8bf), [`a871c7b`](https://github.com/shopwell-shop/frontends/commit/a871c7b6256b75c2e40d93fc0354ba1971420062), [`c9bde38`](https://github.com/shopwell-shop/frontends/commit/c9bde38d497d5c6c2fbd97700a362eb44ce8881f)]:
+  - @shopwell/api-client@1.5.0
+  - @shopwell/helpers@1.7.0
+
+## 1.10.0
+
+### Minor Changes
+
+- [#2098](https://github.com/shopwell-shop/frontends/pull/2098) [`a44d871`](https://github.com/shopwell-shop/frontends/commit/a44d8712d9ae5ee196c03ac8b894f3d1392d0e68) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Enhanced the `useSyncWishlist` composable by exposing the `limit`, `products`, and `isLoading` properties, allowing better control and monitoring of the wishlist state. Similarly, updated `useWishlist` to also expose `limit`, `products`, and `isLoading` properties for both local and synced wishlists, providing a consistent API and improved state handling for wishlist management.
+
+- [#1997](https://github.com/shopwell-shop/frontends/pull/1997) [`e43d9b7`](https://github.com/shopwell-shop/frontends/commit/e43d9b7f559af21be8b66f2021cea2d14940e4aa) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Added consts `SUBSRIBE_KEY` and `UNSUBSCRIBE_KEY` for newsletter status in useNewsletter composable
+
+- [#1974](https://github.com/shopwell-shop/frontends/pull/1974) [`7fe2ef9`](https://github.com/shopwell-shop/frontends/commit/7fe2ef96a9d9d156683b85d31f0a660458c9fbfd) Thanks [@mkucmus](https://github.com/mkucmus)! - Use proper associations format within `useDefaultOrderAssociations` (no redundant nesting).
+
+  Returned value is in type of `Schemas["Criteria"]['associations']` now:
+
+  ```ts
+  const { loadOrders } = useCustomerOrders();
+
+  loadOrders({
+    // ... other parameters
+    associations: useDefaultOrderAssociations(),
+  });
+  ```
+
+- [#2176](https://github.com/shopwell-shop/frontends/pull/2176) [`c647baf`](https://github.com/shopwell-shop/frontends/commit/c647baf93e7174b849f5961ee5803add99d78602) Thanks [@mkucmus](https://github.com/mkucmus)! - - Add `initialListing` parameter to `useListing` composable for SSR data hydration
+
+  - Update `createCategoryListingContext` to accept initial listing data
+  - Maintain backward compatibility with existing implementations
+
+- [#1959](https://github.com/shopwell-shop/frontends/pull/1959) [`c77daa6`](https://github.com/shopwell-shop/frontends/commit/c77daa6a11e96c7f3688b16f7da010b54c7f5e8b) Thanks [@patzick](https://github.com/patzick)! - Updated default types to Shopwell 6.7
+
+### Patch Changes
+
+- [`87771c3`](https://github.com/shopwell-shop/frontends/commit/87771c3b7a4521fcdba43cb4c967b61f5db01b3e) Thanks [@mkucmus](https://github.com/mkucmus)! - add nested media entity association explicitly
+
+- [#1985](https://github.com/shopwell-shop/frontends/pull/1985) [`2cbda25`](https://github.com/shopwell-shop/frontends/commit/2cbda257a1056454e12f2fba9052f83eecb6d986) Thanks [@mkucmus](https://github.com/mkucmus)! - Change `isInWishlist` property type to `ComputedRef` within `useProductWishlist` composable.
+
+- Updated dependencies [[`22ff62e`](https://github.com/shopwell-shop/frontends/commit/22ff62e354f024599d64ea8096af57695248851c), [`2cbda25`](https://github.com/shopwell-shop/frontends/commit/2cbda257a1056454e12f2fba9052f83eecb6d986), [`70dcf95`](https://github.com/shopwell-shop/frontends/commit/70dcf95d4370c63964d877a5cab113a53f93ca19), [`56cd178`](https://github.com/shopwell-shop/frontends/commit/56cd178e25fe2399b7170ccac3044e980621f041), [`e1fae3e`](https://github.com/shopwell-shop/frontends/commit/e1fae3eb6430e5c8e133456fbaf7f215f80c36f6), [`c647baf`](https://github.com/shopwell-shop/frontends/commit/c647baf93e7174b849f5961ee5803add99d78602), [`c77daa6`](https://github.com/shopwell-shop/frontends/commit/c77daa6a11e96c7f3688b16f7da010b54c7f5e8b)]:
+  - @shopwell/helpers@1.6.0
+  - @shopwell/api-client@1.4.0
+
+## 1.9.1
+
+### Patch Changes
+
+- [#1877](https://github.com/shopwell-shop/frontends/pull/1877) [`ab040bb`](https://github.com/shopwell-shop/frontends/commit/ab040bb6cc05541001a983c26d5cb6dbf3192394) Thanks [@mkucmus](https://github.com/mkucmus)! - Adjust `readSeoUrl` request in case of trailing slash when technical URL is used
+
+- Updated dependencies [[`c8fa438`](https://github.com/shopwell-shop/frontends/commit/c8fa438b38de6dbc43a2895f2d1906907447c384)]:
+  - @shopwell/helpers@1.5.0
+
+## 1.9.0
+
+### Minor Changes
+
+- [#1812](https://github.com/shopwell-shop/frontends/pull/1812) [`c28810d`](https://github.com/shopwell-shop/frontends/commit/c28810d0ca503b97c232438e200bbf5ba5dab403) Thanks [@patzick](https://github.com/patzick)! - `useShopwellContext` - added `browserLocale` field. With nuxt-module it's automatically injected into context. Should be used for proper date formatting.
+
+- [#1737](https://github.com/shopwell-shop/frontends/pull/1737) [`bd70905`](https://github.com/shopwell-shop/frontends/commit/bd70905b8443fd57d8d8cb3cfc6501a9117dea49) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Set `setDefaultPaymentMethod` as a deprecated method from `useUser` composable. The API endpoint is removed in the 6.7 version. The default payment method is now set on the checkout process
+
+### Patch Changes
+
+- Updated dependencies [[`d016d6b`](https://github.com/shopwell-shop/frontends/commit/d016d6b845bff9a148405a74dae88d7fc81ec99c), [`a7ff606`](https://github.com/shopwell-shop/frontends/commit/a7ff60681d1a164d5c9f2020c506262e96fad5dc), [`d016d6b`](https://github.com/shopwell-shop/frontends/commit/d016d6b845bff9a148405a74dae88d7fc81ec99c)]:
+  - @shopwell/api-client@1.3.0
+
+## 1.8.1
+
+### Patch Changes
+
+- Updated dependencies [[`7324620`](https://github.com/shopwell-shop/frontends/commit/7324620a3f39c1b62f7cc294192a3e8b8b336d09)]:
+  - @shopwell/api-client@1.2.1
+
+## 1.8.0
+
+### Minor Changes
+
+- [#1602](https://github.com/shopwell-shop/frontends/pull/1602) [`bb7d1cb`](https://github.com/shopwell-shop/frontends/commit/bb7d1cbc4204ff1d48f77416f94f550bc235e5ed) Thanks [@patzick](https://github.com/patzick)! - Switch from `@shopwell-pwa/helpers-next` to `@shopwell/helpers` package.
+
+- [#1602](https://github.com/shopwell-shop/frontends/pull/1602) [`bb7d1cb`](https://github.com/shopwell-shop/frontends/commit/bb7d1cbc4204ff1d48f77416f94f550bc235e5ed) Thanks [@patzick](https://github.com/patzick)! - Switch from `@shopwell-pwa/cms-base` to `@shopwell/cms-base-layer` package.
+
+### Patch Changes
+
+- Updated dependencies [[`bb7d1cb`](https://github.com/shopwell-shop/frontends/commit/bb7d1cbc4204ff1d48f77416f94f550bc235e5ed), [`bb7d1cb`](https://github.com/shopwell-shop/frontends/commit/bb7d1cbc4204ff1d48f77416f94f550bc235e5ed)]:
+  - @shopwell/helpers@1.4.0
+
+## 1.7.0
+
+### Minor Changes
+
+- [#1596](https://github.com/shopwell-shop/frontends/pull/1596) [`3a79106`](https://github.com/shopwell-shop/frontends/commit/3a791065d04152255095965e3fb12ea538a22639) Thanks [@patzick](https://github.com/patzick)! - Changed `@shopwell-pwa/composables` package to `@shopwell/composables`. Just rename it in package.json file and run install.
+
+### Patch Changes
+
+- Updated dependencies [[`6736509`](https://github.com/shopwell-shop/frontends/commit/67365096168e28b9683cfd3b5d4c8bb3b4ae07e3)]:
+  - @shopwell-pwa/helpers-next@1.3.0
+
+## 1.6.1
+
+### Patch Changes
+
+- [#1594](https://github.com/shopwell-shop/frontends/pull/1594) [`957e514`](https://github.com/shopwell-shop/frontends/commit/957e51451b3a6e4833c4b58794993b729a53f3bc) Thanks [@patzick](https://github.com/patzick)! - Deprecating package `@shopwell-pwa/composables-next` and publishing it under `@shopwell/composables`
+
+## 1.6.0
+
+### Minor Changes
+
+- [#1540](https://github.com/shopwell-shop/frontends/pull/1540) [`3778061`](https://github.com/shopwell-shop/frontends/commit/3778061f7fbc82e7deabfa466fd3bb8f34325f42) Thanks [@kasztof](https://github.com/kasztof)! - Allow to pass full seach criteria according to loadNavigationElements method of useNavigation composable
+
+### Patch Changes
+
+- [#1564](https://github.com/shopwell-shop/frontends/pull/1564) [`3d2f2b5`](https://github.com/shopwell-shop/frontends/commit/3d2f2b5595ac847be66302befed921aa2f9264b6) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Return the last element for the payment and shipping methods in `useOrderDetails`. The reason for this change is that the backend returns collections sorted by the entry date
+
+- [#1580](https://github.com/shopwell-shop/frontends/pull/1580) [`a04aa8c`](https://github.com/shopwell-shop/frontends/commit/a04aa8c0c705626bb231f8ead59c4c67a2d0d715) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Added `shippingCosts` property in `useCart` composable that returns shipping costs of the cart, with the shipping discounts.
+  `shippingTotal` function is now deprecated as it only returns the first value from the array. The backend is returning a collection.
+
+- [#1550](https://github.com/shopwell-shop/frontends/pull/1550) [`63d56b3`](https://github.com/shopwell-shop/frontends/commit/63d56b3dacd6ca48a44744e387e6212a23c8bf4a) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - useCustomerOrders - Set current page based on the orders endpoint response
+
+## 1.5.0
+
+### Minor Changes
+
+- [#1489](https://github.com/shopwell-shop/frontends/pull/1489) [`2c337b5`](https://github.com/shopwell-shop/frontends/commit/2c337b5555495e5cc75f17f1c7f50cc25dfe7c1e) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Changed `registration` method in the `useUser` composable. Because of changes in the double opt-in on registration flow in the Shopwell backend we are adjusting this method on our side. In new approach we are checking `active` and `doubleOptInRegistration` properties that represents current status of the user.
+
+- [#1369](https://github.com/shopwell-shop/frontends/pull/1369) [`13c83be`](https://github.com/shopwell-shop/frontends/commit/13c83bec53a6aaba49941b9bf869629eadeb4515) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Added `buildDynamicBreadcrumbs` method for building breadcrumbs structure
+  Added `pushBreadcrumb` method to push single breadcrumb at the top of the breadcrumbs list
+  Added `associations` option to the `search` method in `useProductSearch` composable
+
+### Patch Changes
+
+- [#1449](https://github.com/shopwell-shop/frontends/pull/1449) [`8ba9702`](https://github.com/shopwell-shop/frontends/commit/8ba9702657d1dc31cc653728788830fa38bb4992) Thanks [@mkucmus](https://github.com/mkucmus)! - Add configuration step to README.md
+
+- [#1492](https://github.com/shopwell-shop/frontends/pull/1492) [`a03a492`](https://github.com/shopwell-shop/frontends/commit/a03a492f18ebff84606e47f5239330454c9f3039) Thanks [@mkucmus](https://github.com/mkucmus)! - `useCustomerOrders` - added checkPromotions flag for loading orders
+
+- Updated dependencies [[`a87bbcf`](https://github.com/shopwell-shop/frontends/commit/a87bbcfa3f5aa440265b1e8f0fc72a204863befc), [`13c83be`](https://github.com/shopwell-shop/frontends/commit/13c83bec53a6aaba49941b9bf869629eadeb4515)]:
+  - @shopwell/api-client@1.2.0
+  - @shopwell-pwa/helpers-next@1.2.0
+
+## 1.4.2
+
+### Patch Changes
+
+- Updated dependencies [[`938c4cf`](https://github.com/shopwell-shop/frontends/commit/938c4cfe6438f0e11a34f69bc7a183f10ba7f381)]:
+  - @shopwell/api-client@1.1.2
+
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies [[`8df7651`](https://github.com/shopwell-shop/frontends/commit/8df76511c8afca78c79fe3f009ed32d207913f86)]:
+  - @shopwell/api-client@1.1.1
+
+## 1.4.0
+
+### Minor Changes
+
+- [#1325](https://github.com/shopwell-shop/frontends/pull/1325) [`fa517bc`](https://github.com/shopwell-shop/frontends/commit/fa517bc68e33b97f6cf34205587218314cb4f5f6) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - - Add `shipping-method-blocked` error resolver to `useCartErrorParamsResolver` composable
+
+- [#1338](https://github.com/shopwell-shop/frontends/pull/1338) [`75df238`](https://github.com/shopwell-shop/frontends/commit/75df238da11635418554329f1ca01f3a256fe0a0) Thanks [@BrocksiNet](https://github.com/BrocksiNet)! - # Fix setCurrentFilters
+
+  Body **before** when you use setCurrentFilters:
+
+  ```
+  {
+    "limit":10,
+    "search":"",
+    "p":"1",
+    "navigationId":"018db20234207be8948e3a4b46501435",
+    "manufacturer":"",
+    "price": {"min":0,"max":0},
+    "rating": null,
+    "shipping-free":false,
+    "properties":"",
+    "code":"manufacturer",  // 👈 Not like this
+    "value":"018d35f5b5757076adea38044bb96937" // 👈 Not like this
+  }
+  ```
+
+  Body **after** the code changes with fixed setCurrentFilters:
+
+  ```
+  {
+    "limit":10,
+    "search":"",
+    "p":"1",
+    "navigationId":"018db20234207be8948e3a4b46501435",
+    "manufacturer":"018d35f5b5757076adea38044bb96937",  // 👈 where the filter value should go
+    "price": {"min":0,"max":0},
+    "rating": null,
+    "shipping-free":false,
+    "properties":"",
+  }
+  ```
+
+- [#1339](https://github.com/shopwell-shop/frontends/pull/1339) [`266bb32`](https://github.com/shopwell-shop/frontends/commit/266bb32e119d7e1b3df7e082fb0fe4b0a475af44) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - - Updated `AccountNewsletterRecipientResult` type to `AccountNewsletterRecipient`
+
+### Patch Changes
+
+- Updated dependencies [[`6abe9ab`](https://github.com/shopwell-shop/frontends/commit/6abe9abb64b9d2fe94d565393b1c08ec68b58162), [`0643174`](https://github.com/shopwell-shop/frontends/commit/06431743162c088d46cf1e6305332bd51542eec4), [`266bb32`](https://github.com/shopwell-shop/frontends/commit/266bb32e119d7e1b3df7e082fb0fe4b0a475af44), [`f9fb243`](https://github.com/shopwell-shop/frontends/commit/f9fb243d56d05a66ca4efd277c137e2ae8967f7b), [`15bebee`](https://github.com/shopwell-shop/frontends/commit/15bebee0daefacc078ac99fea8725b95fdbc1cc7), [`ebb10eb`](https://github.com/shopwell-shop/frontends/commit/ebb10eba629b3ec2c5a4a50fa12ef0b134601d6f)]:
+  - @shopwell/api-client@1.1.0
+
+## 1.3.0
+
+### Minor Changes
+
+- [#1215](https://github.com/shopwell-shop/frontends/pull/1215) [`6ee2f90`](https://github.com/shopwell-shop/frontends/commit/6ee2f90ca3b21730fa05e1120072ac4dd45aa665) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - - Added `useCartErrorParamsResolver` composable for building error message parameters
+
+### Patch Changes
+
+- Updated dependencies [[`6ee2f90`](https://github.com/shopwell-shop/frontends/commit/6ee2f90ca3b21730fa05e1120072ac4dd45aa665)]:
+  - @shopwell-pwa/helpers-next@1.1.0
+
+## 1.2.0
+
+### Minor Changes
+
+- [#1194](https://github.com/shopwell-shop/frontends/pull/1194) [`aa8f5a4`](https://github.com/shopwell-shop/frontends/commit/aa8f5a4d2eabce1d6119e31af8c7479911d7b07b) Thanks [@patzick](https://github.com/patzick)! - New `useDefaultOrderAssociations` composable to be used or overriden separately in user project. This composable just returns default associations object.
+
+### Patch Changes
+
+- Updated dependencies [[`2e4c887`](https://github.com/shopwell-shop/frontends/commit/2e4c8872060fb2ebabe5b89d92761994a2ed8128)]:
+  - @shopwell-pwa/helpers-next@1.0.2
+
+## 1.1.1
+
+### Patch Changes
+
+- [#1074](https://github.com/shopwell-shop/frontends/pull/1074) [`b688163`](https://github.com/shopwell-shop/frontends/commit/b68816391ee8ed1ac94a6462a2a016d708f259b4) Thanks [@mkucmus](https://github.com/mkucmus)! - `useOrderDetails` - Load shipping address for the order details. Ivoking a `loadOrderDetails` method now will fetch also a `shippingOrderAddress` association.
+
+- [#1089](https://github.com/shopwell-shop/frontends/pull/1089) [`db7c93f`](https://github.com/shopwell-shop/frontends/commit/db7c93ff8cbb581221c11a492e77068af8faa8d6) Thanks [@mkucmus](https://github.com/mkucmus)! - Migrate eslint config to flat format
+
+- [#1099](https://github.com/shopwell-shop/frontends/pull/1099) [`3bde5fe`](https://github.com/shopwell-shop/frontends/commit/3bde5fe6d4a9c31d380defc05a7903cf99cb8136) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - `useCart` - Fixed adding promotion code
+
+- Updated dependencies [[`b688163`](https://github.com/shopwell-shop/frontends/commit/b68816391ee8ed1ac94a6462a2a016d708f259b4), [`db7c93f`](https://github.com/shopwell-shop/frontends/commit/db7c93ff8cbb581221c11a492e77068af8faa8d6), [`b688163`](https://github.com/shopwell-shop/frontends/commit/b68816391ee8ed1ac94a6462a2a016d708f259b4)]:
+  - @shopwell-pwa/helpers-next@1.0.1
+  - @shopwell/api-client@1.0.2
+
+## 1.1.0
+
+### Minor Changes
+
+- [#1071](https://github.com/shopwell-shop/frontends/pull/1071) [`f9d2735`](https://github.com/shopwell-shop/frontends/commit/f9d27353ec6383cb22cdece0469f8fdd13250958) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - - `useCart` - new `addProducts` function that allows adding a set of products to the cart
+
+- [#893](https://github.com/shopwell-shop/frontends/pull/893) [`d95751e`](https://github.com/shopwell-shop/frontends/commit/d95751ecde443a033f17def838bcc25aeba6951e) Thanks [@khanSoliheen](https://github.com/khanSoliheen)! - - `useWishList`:
+  - Added `getCurrentPage` and `getTotalPagesCount` to the returned object
+  - Changed `getWishlistProducts` to accept `page` and `query` as optional parameters
+  - `useSyncWishList`:
+    - Changed `getWishlistProducts`, added Parameter to pass default criterias
+
+## 1.0.1
+
+### Patch Changes
+
+- [#1076](https://github.com/shopwell-shop/frontends/pull/1076) [`1954022`](https://github.com/shopwell-shop/frontends/commit/19540220d87788eed08991d35aaaead2e18564e5) Thanks [@BrocksiNet](https://github.com/BrocksiNet)! - `useOrderDetails` - Adding `stateMachineState` as the default association to the composable
+
+- [#1078](https://github.com/shopwell-shop/frontends/pull/1078) [`19f2800`](https://github.com/shopwell-shop/frontends/commit/19f28003cf937bcb630257cb7cfd2bd131b7cf9d) Thanks [@patzick](https://github.com/patzick)! - `useListing` - reverted usage of the `sw-include-swo-urls` header in the search request
+
+- Updated dependencies [[`19f2800`](https://github.com/shopwell-shop/frontends/commit/19f28003cf937bcb630257cb7cfd2bd131b7cf9d)]:
+  - @shopwell/api-client@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- [#871](https://github.com/shopwell-shop/frontends/pull/871) [`1566f7a`](https://github.com/shopwell-shop/frontends/commit/1566f7a3962c511b5c72e12a4a5db40c4aa5d198) Thanks [@patzick](https://github.com/patzick)! - Read more about new major release: https://github.com/shopwell-shop/frontends/discussions/965
+
+- [#1056](https://github.com/shopwell-shop/frontends/pull/1056) [`c729e70`](https://github.com/shopwell-shop/frontends/commit/c729e7014c70d7f71edf5297104065d18e482e04) Thanks [@patzick](https://github.com/patzick)! - Removed deprecations from the composables:
+
+  - `createShopwellContext` is no longer accpting `apiInstance` option. Use `apiClient` instead.
+  - `useCart` - `getProductItemsSeoUrlsData` is removed. Use product related methods to fetch an item's URL instead.
+  - `useCartItem` - `getProductItemSeoUrlData` is removed
+  - `apiInstance` is not exposing `apiInstance` anymore. Use `apiClient` instead.
+
+- [#452](https://github.com/shopwell-shop/frontends/pull/452) [`e2c225f`](https://github.com/shopwell-shop/frontends/commit/e2c225f1d69a5d523f3c1e6c90449ee28f98b2f2) Thanks [@patzick](https://github.com/patzick)! - Created Nuxt layer for `composables` and `cms-base`. This way overriding any part of that is now possible.
+
+- [#978](https://github.com/shopwell-shop/frontends/pull/978) [`479357c`](https://github.com/shopwell-shop/frontends/commit/479357c74d40c99218eb22ccd4089357ffab5872) Thanks [@patzick](https://github.com/patzick)! - `useCustomerPassword` and `loadCustomerAddresses` inside `useAddress` are now throwing api errors on invocation. The `errors` object has been removed from the composable to make consistent error handling across the composables. This change is breaking and requires you to update your implementation of the composables.
+
+  Example of error handling for resseting password:
+
+  ```typescript
+  const {
+    resetPassword,
+    // errors --> removed from the API
+  } = useCustomerPassword();
+
+  const errors = ref([]);
+
+  const invokeRecover = async (): Promise<void> => {
+    try {
+      errors.value = [];
+      const emailSent = await resetPassword(formData.value);
+
+      if (emailSent.success) {
+        // here we know that email was sent
+      }
+    } catch (error) {
+      console.error("[AccountRecoverPassword]", error);
+      if (error instanceof ApiClientError) {
+        errors.value = error.details?.errors || [];
+      }
+    }
+  };
+  ```
+
+### Minor Changes
+
+- [#991](https://github.com/shopwell-shop/frontends/pull/991) [`38a3853`](https://github.com/shopwell-shop/frontends/commit/38a385374a99d114c4ed3477f14c9e06dedb0dcd) Thanks [@patzick](https://github.com/patzick)! - Few changes in composables API to access data returned from the backend:
+
+  - `useAddress` - `loadCustomerAddresses` returns addresses now
+  - `useCart` - `removeItem` returns updated cart
+  - `useCartItem` - `removeItem` returns updated cart, similar to `useCart`
+  - `fetchCountries` - returns countries with the response
+  - `useNewsletter` - `getNewsletterStatus` returns full response from the API
+  - `useOrderDetails` - `loadOrderDetails` returns order details now, `cancel` returns order state, `changePaymentMethod` returns success response info
+  - `changePaymentMethod` - `changePaymentMethod` returns success response info now
+  - `useProductReviews` - `loadProductReviews` returns reviews response now
+  - `useSalutations` - `fetchSalutations` returns salutations response now
+  - `useUser` - `refreshUser` returns customer data. `logout`, `loadCountry` and `loadSalutation` returns data from the API
+
+- [#840](https://github.com/shopwell-shop/frontends/pull/840) [`823aa9b`](https://github.com/shopwell-shop/frontends/commit/823aa9b4626c8931d2bea1399e825162c44fd45c) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Return `componentNameToResolve` in resolveCmsComponent function
+
+- [#529](https://github.com/shopwell-shop/frontends/pull/529) [`4dce006`](https://github.com/shopwell-shop/frontends/commit/4dce006460611e59fed084511ca9ecb814f95cf1) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - **BREAKING**: Use product ID instead of whole product object in `useProductWishlist` composable
+
+- [#535](https://github.com/shopwell-shop/frontends/pull/535) [`bebae42`](https://github.com/shopwell-shop/frontends/commit/bebae42e58e3dd47f13bf166b0fb0d8ac9a416e3) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Fix country ID in session context
+  Add `salesChannelCountryId` that represent sales channel default city ID
+
+- [#986](https://github.com/shopwell-shop/frontends/pull/986) [`013a1d6`](https://github.com/shopwell-shop/frontends/commit/013a1d6f88377686cfc1a85903a0c48d8fda67f5) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Added tests to achieve coverage > 80%
+
+- [#933](https://github.com/shopwell-shop/frontends/pull/933) [`04ac2ad`](https://github.com/shopwell-shop/frontends/commit/04ac2ada522c881bb06565c332baf5f2cf08643d) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - - Added `checkPromotion` attribute to the `orderAssociations`
+
+  - Added `statusTechnicalName` property to the `useOrderDetails` composable
+  - Added `getPaymentMethods` method that allows change payment for existed order
+  - Added `stateMachineState` association for loading orders
+
+- [#1027](https://github.com/shopwell-shop/frontends/pull/1027) [`05ca5b6`](https://github.com/shopwell-shop/frontends/commit/05ca5b68f098bc8969c2c50e270b19b00938513c) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Added `useCategorySearch` and `useCmsElementProductBox` tests
+
+- [#703](https://github.com/shopwell-shop/frontends/pull/703) [`7a3a92c`](https://github.com/shopwell-shop/frontends/commit/7a3a92c3ee1a337e752adbcfa5057d30064eed7c) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add B2b quote management composable
+
+### Patch Changes
+
+- [#569](https://github.com/shopwell-shop/frontends/pull/569) [`f1b2a30`](https://github.com/shopwell-shop/frontends/commit/f1b2a307de58e0f296edab3222b7cd5684104347) Thanks [@itscark](https://github.com/itscark)! - Fix only available shipping methods
+
+- [#880](https://github.com/shopwell-shop/frontends/pull/880) [`2ade07a`](https://github.com/shopwell-shop/frontends/commit/2ade07ad51944eebb7d1962c36823875cd5e959e) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Adjust types in `useProductSearch` composable
+
+- [#915](https://github.com/shopwell-shop/frontends/pull/915) [`fc262dd`](https://github.com/shopwell-shop/frontends/commit/fc262dd3a93338353394c03faf7fee36a0c36511) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Handle using categoryId as a alternative for category context
+
+- [#1042](https://github.com/shopwell-shop/frontends/pull/1042) [`53e7177`](https://github.com/shopwell-shop/frontends/commit/53e71770ad741bb558f193a95cae6bcc025a047f) Thanks [@patzick](https://github.com/patzick)! - Completely removed dependency to the deprecated `@shopwell-pwa/types` package
+
+- [#873](https://github.com/shopwell-shop/frontends/pull/873) [`99ad5e9`](https://github.com/shopwell-shop/frontends/commit/99ad5e99652771ea7cd5e1395708a878cca980f5) Thanks [@mkucmus](https://github.com/mkucmus)! - Add isStackable and isDigital computed properties
+
+- [#705](https://github.com/shopwell-shop/frontends/pull/705) [`8f0b468`](https://github.com/shopwell-shop/frontends/commit/8f0b46850a0b89667934c551431306f7d765f86b) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add missing addressId to the `updateCustomerAddress` method
+
+- [#524](https://github.com/shopwell-shop/frontends/pull/524) [`6b54268`](https://github.com/shopwell-shop/frontends/commit/6b54268049ae9b1b3d311b9a122f43a752a2b715) Thanks [@BrocksiNet](https://github.com/BrocksiNet)! - Added new composables (previously internal helpers of the `cms-base` package): `useCmsTranslations`, `useUrlResolver`, `useUrlResolver`
+
+- Updated dependencies [[`2343012`](https://github.com/shopwell-shop/frontends/commit/2343012ad552b06557e6715055b3abc534fa2fae), [`1566f7a`](https://github.com/shopwell-shop/frontends/commit/1566f7a3962c511b5c72e12a4a5db40c4aa5d198), [`782ef4d`](https://github.com/shopwell-shop/frontends/commit/782ef4d417dce6e6d60992bd54f876aa4bc5f45d), [`9643e56`](https://github.com/shopwell-shop/frontends/commit/9643e56dafba9282b75c12c96b2afb3a4738f86e), [`1583a7a`](https://github.com/shopwell-shop/frontends/commit/1583a7ae0d68b72fb362b625e1634e03bad68110), [`97d2859`](https://github.com/shopwell-shop/frontends/commit/97d2859e4dcbdc563200f2f64d1a20880b675d87), [`864616f`](https://github.com/shopwell-shop/frontends/commit/864616f0c9e1cbe11e434b9a04a35ff9520bcb3c), [`d60d062`](https://github.com/shopwell-shop/frontends/commit/d60d0620c7114a2f26bb2faf24241e2cbabc8798), [`a92941e`](https://github.com/shopwell-shop/frontends/commit/a92941ed59313fe85d5bbe204c2930d8a1a106b1), [`487d991`](https://github.com/shopwell-shop/frontends/commit/487d991f2cda0fbf637502597b20dd931498fe6a), [`c729e70`](https://github.com/shopwell-shop/frontends/commit/c729e7014c70d7f71edf5297104065d18e482e04), [`89a97a4`](https://github.com/shopwell-shop/frontends/commit/89a97a45ae4a58616e41f63e9884a2a67f0a6ce8), [`c729e70`](https://github.com/shopwell-shop/frontends/commit/c729e7014c70d7f71edf5297104065d18e482e04), [`864616f`](https://github.com/shopwell-shop/frontends/commit/864616f0c9e1cbe11e434b9a04a35ff9520bcb3c), [`97b5949`](https://github.com/shopwell-shop/frontends/commit/97b5949da2663700aa4047c4927b4a5f192cee74), [`6664aa2`](https://github.com/shopwell-shop/frontends/commit/6664aa2aa48ec63fc053ad024a03940113e17956), [`6b54268`](https://github.com/shopwell-shop/frontends/commit/6b54268049ae9b1b3d311b9a122f43a752a2b715)]:
+  - @shopwell/api-client@1.0.0
+  - @shopwell-pwa/helpers-next@1.0.0
+
+## 0.14.1
+
+### Patch Changes
+
+- [#462](https://github.com/shopwell-shop/frontends/pull/462) [`c3aa09ee`](https://github.com/shopwell-shop/frontends/commit/c3aa09ee9e73c23b79bf9c1b3e5e63d7d39f1550) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@vueuse/core_ from **^10.5.0** to **^10.6.1**
+
+- [#467](https://github.com/shopwell-shop/frontends/pull/467) [`0e031efe`](https://github.com/shopwell-shop/frontends/commit/0e031efe7a3c0249a5e883c85ec87542ab07a4c0) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _scule_ from **^1.0.0** to **^1.1.0**
+
+- Updated dependencies [[`729d03a5`](https://github.com/shopwell-shop/frontends/commit/729d03a5d5555a67d420cdb0c89a0cb4ce907831)]:
+  - @shopwell-pwa/helpers-next@0.5.1
+  - @shopwell-pwa/api-client@0.7.0
+
+## 0.14.0
+
+### Minor Changes
+
+- [#453](https://github.com/shopwell-shop/frontends/pull/453) [`f5adaeba`](https://github.com/shopwell-shop/frontends/commit/f5adaeba6dec11422e0c02d92aba8caf56017af5) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add category advanced search method
+
+- [#445](https://github.com/shopwell-shop/frontends/pull/445) [`c264bf5d`](https://github.com/shopwell-shop/frontends/commit/c264bf5d41638c6013ebf14e7cd9615e5b5ef9bf) Thanks [@BrocksiNet](https://github.com/BrocksiNet)! - Adding the missing srcset attribute to the image tag in the CmsElementImage component. as well as adding support for HTML video elements as in Shopwell management, it is possible for users to associate videos to any Cms image element.
+
+- [#444](https://github.com/shopwell-shop/frontends/pull/444) [`85628cc6`](https://github.com/shopwell-shop/frontends/commit/85628cc65216417a887398f0838714fc03544303) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Use `relativeUrlSlash` toggle helper for element img url attribute
+
+- [#431](https://github.com/shopwell-shop/frontends/pull/431) [`87213fb0`](https://github.com/shopwell-shop/frontends/commit/87213fb02b292b11f45b7fb5956fb8bc1ae33800) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add tests for `useProductAssociations`, `useProductConfigurator`, `useProductPrice`
+
+- [#435](https://github.com/shopwell-shop/frontends/pull/435) [`a4483ed8`](https://github.com/shopwell-shop/frontends/commit/a4483ed8bf9370e87aedeb81846fe9d31880b3e0) Thanks [@patzick](https://github.com/patzick)! - Changed types imports to `import type {...} from "..."`
+
+### Patch Changes
+
+- [#418](https://github.com/shopwell-shop/frontends/pull/418) [`67cf5650`](https://github.com/shopwell-shop/frontends/commit/67cf56506f58973bf3ab8bb8acef06758a6a6720) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@vueuse/core_ from **^10.4.1** to **^10.5.0**
+
+- [#409](https://github.com/shopwell-shop/frontends/pull/409) [`12ed75ff`](https://github.com/shopwell-shop/frontends/commit/12ed75ffd3d98bf2623161e44f63c40dfc1ef0e3) Thanks [@mkucmus](https://github.com/mkucmus)! - Correct active addresses location for current context
+
+- [#433](https://github.com/shopwell-shop/frontends/pull/433) [`43510a10`](https://github.com/shopwell-shop/frontends/commit/43510a108d351aca361e460844b2cddd29f889b5) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - `changeProductQuantity` returns whole cart response
+
+- Updated dependencies [[`f5adaeba`](https://github.com/shopwell-shop/frontends/commit/f5adaeba6dec11422e0c02d92aba8caf56017af5), [`a4483ed8`](https://github.com/shopwell-shop/frontends/commit/a4483ed8bf9370e87aedeb81846fe9d31880b3e0), [`29f849d2`](https://github.com/shopwell-shop/frontends/commit/29f849d28c0d0ff8fc34f0d5e921ac2828c93f2b), [`85628cc6`](https://github.com/shopwell-shop/frontends/commit/85628cc65216417a887398f0838714fc03544303)]:
+  - @shopwell-pwa/api-client@0.7.0
+  - @shopwell-pwa/helpers-next@0.5.0
+
+## 0.13.3
+
+### Patch Changes
+
+- [#372](https://github.com/shopwell-shop/frontends/pull/372) [`211ccbb2`](https://github.com/shopwell-shop/frontends/commit/211ccbb2e4d9d6009847e6ff53099deb97d569de) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Fix `loadOrderDetails` return type
+
+- [#380](https://github.com/shopwell-shop/frontends/pull/380) [`b2b6905b`](https://github.com/shopwell-shop/frontends/commit/b2b6905beb8f28b79c0989ff9340c757e60001c9) Thanks [@SuddenDev](https://github.com/SuddenDev)! - Adds the ability to specify a query for the loadMore function in the useListing composable.
+
+- [#390](https://github.com/shopwell-shop/frontends/pull/390) [`61de0366`](https://github.com/shopwell-shop/frontends/commit/61de03662869e9ad8b69e2d8a868313a61a7a741) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Catch 404 api error - `getWishlistProducts``
+
+- [#385](https://github.com/shopwell-shop/frontends/pull/385) [`5d7e7973`](https://github.com/shopwell-shop/frontends/commit/5d7e7973437a4d74d19ec2fa0765c6d927bf8b2a) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@vueuse/core_ from **^10.3.0** to **^10.4.1**
+
+- Updated dependencies []:
+  - @shopwell-pwa/api-client@0.6.0
+  - @shopwell-pwa/helpers-next@0.4.0
+
+## 0.13.2
+
+### Patch Changes
+
+- Updated dependencies [[`034e032`](https://github.com/shopwell-shop/frontends/commit/034e032270134cb51bb3da940d4b766d5866b1dd)]:
+  - @shopwell-pwa/helpers-next@0.4.0
+
+## 0.13.1
+
+### Patch Changes
+
+- Updated dependencies [[`4532b60d`](https://github.com/shopwell-shop/frontends/commit/4532b60d449e1b5a45506fafa16eb7d156dc2359)]:
+  - @shopwell-pwa/api-client@0.6.0
+
+## 0.13.0
+
+### Minor Changes
+
+- [#330](https://github.com/shopwell-shop/frontends/pull/330) [`3683116`](https://github.com/shopwell-shop/frontends/commit/3683116588a7ef75e750fc33deee119f038c88e8) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add `setCountry` method for `useSessionContext` composable
+
+### Patch Changes
+
+- [#336](https://github.com/shopwell-shop/frontends/pull/336) [`d03228a`](https://github.com/shopwell-shop/frontends/commit/d03228a51058ec376b003e80dd0395237a12bfb6) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Fix link building for a cms image element
+
+## 0.12.1
+
+### Patch Changes
+
+- [#349](https://github.com/shopwell-shop/frontends/pull/349) [`5d14bb5`](https://github.com/shopwell-shop/frontends/commit/5d14bb5df65fb14d630a8c4ab2b474fde04c477b) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@vueuse/core_ from **^10.2.1** to **^10.3.0**
+
+- Updated dependencies []:
+  - @shopwell-pwa/api-client@0.5.2
+  - @shopwell-pwa/helpers-next@0.3.2
+
+## 0.12.0
+
+### Minor Changes
+
+- [#322](https://github.com/shopwell-shop/frontends/pull/322) [`b9a2004`](https://github.com/shopwell-shop/frontends/commit/b9a20044d3df04370c62ab392b5144a62fbb57a9) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add `formatLink` method to the `useInternationalization` composable
+
+### Patch Changes
+
+- [#303](https://github.com/shopwell-shop/frontends/pull/303) [`aeb639a`](https://github.com/shopwell-shop/frontends/commit/aeb639a3244f812c275145345618e5bc0045be0d) Thanks [@patzick](https://github.com/patzick)! - Improved linting in packages. Types should be more reliable
+
+- [#297](https://github.com/shopwell-shop/frontends/pull/297) [`8c6ff0a`](https://github.com/shopwell-shop/frontends/commit/8c6ff0ac87143a014f609aedd22aac99888da337) Thanks [@mkucmus](https://github.com/mkucmus)! - Remove implicit refresh action on address edit
+
+- Updated dependencies [[`aeb639a`](https://github.com/shopwell-shop/frontends/commit/aeb639a3244f812c275145345618e5bc0045be0d)]:
+  - @shopwell-pwa/api-client@0.5.2
+  - @shopwell-pwa/helpers-next@0.3.2
+
+## 0.11.0
+
+### Minor Changes
+
+- [#284](https://github.com/shopwell-shop/frontends/pull/284) [`bb48e13`](https://github.com/shopwell-shop/frontends/commit/bb48e131570a2db4b7431c842e54ad67d9384cd5) Thanks [@mkucmus](https://github.com/mkucmus)! - Use function constructor instead of init method to set config for price displaying
+
+### Patch Changes
+
+- [#283](https://github.com/shopwell-shop/frontends/pull/283) [`e6a52ec`](https://github.com/shopwell-shop/frontends/commit/e6a52ec4b7c28627c55cbd8ca15b8458cedf53bd) Thanks [@BrocksiNet](https://github.com/BrocksiNet)! - Fixed initial listing suring search
+
+- [#295](https://github.com/shopwell-shop/frontends/pull/295) [`23a0a53`](https://github.com/shopwell-shop/frontends/commit/23a0a532410990c0075ea7fff622949ccdecfd49) Thanks [@patzick](https://github.com/patzick)! - bump dependencies
+
+- Updated dependencies [[`14d97c5`](https://github.com/shopwell-shop/frontends/commit/14d97c5942adf5a49163625b2740d95bc5772689)]:
+  - @shopwell-pwa/api-client@0.5.1
+  - @shopwell-pwa/helpers-next@0.3.1
+
+## 0.10.0
+
+### Minor Changes
+
+- [#281](https://github.com/shopwell-shop/frontends/pull/281) [`558c9d0`](https://github.com/shopwell-shop/frontends/commit/558c9d0f2127776a0542e8d1d95734cb5d4c7e75) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Remove refreshing cart from create order function
+
+## 0.9.0
+
+### Minor Changes
+
+- [#212](https://github.com/shopwell-shop/frontends/pull/212) [`e359aa2`](https://github.com/shopwell-shop/frontends/commit/e359aa28c9c9c7fb2521be3ebd5b847c855e4d24) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Sort shipping methods on the getShippingMethods function
+
+- [#280](https://github.com/shopwell-shop/frontends/pull/280) [`55db3a6`](https://github.com/shopwell-shop/frontends/commit/55db3a695ee6638f33f836890dad65742ddccf94) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add errorMessageBuilder to the useAddress composable
+
+- [#230](https://github.com/shopwell-shop/frontends/pull/230) [`d1e07d6`](https://github.com/shopwell-shop/frontends/commit/d1e07d6f73135cb742807aba78f1271943d47beb) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - useInternationalization add methods related to the language switcher
+
+### Patch Changes
+
+- [#271](https://github.com/shopwell-shop/frontends/pull/271) [`b9881b8`](https://github.com/shopwell-shop/frontends/commit/b9881b89da2605a5ccd78617d3f8ae8e05e8c43a) Thanks [@mkucmus](https://github.com/mkucmus)! - Clear addresses out of the store on failed address fetch
+
+- [#252](https://github.com/shopwell-shop/frontends/pull/252) [`3ffd000`](https://github.com/shopwell-shop/frontends/commit/3ffd000195be60da9fbb3b41cd39fb9f4ab6167e) Thanks [@mkucmus](https://github.com/mkucmus)! - Correct function signature
+
+- [#235](https://github.com/shopwell-shop/frontends/pull/235) [`b294182`](https://github.com/shopwell-shop/frontends/commit/b294182dbc9cda82a6d2b3c13663799a9f874c66) Thanks [@mkucmus](https://github.com/mkucmus)! - Readme enhancements
+
+- [#255](https://github.com/shopwell-shop/frontends/pull/255) [`8a561b9`](https://github.com/shopwell-shop/frontends/commit/8a561b9aa12b50a816203c387417c2108761dcf9) Thanks [@mkucmus](https://github.com/mkucmus)! - Remove redundant api call for listing search
+
+- [#243](https://github.com/shopwell-shop/frontends/pull/243) [`d5f0bcc`](https://github.com/shopwell-shop/frontends/commit/d5f0bcc18cb581a48185cb8622d0e0d9b7fea23f) Thanks [@patzick](https://github.com/patzick)! - bump dependencies
+
+- Updated dependencies [[`d1e07d6`](https://github.com/shopwell-shop/frontends/commit/d1e07d6f73135cb742807aba78f1271943d47beb), [`d1e07d6`](https://github.com/shopwell-shop/frontends/commit/d1e07d6f73135cb742807aba78f1271943d47beb), [`d5f0bcc`](https://github.com/shopwell-shop/frontends/commit/d5f0bcc18cb581a48185cb8622d0e0d9b7fea23f)]:
+  - @shopwell-pwa/api-client@0.5.0
+  - @shopwell-pwa/helpers-next@0.3.0
+
+## 0.8.2
+
+### Patch Changes
+
+- [#220](https://github.com/shopwell-shop/frontends/pull/220) [`0242a3ad`](https://github.com/shopwell-shop/frontends/commit/0242a3adcde82e301f2e53fb562c0bbd767c04f9) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add clearWishlist function to the useWihslist composable
+
+## 0.8.1
+
+### Patch Changes
+
+- updated changelog in readme
+
+- Updated dependencies []:
+  - @shopwell-pwa/api-client@0.4.1
+  - @shopwell-pwa/helpers-next@0.2.1
+
+## 0.8.0
+
+### Minor Changes
+
+- [#158](https://github.com/shopwell-shop/frontends/pull/158) [`693f9829`](https://github.com/shopwell-shop/frontends/commit/693f9829d5082307cb1f3b18d5b0217e42c6cf68) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add associations parameter to the useOrderDetails composable
+
+- [#187](https://github.com/shopwell-shop/frontends/pull/187) [`7fe30878`](https://github.com/shopwell-shop/frontends/commit/7fe3087844007d12dc26d9c6817ecd12eb431b9b) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - getShippingMethods - add price associations and merge option
+
+### Patch Changes
+
+- [#82](https://github.com/shopwell-shop/frontends/pull/82) [`0e85ad14`](https://github.com/shopwell-shop/frontends/commit/0e85ad14c7a115a9e4e79cb3d89e41129be30f03) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Don't refresh the context when after registration user is not activated (useUser)
+
+- [#189](https://github.com/shopwell-shop/frontends/pull/189) [`3764736e`](https://github.com/shopwell-shop/frontends/commit/3764736e52fffb7f7abeb4c044dee2adc812cbb6) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Fix isVirtualCart method - check length before use `every` method
+
+- [#137](https://github.com/shopwell-shop/frontends/pull/137) [`e03c67a8`](https://github.com/shopwell-shop/frontends/commit/e03c67a8d553694be6e14e2c8d1a3f99b1b2ffbe) Thanks [@mkucmus](https://github.com/mkucmus)! - Safe check for navigator on SSR and fallback locale
+
+- [#116](https://github.com/shopwell-shop/frontends/pull/116) [`1fd1962f`](https://github.com/shopwell-shop/frontends/commit/1fd1962f7f4ee26461e8918e70e5f686fa431c6d) Thanks [@mkucmus](https://github.com/mkucmus)! - Intl as a price formatter
+
+- [#179](https://github.com/shopwell-shop/frontends/pull/179) [`bb64070f`](https://github.com/shopwell-shop/frontends/commit/bb64070f69e47c14653c524d864f7a8ab8290724) Thanks [@patzick](https://github.com/patzick)! - Currency and price context are properly set during the hydration. `usePrice` is not a shared composable.
+
+- [#168](https://github.com/shopwell-shop/frontends/pull/168) [`eddcfcca`](https://github.com/shopwell-shop/frontends/commit/eddcfcca8e00530147e77bd1122fc9e6828fbf57) Thanks [@mkucmus](https://github.com/mkucmus)! - `getProductItemSeoUrlData` method of `useCart` marked as deprecated
+
+- [#149](https://github.com/shopwell-shop/frontends/pull/149) [`8dc64e31`](https://github.com/shopwell-shop/frontends/commit/8dc64e31756e8509866efdc2b52915b8862598cb) Thanks [@mkucmus](https://github.com/mkucmus)! - Safe parameters access
+
+- [#168](https://github.com/shopwell-shop/frontends/pull/168) [`eddcfcca`](https://github.com/shopwell-shop/frontends/commit/eddcfcca8e00530147e77bd1122fc9e6828fbf57) Thanks [@mkucmus](https://github.com/mkucmus)! - Add item total price property for useCartItem composable
+
+- Updated dependencies [[`81f45335`](https://github.com/shopwell-shop/frontends/commit/81f4533513b2ee538111159f8e37cd7bd1db9f1e), [`7fe30878`](https://github.com/shopwell-shop/frontends/commit/7fe3087844007d12dc26d9c6817ecd12eb431b9b), [`0188b36a`](https://github.com/shopwell-shop/frontends/commit/0188b36acdf43278163a2fee74ff5b1c1aba55d8)]:
+  - @shopwell-pwa/helpers-next@0.2.0
+  - @shopwell-pwa/api-client@0.4.0
+
+## 0.7.1
+
+### Patch Changes
+
+- fixed published packages readme
+
+- Updated dependencies []:
+  - @shopwell-pwa/api-client@0.3.1
+  - @shopwell-pwa/helpers-next@0.1.26
+
+## 0.7.0
+
+### Minor Changes
+
+- [`d358854c`](https://github.com/shopwell-shop/frontends/commit/d358854c632447228e719efdf639c428cf6ba804) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add new ContextError and fix useListing category context
+
+- [`ec030631`](https://github.com/shopwell-shop/frontends/commit/ec0306312fa42451f5f4a98c3e8985b70496fd37) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - useProductSearch add criteria as a parameter
+
+- [`30493417`](https://github.com/shopwell-shop/frontends/commit/30493417ad5b97ee1f0553f68357a23446b85522) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Check if the cart is a virtual
+
+### Patch Changes
+
+- [`50e74be5`](https://github.com/shopwell-shop/frontends/commit/50e74be52034d1947e273985f778e986f077db44) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Return full url for storefrontURL
+
+- [`0eaf57e1`](https://github.com/shopwell-shop/frontends/commit/0eaf57e17a1d8ee454533c33f7528b72021aed4b) Thanks [@mkucmus](https://github.com/mkucmus)! - JS-Doc improvements
+
+- [`da2f6897`](https://github.com/shopwell-shop/frontends/commit/da2f6897e6839fbeb3ba7eae1eac376f423f2f99) Thanks [@mkucmus](https://github.com/mkucmus)! - Prevent using mapped field configurations directly
+
+- Updated dependencies [[`e2718c7d`](https://github.com/shopwell-shop/frontends/commit/e2718c7d20fac95c57436166083d6e5f599937c2), [`dab0f839`](https://github.com/shopwell-shop/frontends/commit/dab0f839eeebe6bb9999cdd0ec11925d935b08b9), [`5008dcbf`](https://github.com/shopwell-shop/frontends/commit/5008dcbf065fc54a3f51517460e409556f370adf), [`0eaf57e1`](https://github.com/shopwell-shop/frontends/commit/0eaf57e17a1d8ee454533c33f7528b72021aed4b), [`e13d3d9a`](https://github.com/shopwell-shop/frontends/commit/e13d3d9adde759e97ca7fa9b7a782b7991428679), [`909ffcde`](https://github.com/shopwell-shop/frontends/commit/909ffcde24d5ae873d814027be0920a9e5976c72), [`a15a3083`](https://github.com/shopwell-shop/frontends/commit/a15a308359497bb9d483bebe040d717114946ff0), [`e71cc788`](https://github.com/shopwell-shop/frontends/commit/e71cc788c375c19ec449b820c0813b83503ef067)]:
+  - @shopwell-pwa/helpers-next@0.1.25
+  - @shopwell-pwa/api-client@0.3.0
+
+## 0.6.0
+
+### Minor Changes
+
+- [`313e0810`](https://github.com/shopwell-shop/frontends/commit/313e0810014611a0429b76b51747536630f24627) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add useBreadcrumbs composable for breadcrumbs management
+
+### Patch Changes
+
+- [`680b4b77`](https://github.com/shopwell-shop/frontends/commit/680b4b778859f5f2fdf2325ce349f5534d3b965f) Thanks [@patzick](https://github.com/patzick)! - bump dependencies
+
+- Updated dependencies [[`680b4b77`](https://github.com/shopwell-shop/frontends/commit/680b4b778859f5f2fdf2325ce349f5534d3b965f)]:
+  - @shopwell-pwa/api-client@0.2.3
+  - @shopwell-pwa/helpers-next@0.1.24
+
+## 0.5.0
+
+### Minor Changes
+
+- [`4d5b04b5`](https://github.com/shopwell-shop/frontends/commit/4d5b04b5fa09910b0c02bc59b33534772da66eeb) Thanks [@patzick](https://github.com/patzick)! - `useCartItem` composable takes `Ref` instead of plain object as parameter
+
+- [`c300b89b`](https://github.com/shopwell-shop/frontends/commit/c300b89b80cf3476e8023db1796cec972db519f8) Thanks [@patzick](https://github.com/patzick)! - Changed `useCart` in now a shared composable, so there is only one instance.
+
+- [`0855add8`](https://github.com/shopwell-shop/frontends/commit/0855add83ca04e816caed65a0538c1dbf624bb0d) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add the URL query navigation to the product listing
+
+### Patch Changes
+
+- [`57d720ab`](https://github.com/shopwell-shop/frontends/commit/57d720ab6c8f605de605dbbe9de53d4ce43347e5) Thanks [@mkucmus](https://github.com/mkucmus)! - Avoid wishlist sync for guest session
+
+- [`ccf4ed47`](https://github.com/shopwell-shop/frontends/commit/ccf4ed47e6bb46d1fcab7c1418a677fe575331b4) Thanks [@patzick](https://github.com/patzick)! - start deploying canary versions
+
+- [`0a8f4ea1`](https://github.com/shopwell-shop/frontends/commit/0a8f4ea1a95cd684178ae412687575bf735894a7) Thanks [@mkucmus](https://github.com/mkucmus)! - Homepage resolving
+
+- [`77a0bbcd`](https://github.com/shopwell-shop/frontends/commit/77a0bbcd8a5ce830219e2c04c0c99d08e6c4f4f2) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add missing VueUse
+
+- [`39d2d11c`](https://github.com/shopwell-shop/frontends/commit/39d2d11c922f5de9eb5d5c25225b6b93edd8ebcb) Thanks [@mkucmus](https://github.com/mkucmus)! - Payment related processes and documentation
+
+- [`4fc1cd83`](https://github.com/shopwell-shop/frontends/commit/4fc1cd833a9ebca73536b2be45cfec35f6a27dfc) Thanks [@mkucmus](https://github.com/mkucmus)! - Explains an usage of useAddToCart composable
+
+- [`f364da48`](https://github.com/shopwell-shop/frontends/commit/f364da4881b2c172947e394fcd8e23ddc3689a51) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Remove setting default address in createCustomerAddress function
+
+- [`21d8331a`](https://github.com/shopwell-shop/frontends/commit/21d8331aff13cef7ed041c60376504b2f324c1f5) Thanks [@mkucmus](https://github.com/mkucmus)! - Move checkout-related methods to useCheckout composable
+
+- Updated dependencies [[`29deb04f`](https://github.com/shopwell-shop/frontends/commit/29deb04fd1a871cb28f1fe3af3c007ae21de999f), [`ccf4ed47`](https://github.com/shopwell-shop/frontends/commit/ccf4ed47e6bb46d1fcab7c1418a677fe575331b4)]:
+  - @shopwell-pwa/api-client@0.2.2
+  - @shopwell-pwa/helpers-next@0.1.23
+
+## 0.4.0
+
+### Minor Changes
+
+- [`e21d67b`](https://github.com/shopwell-shop/frontends/commit/e21d67bc142076e93630139232ea39a07b51ebfb) Thanks [@patzick](https://github.com/patzick)! - improved session context to be better handled on SSR
+
+### Patch Changes
+
+- [`7310ca6`](https://github.com/shopwell-shop/frontends/commit/7310ca64506ca5418d3ec2ef80f5c7d0fe4b779c) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Prevent merging empty local wishlist (backend related)
+
+- Updated dependencies []:
+  - @shopwell-pwa/api-client@0.2.1
+  - @shopwell-pwa/helpers-next@0.1.22
+
+## 0.3.0
+
+### Minor Changes
+
+- [`b3f711c`](https://github.com/shopwell-shop/frontends/commit/b3f711ccb230025c0567b0a06a292bf9255a4992) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - ability to check if user is subscribed to newsletter
+
+- [`c0b9cc3`](https://github.com/shopwell-shop/frontends/commit/c0b9cc35fdb588ef5e580dc7e19fa4414ba64d04) Thanks [@mkucmus](https://github.com/mkucmus)! - Price displaying strategy
+
+### Patch Changes
+
+- [`9cd4078`](https://github.com/shopwell-shop/frontends/commit/9cd4078433c5644d2153a8a1212b9076a8d37347) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Fix setDefaultCustomerPaymentMethod api url and context
+
+- [`29b677e`](https://github.com/shopwell-shop/frontends/commit/29b677e4ff59656f8a457ee4c8ab35e36cd06953) Thanks [@patzick](https://github.com/patzick)! - bump dependencies
+
+- Updated dependencies [[`b3f711c`](https://github.com/shopwell-shop/frontends/commit/b3f711ccb230025c0567b0a06a292bf9255a4992), [`9cd4078`](https://github.com/shopwell-shop/frontends/commit/9cd4078433c5644d2153a8a1212b9076a8d37347), [`29b677e`](https://github.com/shopwell-shop/frontends/commit/29b677e4ff59656f8a457ee4c8ab35e36cd06953)]:
+  - @shopwell-pwa/api-client@0.2.0
+  - @shopwell-pwa/helpers-next@0.1.21
+
+## 0.2.1
+
+### Patch Changes
+
+- update dependency
+
+## 0.2.0
+
+### Minor Changes
+
+- [`16ee1d5`](https://github.com/shopwell-shop/frontends/commit/16ee1d52f76dc62ac5931dfd2ef0c428096db960) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - set default user addresses
+
+## 0.1.20
+
+### Patch Changes
+
+- fa7e48f: Added changelog and readme file
+- Updated dependencies [fa7e48f]
+  - @shopwell-pwa/api-client@0.1.20
+  - @shopwell-pwa/helpers-next@0.1.20

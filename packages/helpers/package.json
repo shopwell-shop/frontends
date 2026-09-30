@@ -1,0 +1,51 @@
+{
+  "name": "@shopwell/helpers",
+  "version": "1.8.0",
+  "description": "Shopwell helpers for accessing API data",
+  "author": "Shopwell",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shopwell-shop/frontends.git"
+  },
+  "homepage": "https://developer.shopwell.com/frontends/packages/helpers.html",
+  "keywords": [
+    "shopwell",
+    "api",
+    "helpers"
+  ],
+  "bugs": {
+    "url": "https://github.com/shopwell-shop/frontends/issues"
+  },
+  "license": "Apache-2.0",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    }
+  },
+  "scripts": {
+    "build": "unbuild && pnpm build:types",
+    "build:types": "tsgo ./src/*.ts --ignoreConfig --declaration --allowJs --emitDeclarationOnly --outDir ./temp --skipLibCheck",
+    "dev": "unbuild --stub",
+    "lint": "oxlint . && oxfmt --check .",
+    "lint:fix": "oxlint --fix . && oxfmt --write . && pnpm run typecheck",
+    "typecheck": "tsgo --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@typescript/native-preview": "7.0.0-dev.20260205.1",
+    "@vitest/coverage-v8": "5.0.0",
+    "happy-dom": "20.14.5",
+    "unbuild": "3.6.1",
+    "vitest": "5.0.0"
+  }
+}

@@ -1,0 +1,76 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+import { useSetup } from "../_test";
+import { useNotifications } from "./useNotifications";
+
+describe("useNotifications", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("should trigger sample notification flow", async () => {
+    const { vm } = useSetup(useNotifications);
+
+    vm.pushError("Error message");
+    vm.pushSuccess("Success message");
+    vm.pushInfo("Info message");
+    vm.pushWarning("Warning message", { persistent: true });
+
+    expect(vm.notifications.length).toBe(4);
+    vm.removeOne(vm.notifications[0]?.id as number);
+    expect(vm.notifications.length).toBe(3);
+    vm.removeAll();
+    expect(vm.notifications.length).toBe(0);
+  });
+
+  it("notification timeout", async () => {
+    const { vm } = useSetup(useNotifications);
+
+    vm.pushError("Error message", { timeout: 100 });
+    vi.runAllTimers();
+    expect(vm.notifications.length).toBe(0);
+  });
+
+  it("injected empty swNotifications", () => {
+    const { vm } = useSetup(useNotifications, {
+      swNotifications: { value: null },
+    });
+
+    expect(vm.notifications).toEqual([]);
+    vm.removeOne(2332);
+    expect(vm.notifications).toEqual([]);
+    vm.pushSuccess("test");
+  });
+
+  it("injected empty swNotifications and push success", () => {
+    const { vm } = useSetup(useNotifications, {
+      swNotifications: { value: null },
+    });
+
+    vm.pushSuccess("test");
+    expect(vm.notifications.length).toBe(1);
+  });
+
+  it("stores an optional action and keeps actionable toasts longer", () => {
+    const { vm } = useSetup(useNotifications);
+
+    vm.pushSuccess("Wooden Chair has been added to cart.", {
+      action: { label: "View cart", to: "/checkout/cart" },
+    });
+
+    expect(vm.notifications[0]?.action).toEqual({
+      label: "View cart",
+      to: "/checkout/cart",
+    });
+
+    vi.advanceTimersByTime(2500);
+    expect(vm.notifications.length).toBe(1);
+
+    vi.advanceTimersByTime(2500);
+    expect(vm.notifications.length).toBe(0);
+  });
+});

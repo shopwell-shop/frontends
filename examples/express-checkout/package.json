@@ -1,0 +1,33 @@
+{
+  "name": "example-express-checkout",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint . && oxfmt --check .",
+    "lint:fix": "oxlint --fix . && oxfmt --write .",
+    "typecheck": "vue-tsc --noEmit",
+    "preview": "vite preview",
+    "generate-types": "shopwell-api-gen generate --apiType=store"
+  },
+  "dependencies": {
+    "@paypal/paypal-js": "8.2.0",
+    "@shopwell/composables": "canary",
+    "@shopwell/helpers": "canary",
+    "@shopwell/api-client": "canary",
+    "js-cookie": "3.0.7",
+    "vue": "3.5.43",
+    "vue-router": "5.3.1"
+  },
+  "devDependencies": {
+    "@shopwell/api-gen": "canary",
+    "@types/node": "22.13.14",
+    "@vitejs/plugin-vue": "6.0.9",
+    "vite": "8.3.0",
+    "vue-tsc": "3.3.11",
+    "oxfmt": "0.62.0",
+    "oxlint": "1.77.0"
+  }
+}

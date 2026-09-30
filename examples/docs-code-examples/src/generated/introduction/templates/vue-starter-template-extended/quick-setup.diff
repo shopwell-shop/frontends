@@ -1,0 +1,8 @@
+  "dependencies": {
+-   "vue-starter-template": "workspace:*"
++   "vue-starter-template": "file:../vue-starter-template"
+  },
+  "devDependencies": {
+-   "@shopwell/cms-base-layer": "workspace:*",
++   "@shopwell/cms-base-layer": "canary",
+  }

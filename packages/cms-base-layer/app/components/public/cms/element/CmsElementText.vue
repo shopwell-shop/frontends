@@ -1,0 +1,166 @@
+<script setup lang="ts">
+import type { CmsElementText } from "@shopwell/composables";
+import { decodeHTML } from "entities";
+import { computed, defineComponent, getCurrentInstance, h } from "vue";
+import type { CSSProperties, VNode, VNodeArrayChildren } from "vue";
+
+import { useCmsElementConfig, useUrlResolver } from "#imports";
+
+import { getOptionsFromNode } from "../../../../helpers/html-to-vue/getOptionsFromNode";
+import type { NodeObject } from "../../../../helpers/html-to-vue/getOptionsFromNode";
+import { renderHtml } from "../../../../helpers/html-to-vue/renderToHtml";
+type RawChildren = string | number | boolean | VNode | VNodeArrayChildren;
+
+const props = defineProps<{
+  content: CmsElementText;
+}>();
+const context = getCurrentInstance();
+const { getConfigValue } = useCmsElementConfig(props.content);
+
+const mappedContent = computed<string>(() => {
+  return props.content?.data?.content || getConfigValue("content");
+});
+
+const style = computed<CSSProperties>(() => ({
+  alignContent: getConfigValue("verticalAlign"),
+}));
+
+const hasVerticalAlignment = computed(() => !!style.value.alignContent);
+
+const CmsTextRender = defineComponent({
+  setup() {
+    const { resolveUrl } = useUrlResolver();
+
+    const config = {
+      container: {
+        type: "div",
+        class: "cms-element-text",
+      },
+      textTransformer: (text: string) => decodeHTML(text),
+      extraComponentsMap: {
+        link: {
+          conditions(node: NodeObject) {
+            return (
+              node.type === "tag" &&
+              node.name === "a" &&
+              !node.attrs?.class?.includes("btn")
+            );
+          },
+          renderer(
+            node: NodeObject,
+            children: RawChildren[],
+            createElement: typeof h,
+          ) {
+            return createElement(
+              "a",
+              {
+                class:
+                  "underline text-base font-normal text-primary hover:text-secondary-900",
+                ...getOptionsFromNode(node, resolveUrl).attrs,
+              },
+              [...children],
+            );
+          },
+        },
+        button: {
+          conditions(node: NodeObject) {
+            return (
+              node.type === "tag" &&
+              node.name === "a" &&
+              !!node.attrs?.class?.includes("btn")
+            );
+          },
+          renderer(
+            node: NodeObject,
+            children: RawChildren[],
+            createElement: typeof h,
+          ) {
+            let _class = "";
+            if (node?.attrs?.class) {
+              const btnClass =
+                "rounded-md inline-block my-2 py-2 px-4 border border-transparent text-sm font-medium focus:outline-none disabled:opacity-75";
+
+              _class = node.attrs.class
+                .replace(/\bbtn\s+/, "")
+                .replace(
+                  "btn-secondary",
+                  `${btnClass} bg-brand-secondary text-brand-on-secondary hover:bg-brand-secondary-hover`,
+                )
+                .replace(
+                  "btn-primary",
+                  `${btnClass} bg-brand-primary text-brand-on-primary hover:bg-brand-primary-hover`,
+                )
+                .trim();
+            }
+
+            return createElement(
+              "a",
+              {
+                class: _class,
+                ...getOptionsFromNode(node, resolveUrl).attrs,
+              },
+              [...children],
+            );
+          },
+        },
+        font: {
+          conditions(node: NodeObject) {
+            return node.type === "tag" && node.name === "font";
+          },
+          renderer(
+            node: NodeObject,
+            children: RawChildren[],
+            createElement: typeof h,
+          ) {
+            // convert from <font color="#ce0000">Headline 1</font> to <span style="color:#ce0000">Headline 1</span>
+            let newStyle = null;
+            const styleColor = node?.attrs?.color;
+            if (styleColor && node.attrs) {
+              const currentStyle = node.attrs?.style ?? "";
+              newStyle = `color:${styleColor};${currentStyle}`;
+              const { color: _, ...attrsWithoutColor } = node.attrs;
+              node.attrs = attrsWithoutColor;
+            }
+
+            return createElement(
+              "span",
+              {
+                style: newStyle,
+                ...getOptionsFromNode(node, resolveUrl).attrs,
+              },
+              [...children],
+            );
+          },
+        },
+        img: {
+          conditions(node: NodeObject) {
+            return node.type === "tag" && node.name === "img";
+          },
+          renderer(
+            node: NodeObject,
+            children: RawChildren[],
+            createElement: typeof h,
+          ) {
+            return createElement(
+              "img",
+              getOptionsFromNode(node, resolveUrl)?.attrs,
+            );
+          },
+        },
+      },
+    };
+    const rawHtml =
+      mappedContent.value?.length > 0
+        ? mappedContent.value
+        : "<div class='missing-content-element'></div>";
+
+    return () => renderHtml(rawHtml, config, h, context, resolveUrl);
+  },
+});
+</script>
+<template>
+  <div v-if="hasVerticalAlignment" class="grid h-full" :style="style">
+    <CmsTextRender />
+  </div>
+  <CmsTextRender v-else />
+</template>

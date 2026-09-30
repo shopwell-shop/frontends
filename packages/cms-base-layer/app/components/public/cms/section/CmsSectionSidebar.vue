@@ -1,0 +1,44 @@
+<script setup lang="ts">
+import { useCmsSection } from "@shopwell/composables";
+import type { CmsSectionSidebar } from "@shopwell/composables";
+import { computed, provide } from "vue";
+
+const props = defineProps<{
+  content: CmsSectionSidebar;
+}>();
+const { getPositionContent } = useCmsSection(() => props.content);
+
+const sidebarBlocks = computed(() => getPositionContent("sidebar"));
+const mainBlocks = computed(() => getPositionContent("main"));
+const mobileBehavior = computed(() => props.content.mobileBehavior);
+const fullWidth = computed(() => props.content.sizingMode === "full_width");
+
+// Provide layout context for child components
+provide("cms-section-layout", "sidebar");
+</script>
+
+<template>
+  <div
+    class="self-stretch flex flex-col lg:flex-row items-stretch gap-16"
+    :class="{
+      'px-6': fullWidth,
+    }"
+  >
+    <aside
+      :class="{
+        'w-full lg:w-72 xl:w-80 flex-shrink-0 bg-surface-surface flex flex-col justify-start items-stretch gap-4 lg:sticky lg:top-20 px-4 lg:px-0':
+          mobileBehavior !== 'hidden',
+        'hidden lg:block': mobileBehavior === 'hidden',
+      }"
+    >
+      <div v-for="cmsBlock in sidebarBlocks" :key="cmsBlock.id" class="w-full">
+        <CmsGenericBlock :content="cmsBlock" />
+      </div>
+    </aside>
+    <div class="flex-1 flex flex-col justify-start items-stretch gap-20">
+      <div v-for="cmsBlock in mainBlocks" :key="cmsBlock.id" class="w-full">
+        <CmsGenericBlock :content="cmsBlock" />
+      </div>
+    </div>
+  </div>
+</template>

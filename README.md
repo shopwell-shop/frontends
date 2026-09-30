@@ -1,0 +1,120 @@
+<div align="center">
+
+<img src=".readme/shopwell-frontends-logo.png" />
+
+</div>
+
+<p align="center">
+<a href="https://frontends-starter-template.vercel.app/" target="_blank">🚀 Demo</a> | <a href="https://frontends-extended-starter-template.vercel.app/" target="_blank">🚀 Extended Demo</a> | <a href="https://developer.shopwell.com/frontends/" target="_blank">📚 Docu</a> | <a href="https://developer.shopwell.com/frontends/getting-started/try-it-out.html" target="_blank">☁️ Try it out</a> |
+<a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fshopwell%2Ffrontends%2Ftree%2Fmain%2Ftemplates%2Fvue-starter-template" target="_blank"><img src="./.readme/vercel.svg" alt="Deploy on Vercel" width="20" height="16"/> Deploy on Vercel</a>
+ | <a href="https://github.com/shopwell-shop/frontends/discussions">💬 Discuss</a> | <a href="https://discord.com/channels/1308047705309708348/1405501315160739951" target="_blank"><img src="./.readme/discord.svg" alt="Join our Discord Channel" width="20" height="16"/> Discord Channel</a>
+</p>
+
+<p align="center">
+	Shopwell Frontends is Shopwell's Vue.js <strong>framework</strong> for building custom storefronts.
+</p>
+
+---
+
+## Getting started (contribution)
+
+Node.js (current LTS) and [pnpm](https://pnpm.io/installation#using-npm) are required to run the project.
+To be sure about the version compatibility you can enable Node's [corepack](https://nodejs.org/api/corepack.html).
+
+```sh
+# Install dependencies
+pnpm i
+
+# Build packages
+pnpm run build --filter='./packages/*'
+
+# Run project base
+pnpm run dev --filter=vue-starter-template
+```
+
+### Run and develop docs
+
+```sh
+pnpm run docs:env
+pnpm run docs:link
+pnpm run docs:preview
+```
+
+`docs:env` clones [developer-portal](https://github.com/shopwell-shop/developer-portal) next to this repo over SSH, so it needs a [GitHub SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh). Without one, clone it yourself over HTTPS first and rerun the command:
+
+```sh
+git clone https://github.com/shopwell-shop/developer-portal.git ../developer-portal
+pnpm i -C ../developer-portal
+```
+
+## Architecture
+
+Shopwell Frontends is a framework which is divided into separate modules of which some can be used independently.
+
+![Shopwell Frontends Architecture](.readme/frontends-architecture.png)
+
+**API Client**
+
+This package provides abstraction to Shopwell's Store API and manages authentication state and request/response schemas.
+
+**Composables**
+
+An opinionated set of Vue.js composables like `useProduct` or `useCustomer` to use business logic and state in any Vue.js project.
+
+**CMS Base**
+
+An implementation of all default Shopwell Sections, Blocks and Elements in Tailwind.css.
+
+**Helpers**
+
+A set of helper functions related to price formatting, translation handling, UI state, or URL handling.
+
+**Project Templates**
+
+We offer different project templates to get started with Shopwell Frontends.
+
+Our Vue Starter Template is a production-ready foundation for building custom Shopwell storefronts, based on Tailwind.css and Nuxt 4.
+
+![Shopwell Frontends Techstack](.readme/shopwell-frontends-techstack.png)
+
+See the [templates](https://developer.shopwell.com/frontends/getting-started/templates.html) section for other project templates and how to use them.
+
+## Key Features
+
+Shopwell Frontends combines the best of the worlds of frontend development, Shopwell 6 and your business requirements.
+
+### Shopwell native
+
+Shopwell Frontends is built for Shopwell 6.
+No compromises or generic implementations — it works just you would expect it to.
+Core concepts like content management, checkout, or payment are deeply integrated and fully functional
+
+### Cloud first
+
+Shopwell Frontends is designed to work only with HTTP APIs available in Shopwell Cloud.
+No themes, plugins or server access required.
+Even your developer IDE can be started in the cloud.
+
+### Stable
+
+Shopwell Frontends doesn’t rely on Shopwell’s volatile internal APIs (such as twig blocks, DAL or Events),
+hence not being subject to breaking changes in those APIs, as opposed to Twig Storefront themes.
+Especially for big frontend projects this drastically reduces the complexity of platform updates.
+
+### Efficient
+
+There is no lock-in on technologies or frontend tooling. Shopwell Frontends comes prepared with a smart default of tooling.
+Vue3, Vite, Nuxt 4 and unocss (Tailwind.css) — each by themselves coming with a rich ecosystem of tooling, extensions
+and integrations can be replaced and extended to meet any projects needs. This tech-stack is the definition of superior Developer Experience and rapid prototyping.
+
+### Flexible
+
+No theming system means no inheritance magic, no compatibility issues, no update efforts, no restrictions
+to what your site can look like. Build your site in a lego-block-manner by using prepared templates
+or just get creative using all of Tailwind.css’ features.
+
+### Fast
+
+Shopwell Frontends is fast during development, deployment and production. It applies server-side-rendering
+wherever possible — code splitting, below-the-fold-rendering, and lazy-loading are built into the frontend.
+Common metrics like page speed and lighthouse scores are constantly monitored.

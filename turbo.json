@@ -1,0 +1,59 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "globalDependencies": ["pnpm-lock.yaml", "pnpm-workspace.yaml"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build", "nuxt-prepare"],
+      "outputs": ["dist/**", ".output/**", ".vercel/**", ".vitepress/dist/**"]
+    },
+    "generate": {
+      "dependsOn": ["^build", "nuxt-prepare"],
+      "outputs": ["dist/**", ".output/**", ".vercel/**"]
+    },
+    "nuxt-prepare": {
+      "dependsOn": ["^build"],
+      "outputs": [".nuxt/**"]
+    },
+    "lint": {
+      "outputs": [],
+      "passThroughEnv": ["TURBO_TELEMETRY_DISABLED", "DO_NOT_TRACK"]
+    },
+    "lint:fix": {
+      "outputs": [],
+      "passThroughEnv": ["TURBO_TELEMETRY_DISABLED", "DO_NOT_TRACK"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "generate-types": {
+      "cache": false,
+      "outputs": []
+    },
+    "generate-admin-types": {
+      "cache": false,
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "test:watch": {
+      "dependsOn": ["^build"],
+      "persistent": true
+    },
+    "test:bench": {
+      "cache": false,
+      "outputs": []
+    },
+    "dev": {
+      "dependsOn": ["^nuxt-prepare"],
+      "cache": false,
+      "persistent": true
+    },
+    "test:e2e": {
+      "cache": false,
+      "outputs": []
+    }
+  }
+}

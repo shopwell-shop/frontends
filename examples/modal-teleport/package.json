@@ -1,0 +1,26 @@
+{
+  "name": "example-modal-teleport",
+  "private": true,
+  "scripts": {
+    "build": "nuxt prepare && nuxt build",
+    "dev": "nuxt prepare && nuxt dev",
+    "generate": "nuxt generate",
+    "lint": "oxlint . && oxfmt --check .",
+    "lint:fix": "oxlint --fix . && oxfmt --write .",
+    "typecheck": "nuxt prepare && nuxi typecheck",
+    "preview": "nuxt preview"
+  },
+  "devDependencies": {
+    "@unocss/nuxt": "66.10.5",
+    "@unocss/reset": "66.10.5",
+    "@vueuse/core": "15.0.0",
+    "nuxt": "4.5.2",
+    "unocss": "66.10.5",
+    "vue-tsc": "3.3.11",
+    "oxfmt": "0.62.0",
+    "oxlint": "1.77.0"
+  },
+  "dependencies": {
+    "vue": "3.5.43"
+  }
+}

@@ -1,0 +1,123 @@
+import {
+  getSrcSetForMedia,
+  getTranslatedProperty,
+  relativeUrlSlash,
+  urlIsAbsolute,
+} from "@shopwell/helpers";
+import { computed } from "vue";
+import type {
+  AnchorHTMLAttributes,
+  CSSProperties,
+  ComputedRef,
+  ImgHTMLAttributes,
+} from "vue";
+
+import { useCmsElementConfig } from "#imports";
+
+import type {
+  CmsElementImage,
+  CmsElementManufacturerLogo,
+  DisplayMode,
+} from "../types";
+
+export type ImageContainerAttrs = {
+  href?: string;
+  target?: string;
+  rel?: string;
+};
+
+export type UseCmsElementImage = {
+  containerStyle: ComputedRef<CSSProperties>;
+  anchorAttrs: ComputedRef<AnchorHTMLAttributes>;
+  imageAttrs: ComputedRef<ImgHTMLAttributes>;
+  imageContainerAttrs: ComputedRef<ImageContainerAttrs>;
+  imageLink: ComputedRef<{ newTab: boolean; url: string }>;
+  ariaLabel: ComputedRef<string>;
+  isDecorative: ComputedRef<boolean>;
+  displayMode: ComputedRef<DisplayMode>;
+  isVideoElement: ComputedRef<boolean>;
+  mimeType: ComputedRef<string | undefined>;
+};
+
+/**
+ * Composable to get cms element image
+ *
+ * @category CMS (Shopping Experiences)
+ */
+export function useCmsElementImage(
+  element: CmsElementImage | CmsElementManufacturerLogo,
+): UseCmsElementImage {
+  const { getConfigValue } = useCmsElementConfig(element);
+
+  const containerStyle: ComputedRef<CSSProperties> = computed(() => ({
+    minHeight: getConfigValue("minHeight"),
+  }));
+
+  const anchorAttrs = computed(() => ({
+    href: getConfigValue("url"),
+    target: getConfigValue("newTab") ? "_blank" : "_self",
+  }));
+
+  const imageLink = computed(() => ({
+    newTab: element.data?.newTab,
+    url: element.data?.url,
+  }));
+
+  const imageContainerAttrs = computed(() => {
+    const attr: ImageContainerAttrs = {};
+    if (imageLink.value.url) {
+      attr.href = urlIsAbsolute(imageLink.value.url)
+        ? imageLink.value.url
+        : relativeUrlSlash(imageLink.value.url);
+    }
+    if (imageLink.value.newTab) {
+      attr.target = "blank";
+      attr.rel = "noopener noreferrer";
+    }
+    return attr;
+  });
+
+  /**
+   * Names the link the image sits in, not the image itself. Shopwell exposes
+   * it on both `data` and `config`.
+   */
+  const ariaLabel = computed(
+    () => element.data?.ariaLabel || getConfigValue("ariaLabel") || "",
+  );
+
+  // Config only, the element data carries no such field.
+  const isDecorative = computed(() => !!getConfigValue("isDecorative"));
+
+  const imageAttrs: ComputedRef<ImgHTMLAttributes> = computed(() => ({
+    src: element.data?.media?.url,
+    alt: isDecorative.value
+      ? ""
+      : getTranslatedProperty(element.data?.media, "alt"),
+    srcset: getSrcSetForMedia(element.data?.media),
+  }));
+
+  const displayMode = computed(
+    () => getConfigValue("displayMode") || "initial",
+  );
+
+  const isVideoElement = computed(() => {
+    return !!element.data?.media?.mimeType?.includes("video");
+  });
+
+  const mimeType = computed(() => {
+    return element.data?.media?.mimeType;
+  });
+
+  return {
+    containerStyle,
+    anchorAttrs,
+    imageAttrs,
+    imageContainerAttrs,
+    imageLink,
+    ariaLabel,
+    isDecorative,
+    displayMode,
+    isVideoElement,
+    mimeType,
+  };
+}

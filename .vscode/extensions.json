@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "Vue.volar",
+    "Gruntfuggly.todo-tree",
+    "oxc.oxc-vscode"
+  ]
+}

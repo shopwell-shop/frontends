@@ -1,0 +1,28 @@
+export default defineNuxtConfig({
+  extends: ["@shopwell/composables/nuxt-layer"],
+  modules: ["@unocss/nuxt", "@shopwell/nuxt-module"],
+  shopwell: {
+    // Shopwell 6 instance with Braintree app installed
+    endpoint: "https://demo-frontends.shopwell.store/store-api",
+    accessToken: "SWSCBHFSNTVMAWNZDNFKSHLAYW",
+  },
+  runtimeConfig: {
+    public: {
+      loginData: {
+        // Demo customer credentials - adjust to your test account
+        username: "",
+        password: "",
+      },
+    },
+  },
+  css: ["@unocss/reset/tailwind-compat.css"],
+  devtools: { enabled: true },
+  telemetry: false,
+  compatibilityDate: "2024-08-06",
+  vite: {
+    build: {
+      // braintree-web-drop-in alone is ~685 kB minified.
+      chunkSizeWarningLimit: 700,
+    },
+  },
+});

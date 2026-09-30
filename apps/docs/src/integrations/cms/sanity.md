@@ -1,0 +1,312 @@
+---
+head:
+  - - meta
+    - name: og:title
+      content: Sanity integration (CMS)
+  - - meta
+    - name: og:description
+      content: "Integrate Sanity (headless CMS) with Composable Frontends: a Page Builder for content, Shopwell for live commerce."
+  - - meta
+    - name: og:image
+      content: "https://frontends-og-image.vercel.app/Sanity%20Integration.png?fontSize=120px"
+nav:
+  position: 30
+---
+
+# Sanity Integration
+
+[<img src="../../.assets/cms-icons/sanity.svg" alt="Sanity Logo" class="mb-8 h-16" />](https://www.sanity.io/)
+
+[Sanity](https://www.sanity.io/) is a headless CMS where the content model lives in
+code and editors compose pages in a real-time Studio. Paired with Composable
+Frontends, **Sanity owns the editorial layout** and **Shopwell owns commerce** -
+the two never duplicate each other.
+
+::: tip Runnable example
+A complete, working Nuxt example lives in
+[`examples/sanity-cms`](https://github.com/shopwell-shop/frontends/tree/main/examples/sanity-cms).
+This guide walks through how it is built. The Sanity Studio it reads from is a
+standalone project you create separately - see [The Studio](#the-studio-the-editor).
+:::
+
+## The pattern: content + commerce
+
+The single rule that makes this work: **store a reference, never a copy.** Sanity
+keeps editorial content and a product's _id_; Shopwell provides the live data.
+
+| Concern                                                            | Owner        | Why                                     |
+| ------------------------------------------------------------------ | ------------ | --------------------------------------- |
+| Page layout, sections, copy, images, **which products to feature** | **Sanity**   | editorial, versioned, editor-controlled |
+| Product **price, name, stock, availability, media**                | **Shopwell** | live commerce data - changes constantly |
+| **Cart**, totals, checkout, logged-in user                         | **Shopwell** | transactional, per-user, real-time      |
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/integrations/cms/sanity/the-pattern-content-commerce" code no-name -->
+
+```
+Sanity (page.pageBuilder[]) --GROQ--> Nuxt --productIds--> Shopwell Store API --> live cards
+```
+
+<!-- /automd -->
+
+## 1. Install & configure
+
+Add the official [`@nuxtjs/sanity`](https://sanity.nuxtjs.org/) module. It bundles
+`@sanity/client`, `@portabletext/vue` and `groq`, and auto-imports
+`useSanityQuery`, `groq`, and the `<SanityContent>` / `<SanityImage>` components.
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/integrations/cms/sanity/1-install-configure.sh" code lang="bash" no-name -->
+
+```bash
+npx nuxi@latest module add sanity
+```
+
+<!-- /automd -->
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/integrations/cms/sanity/1-install-configure.ts" code lang="ts" no-name -->
+
+```ts
+// nuxt.config.ts
+import { defineNuxtConfig } from "nuxt/config";
+
+export default defineNuxtConfig({
+  extends: ["@shopwell/composables/nuxt-layer"],
+  modules: ["@shopwell/nuxt-module", "@nuxtjs/sanity"],
+  shopwell: {
+    endpoint: "https://demo-frontends.shopwell.store/store-api/",
+    accessToken: "<your-sales-channel-access-token>",
+  },
+  sanity: {
+    projectId: "<your-project-id>",
+    dataset: "production",
+    apiVersion: "2026-05-15",
+    useCdn: true, // public, cacheable reads
+  },
+});
+```
+
+<!-- /automd -->
+
+A **public** dataset needs no token for the frontend to read. The Shopwell
+`accessToken` is your sales-channel key.
+
+## 2. Model content as a Page Builder
+
+In the Studio, a `page` document holds an ordered array of section blocks the
+editor arranges freely. The `featuredProducts` block stores **only Shopwell
+product IDs**:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/integrations/cms/sanity/2-model-content-as-a-page-builder.ts" code lang="ts" no-name -->
+
+```ts
+// studio/schemaTypes/objects/featuredProducts.ts
+import { defineField, defineType } from "sanity";
+
+export const featuredProducts = defineType({
+  name: "featuredProducts",
+  title: "Featured products",
+  type: "object",
+  fields: [
+    defineField({ name: "heading", type: "string" }),
+    defineField({
+      name: "productIds",
+      title: "Shopwell product IDs",
+      type: "array",
+      of: [{ type: "string" }],
+    }),
+  ],
+});
+```
+
+<!-- /automd -->
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/integrations/cms/sanity/2-model-content-as-a-page-builder-2.ts" code lang="ts" no-name -->
+
+```ts
+// studio/schemaTypes/documents/page.ts
+import { defineField } from "sanity";
+
+defineField({
+  name: "pageBuilder",
+  type: "array",
+  of: [
+    { type: "hero" },
+    { type: "featuredProducts" },
+    { type: "richText" },
+    { type: "banner" },
+    { type: "gallery" },
+  ],
+});
+```
+
+<!-- /automd -->
+
+## 3. Render the page
+
+Fetch the page builder with GROQ and map each block `_type` to a component.
+`groq` and `useSanityQuery` are auto-imported.
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/integrations/cms/sanity/3-render-the-page.vue" code lang="vue" no-name -->
+
+```vue
+<!-- app/app.vue -->
+<script setup lang="ts">
+import { groq, useSanityQuery } from "#imports";
+
+const PAGE_QUERY = groq`*[_type == "page"] | order(_createdAt asc)[0]{
+  title,
+  pageBuilder[]{ ... }
+}`;
+const { data: page } = await useSanityQuery(PAGE_QUERY);
+</script>
+
+<template>
+  <PageBuilder :sections="page?.pageBuilder ?? []" />
+</template>
+```
+
+<!-- /automd -->
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/integrations/cms/sanity/3-render-the-page-2.vue" code lang="vue" no-name -->
+
+```vue
+<!-- app/components/PageBuilder.vue -->
+<script setup lang="ts">
+import type { Component } from "vue";
+
+import SectionFeaturedProducts from "./sections/SectionFeaturedProducts.vue";
+import SectionHero from "./sections/SectionHero.vue";
+// ...
+
+const components: Record<string, Component> = {
+  hero: SectionHero,
+  featuredProducts: SectionFeaturedProducts,
+  // richText, banner, gallery...
+};
+
+defineProps<{ sections: Array<{ _key: string; _type: string }> }>();
+</script>
+
+<template>
+  <component
+    :is="components[section._type]"
+    v-for="section in sections"
+    :key="section._key"
+    :section="section"
+  />
+</template>
+```
+
+<!-- /automd -->
+
+Rich text uses the module's `<SanityContent :value="block.content" />`, images use
+`<SanityImage :asset-id="image.asset._ref" />`.
+
+## 4. Resolve products from Shopwell
+
+The `featuredProducts` block arrives with only IDs. Resolve them to live products
+with `useProductSearch` during SSR, so the cards render in the initial HTML:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/integrations/cms/sanity/4-resolve-products-from-shopwell.vue" code lang="vue" no-name -->
+
+```vue
+<!-- app/components/sections/SectionFeaturedProducts.vue -->
+<script setup lang="ts">
+import { useAsyncData, useProductSearch } from "#imports";
+const props = defineProps<{
+  section: { _key?: string; heading?: string; productIds?: string[] };
+}>();
+
+const { search } = useProductSearch();
+
+const { data: products } = await useAsyncData(
+  `featured-products-${props.section._key}`,
+  async () => {
+    const ids = props.section.productIds ?? [];
+    const resolved = await Promise.all(
+      ids.map((id) =>
+        search(id)
+          .then((r) => r.product)
+          .catch(() => null),
+      ),
+    );
+    return resolved.filter(Boolean);
+  },
+);
+</script>
+```
+
+<!-- /automd -->
+
+::: warning Match the sales channel
+Product IDs are **per sales channel**. IDs from one channel return `404` in
+another - make sure the IDs stored in Sanity belong to the sales channel your
+`accessToken` points to.
+:::
+
+## 5. Cart & notifications
+
+Commerce interactions stay with Shopwell composables. The product card adds to the
+cart and raises a toast; a mini cart reads the live cart:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/integrations/cms/sanity/5-cart-notifications.ts" code lang="ts" no-name -->
+
+```ts
+import { ref, useAddToCart, useNotifications } from "#imports";
+import type { Schemas } from "#shopwell";
+
+const product = ref<Schemas["Product"] | undefined>({
+  id: "example-product-id",
+  translated: {
+    name: "Example product",
+  },
+} as Schemas["Product"]);
+
+const { addToCart } = useAddToCart(product);
+const { pushSuccess } = useNotifications();
+
+const add = async () => {
+  await addToCart();
+  pushSuccess(`${product.value?.translated?.name ?? "Product"} added to cart`);
+};
+```
+
+<!-- /automd -->
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/integrations/cms/sanity/5-cart-notifications-2.ts" code lang="ts" no-name -->
+
+```ts
+// the cart is per-user session state - load it on the client, not in cached SSR
+import { onMounted, useCart } from "#imports";
+
+const { cartItems, count, totalPrice, isEmpty, removeItem, refreshCart } =
+  useCart();
+onMounted(() => refreshCart());
+```
+
+<!-- /automd -->
+
+## The Studio (the editor)
+
+The Studio - where editors model content and compose pages - is a **standalone**
+Sanity project, separate from the Nuxt app. Scaffold one with
+`npm create sanity@latest`, add the `page` document and the block schemas shown
+above, then run it locally or deploy it to Sanity's hosting:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/integrations/cms/sanity/the-studio-the-editor.sh" code lang="bash" no-name -->
+
+```bash
+npx sanity dev      # http://localhost:3333
+npx sanity deploy   # https://<name>.sanity.studio
+```
+
+<!-- /automd -->
+
+See [Sanity's Studio documentation](https://www.sanity.io/docs/studio) for
+creating, configuring and deploying a Studio.
+
+## Resources
+
+- Example: [`examples/sanity-cms`](https://github.com/shopwell-shop/frontends/tree/main/examples/sanity-cms)
+- [`@nuxtjs/sanity` docs](https://sanity.nuxtjs.org/)
+- [Create & deploy a Sanity Studio](https://www.sanity.io/docs/studio)
+- [Sanity documentation](https://www.sanity.io/docs)

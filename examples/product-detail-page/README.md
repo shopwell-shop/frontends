@@ -1,0 +1,32 @@
+# Product detail page example
+
+![Shopwell Frontends](./public/shopwell-frontends-logo.png)
+
+This repository shows an example of application built using Shopwell Frontends Framework on Nuxt 3.
+
+## What's inside
+
+- Nuxt 3 application
+- Required libraries installed (api-client, composables, nuxt-module)
+- Minimum configuration of Nuxt 3 module
+
+## Requirements
+
+Go to [Documentation > Requirements](https://developer.shopwell.com/frontends/framework/requirements.html) to see the details.
+
+## Set up your Shopwell 6 instance
+
+In order to have a different API connected to the app, rename `.env.dist` file to `.env` and change the API access information. Then rerun the application.
+
+## Customize
+
+Now, you are free to use the `@shopwell/composables` package in the application. You can start from [app.vue](./app.vue).
+
+## Install & Run
+
+1. `pnpm i` to install deps
+2. `pnpm dev` to run the project in dev mode
+
+## Try it online
+
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/shopwell/frontends/tree/main/templates/vue-blank)

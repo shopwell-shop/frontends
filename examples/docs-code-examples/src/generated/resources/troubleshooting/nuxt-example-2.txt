@@ -1,0 +1,7 @@
+  {
+    ...
+      shopwell: {
+          endpoint: "<frontends >store-api/",
+          ...
+      }
+  }

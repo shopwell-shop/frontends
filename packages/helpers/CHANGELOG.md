@@ -1,0 +1,290 @@
+# @shopwell/helpers
+
+## 1.8.0
+
+### Minor Changes
+
+- [#2574](https://github.com/shopwell-shop/frontends/pull/2574) [`2ddf156`](https://github.com/shopwell-shop/frontends/commit/2ddf156805b2941fe2069e78453fb3c4eb6d44ac) Thanks [@mkucmus](https://github.com/mkucmus)! - Add `getCategoryFilterAggregations()` and `getCategoryFilterPostFilter()` to request category aggregations for product listings and filter by category without reducing the aggregations. `excludeRootCategory()` drops the sales channel entry point from the category entities, and the `CATEGORY_AGGREGATION_NAME` / `CATEGORY_COUNTS_AGGREGATION_NAME` / `CATEGORY_PARENTS_AGGREGATION_NAME` constants are exported for consumers that build the aggregations themselves.
+
+  `getListingFilters` (`@beta`) merges the `categories` and `categories-counts` response aggregations into a single `categories` filter with a product count per category. This changes the shape of that filter for listings that already requested a `categories` aggregation: the entities are sorted by count (highest first) instead of keeping the response order, each entity gains a `count`, the filter no longer carries the aggregation's `apiAlias`, and `categories-counts` is no longer returned as a filter of its own.
+
+### Patch Changes
+
+- [#2598](https://github.com/shopwell-shop/frontends/pull/2598) [`204c8f4`](https://github.com/shopwell-shop/frontends/commit/204c8f45f737e724db6d00b80c5faef8ddb77cb4) Thanks [@dependabot](https://github.com/apps/dependabot)! - Fix Nuxt plugin injection typing for Nuxt 4.5 and maintenance mode error handling.
+
+## 1.7.2
+
+### Patch Changes
+
+- [#2594](https://github.com/shopwell-shop/frontends/pull/2594) [`f16c5a0`](https://github.com/shopwell-shop/frontends/commit/f16c5a0785d6187b73c3edcf37feab7c90bd7988) Thanks [@patzick](https://github.com/patzick)! - Add helpers for resolving canonical SEO paths and detecting technical Shopwell URLs.
+
+## 1.7.1
+
+### Patch Changes
+
+- [#2372](https://github.com/shopwell-shop/frontends/pull/2372) [`22fc8a7`](https://github.com/shopwell-shop/frontends/commit/22fc8a7301f6a7d2612d907ab73555978b651c00) Thanks [@patzick](https://github.com/patzick)! - Improve technical URL resolution for SSR and CSR page rendering.
+
+  This adds helpers to detect and normalize technical Shopwell paths and updates
+  `useNavigationSearch` to resolve `/navigation/*`, `/detail/*`, and
+  `/landingPage/*` routes more reliably, including fallback behavior when no SEO
+  mapping row is returned.
+
+## 1.7.0
+
+### Minor Changes
+
+- [#2287](https://github.com/shopwell-shop/frontends/pull/2287) [`c9bde38`](https://github.com/shopwell-shop/frontends/commit/c9bde38d497d5c6c2fbd97700a362eb44ce8881f) Thanks [@mkucmus](https://github.com/mkucmus)! - Add generateCdnSrcSet and buildCdnImageUrl helpers for synthetic responsive image srcset generation via CDN query params
+
+### Patch Changes
+
+- [#2320](https://github.com/shopwell-shop/frontends/pull/2320) [`a871c7b`](https://github.com/shopwell-shop/frontends/commit/a871c7b6256b75c2e40d93fc0354ba1971420062) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Improve getSmallestThumbnailUrl - add media.url fallback when thumbnails are missing or empty
+
+## 1.6.0
+
+### Minor Changes
+
+- [#1985](https://github.com/shopwell-shop/frontends/pull/1985) [`2cbda25`](https://github.com/shopwell-shop/frontends/commit/2cbda257a1056454e12f2fba9052f83eecb6d986) Thanks [@mkucmus](https://github.com/mkucmus)! - Added methods to extract product info:
+
+  - `isProductOnSale`
+  - `isProductTopSeller`
+  - `getProductManufacturerName`
+
+- [#2176](https://github.com/shopwell-shop/frontends/pull/2176) [`c647baf`](https://github.com/shopwell-shop/frontends/commit/c647baf93e7174b849f5961ee5803add99d78602) Thanks [@mkucmus](https://github.com/mkucmus)! - - Add `getProductListingFromCmsPage` helper to extract product listing from CMS page structure
+  - Enable early access to listing data during SSR before component tree renders
+
+### Patch Changes
+
+- [#2030](https://github.com/shopwell-shop/frontends/pull/2030) [`22ff62e`](https://github.com/shopwell-shop/frontends/commit/22ff62e354f024599d64ea8096af57695248851c) Thanks [@mkucmus](https://github.com/mkucmus)! - Extended `ListingFilter` type to support property options and manufacturer entities:
+
+  - Added optional `options` property for property group options
+  - Added optional `entities` property for manufacturer entities
+  - Improved type safety by explicitly typing empty array return in `getListingFilters()`
+
+- [#2153](https://github.com/shopwell-shop/frontends/pull/2153) [`56cd178`](https://github.com/shopwell-shop/frontends/commit/56cd178e25fe2399b7170ccac3044e980621f041) Thanks [@mkucmus](https://github.com/mkucmus)! - Fix `getSrcSetForMedia` to properly encode special characters (spaces, commas, parentheses) in media URLs
+
+- [#2162](https://github.com/shopwell-shop/frontends/pull/2162) [`e1fae3e`](https://github.com/shopwell-shop/frontends/commit/e1fae3eb6430e5c8e133456fbaf7f215f80c36f6) Thanks [@mkucmus](https://github.com/mkucmus)! - Export encodeUrlPath helper function to properly handle special characters (spaces, commas) in image URLs
+
+## 1.5.0
+
+### Minor Changes
+
+- [#1910](https://github.com/shopwell-shop/frontends/pull/1910) [`c8fa438`](https://github.com/shopwell-shop/frontends/commit/c8fa438b38de6dbc43a2895f2d1906907447c384) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add helper for getting payment and shipping method icon
+
+## 1.4.0
+
+### Minor Changes
+
+- [#1602](https://github.com/shopwell-shop/frontends/pull/1602) [`bb7d1cb`](https://github.com/shopwell-shop/frontends/commit/bb7d1cbc4204ff1d48f77416f94f550bc235e5ed) Thanks [@patzick](https://github.com/patzick)! - Switch from `@shopwell-pwa/helpers-next` to `@shopwell/helpers` package.
+
+- [#1602](https://github.com/shopwell-shop/frontends/pull/1602) [`bb7d1cb`](https://github.com/shopwell-shop/frontends/commit/bb7d1cbc4204ff1d48f77416f94f550bc235e5ed) Thanks [@patzick](https://github.com/patzick)! - Switch from `@shopwell-pwa/cms-base` to `@shopwell/cms-base-layer` package.
+
+## 1.3.0
+
+### Minor Changes
+
+- [#1599](https://github.com/shopwell-shop/frontends/pull/1599) [`6736509`](https://github.com/shopwell-shop/frontends/commit/67365096168e28b9683cfd3b5d4c8bb3b4ae07e3) Thanks [@patzick](https://github.com/patzick)! - Package `@shopwell-pwa/helpers-next` is deprecated. Use [@shopwell/helpers](https://www.npmjs.com/package/@shopwell/helpers) instead.
+
+## 1.2.0
+
+### Minor Changes
+
+- [#1369](https://github.com/shopwell-shop/frontends/pull/1369) [`13c83be`](https://github.com/shopwell-shop/frontends/commit/13c83bec53a6aaba49941b9bf869629eadeb4515) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Added `getCmsBreadcrumbs` helper for building CMS breadcrumbs
+
+## 1.1.0
+
+### Minor Changes
+
+- [#1215](https://github.com/shopwell-shop/frontends/pull/1215) [`6ee2f90`](https://github.com/shopwell-shop/frontends/commit/6ee2f90ca3b21730fa05e1120072ac4dd45aa665) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Added `getCmsTranslate` helper to replace text placeholder with param value
+
+## 1.0.2
+
+### Patch Changes
+
+- [#1191](https://github.com/shopwell-shop/frontends/pull/1191) [`2e4c887`](https://github.com/shopwell-shop/frontends/commit/2e4c8872060fb2ebabe5b89d92761994a2ed8128) Thanks [@mkucmus](https://github.com/mkucmus)! - Prevent from getting an incorrect srcset format when img url is not set.
+
+  before when there were no urls for 400w and 800w:
+  `src="image1.jpg 100w, 400w, 800w"`
+
+  now only the entry with an URL defined is returned
+
+## 1.0.1
+
+### Patch Changes
+
+- [#1074](https://github.com/shopwell-shop/frontends/pull/1074) [`b688163`](https://github.com/shopwell-shop/frontends/commit/b68816391ee8ed1ac94a6462a2a016d708f259b4) Thanks [@mkucmus](https://github.com/mkucmus)! - Removed optional chaining for translated properties. Expecting a different argument type for the `getLanguageName` and `getShippingMethodDeliveryTime` methods.
+
+- [#1089](https://github.com/shopwell-shop/frontends/pull/1089) [`db7c93f`](https://github.com/shopwell-shop/frontends/commit/db7c93ff8cbb581221c11a492e77068af8faa8d6) Thanks [@mkucmus](https://github.com/mkucmus)! - Migrate eslint config to flat format
+
+## 1.0.0
+
+### Major Changes
+
+- [#871](https://github.com/shopwell-shop/frontends/pull/871) [`1566f7a`](https://github.com/shopwell-shop/frontends/commit/1566f7a3962c511b5c72e12a4a5db40c4aa5d198) Thanks [@patzick](https://github.com/patzick)! - Read more about new major release: https://github.com/shopwell-shop/frontends/discussions/965
+
+- [#1056](https://github.com/shopwell-shop/frontends/pull/1056) [`c729e70`](https://github.com/shopwell-shop/frontends/commit/c729e7014c70d7f71edf5297104065d18e482e04) Thanks [@patzick](https://github.com/patzick)! - Removed deprecations from the package:
+  - `getProductThumbnailUrl` is removed. Use `getSmallestThumbnailUrl` instead.
+  - internal method `_debounce` is removed.
+  - internal method `_parseUrlQuery` is removed.
+
+### Minor Changes
+
+- [#857](https://github.com/shopwell-shop/frontends/pull/857) [`864616f`](https://github.com/shopwell-shop/frontends/commit/864616f0c9e1cbe11e434b9a04a35ff9520bcb3c) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add isMaintenanceMode to check if backend is available
+
+- [#508](https://github.com/shopwell-shop/frontends/pull/508) [`a92941e`](https://github.com/shopwell-shop/frontends/commit/a92941ed59313fe85d5bbe204c2930d8a1a106b1) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add `accessGranted` property for the getMedia helper
+
+- [#477](https://github.com/shopwell-shop/frontends/pull/477) [`487d991`](https://github.com/shopwell-shop/frontends/commit/487d991f2cda0fbf637502597b20dd931498fe6a) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Remove "@shopwell-pwa/types" dependency and replace it with generic types
+
+- [#582](https://github.com/shopwell-shop/frontends/pull/582) [`97b5949`](https://github.com/shopwell-shop/frontends/commit/97b5949da2663700aa4047c4927b4a5f192cee74) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Export css classes as a separate file
+
+- [#545](https://github.com/shopwell-shop/frontends/pull/545) [`6664aa2`](https://github.com/shopwell-shop/frontends/commit/6664aa2aa48ec63fc053ad024a03940113e17956) Thanks [@itscark](https://github.com/itscark)! - Fix visibility classes
+
+### Patch Changes
+
+- [#524](https://github.com/shopwell-shop/frontends/pull/524) [`6b54268`](https://github.com/shopwell-shop/frontends/commit/6b54268049ae9b1b3d311b9a122f43a752a2b715) Thanks [@BrocksiNet](https://github.com/BrocksiNet)! - added `buildUrlPrefix`, which perviously was internal helper of the `@shopwell/cms-base` package
+
+## 0.5.1
+
+### Patch Changes
+
+- [#460](https://github.com/shopwell-shop/frontends/pull/460) [`729d03a5`](https://github.com/shopwell-shop/frontends/commit/729d03a5d5555a67d420cdb0c89a0cb4ce907831) Thanks [@mkucmus](https://github.com/mkucmus)! - Proper visibility and css classes merging
+
+- Updated dependencies []:
+  - @shopwell-pwa/types@0.6.0
+
+## 0.5.0
+
+### Minor Changes
+
+- [#435](https://github.com/shopwell-shop/frontends/pull/435) [`a4483ed8`](https://github.com/shopwell-shop/frontends/commit/a4483ed8bf9370e87aedeb81846fe9d31880b3e0) Thanks [@patzick](https://github.com/patzick)! - Changed types imports to `import type {...} from "..."`
+
+- [#444](https://github.com/shopwell-shop/frontends/pull/444) [`85628cc6`](https://github.com/shopwell-shop/frontends/commit/85628cc65216417a887398f0838714fc03544303) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add `relativeUrlSlash` and `urlIsAbsolute` helpers
+
+### Patch Changes
+
+- [#415](https://github.com/shopwell-shop/frontends/pull/415) [`29f849d2`](https://github.com/shopwell-shop/frontends/commit/29f849d28c0d0ff8fc34f0d5e921ac2828c93f2b) Thanks [@mkucmus](https://github.com/mkucmus)! - Add leading slash for internal category links
+
+- Updated dependencies [[`2e80139c`](https://github.com/shopwell-shop/frontends/commit/2e80139c6fa0bace77d385cfaffa30c4811f8831), [`43510a10`](https://github.com/shopwell-shop/frontends/commit/43510a108d351aca361e460844b2cddd29f889b5)]:
+  - @shopwell-pwa/types@0.6.0
+
+## 0.4.0
+
+### Minor Changes
+
+- [`034e032`](https://github.com/shopwell-shop/frontends/commit/034e032270134cb51bb3da940d4b766d5866b1dd) Thanks [@patzick](https://github.com/patzick)! - reduce background images size by adding `getBackgroundImageUrl` helper
+
+## 0.3.2
+
+### Patch Changes
+
+- [#303](https://github.com/shopwell-shop/frontends/pull/303) [`aeb639a`](https://github.com/shopwell-shop/frontends/commit/aeb639a3244f812c275145345618e5bc0045be0d) Thanks [@patzick](https://github.com/patzick)! - Improved linting in packages. Types should be more reliable
+
+- Updated dependencies [[`aeb639a`](https://github.com/shopwell-shop/frontends/commit/aeb639a3244f812c275145345618e5bc0045be0d)]:
+  - @shopwell-pwa/types@0.5.6
+
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`8a94e37`](https://github.com/shopwell-shop/frontends/commit/8a94e3739a24e5d748ba807852c5e5c2dfbe6cb4)]:
+  - @shopwell-pwa/types@0.5.5
+
+## 0.3.0
+
+### Minor Changes
+
+- [#230](https://github.com/shopwell-shop/frontends/pull/230) [`d1e07d6`](https://github.com/shopwell-shop/frontends/commit/d1e07d6f73135cb742807aba78f1271943d47beb) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add internationalization helpers with mocks data
+
+### Patch Changes
+
+- [#243](https://github.com/shopwell-shop/frontends/pull/243) [`d5f0bcc`](https://github.com/shopwell-shop/frontends/commit/d5f0bcc18cb581a48185cb8622d0e0d9b7fea23f) Thanks [@patzick](https://github.com/patzick)! - bump dependencies
+
+- Updated dependencies [[`e359aa2`](https://github.com/shopwell-shop/frontends/commit/e359aa28c9c9c7fb2521be3ebd5b847c855e4d24), [`5bb88e9`](https://github.com/shopwell-shop/frontends/commit/5bb88e9f4422141de916b704f13e9ecce9b8f2f2)]:
+  - @shopwell-pwa/types@0.5.4
+
+## 0.2.1
+
+### Patch Changes
+
+- updated changelog in readme
+
+- Updated dependencies []:
+  - @shopwell-pwa/types@0.5.3
+
+## 0.2.0
+
+### Minor Changes
+
+- [#194](https://github.com/shopwell-shop/frontends/pull/194) [`81f45335`](https://github.com/shopwell-shop/frontends/commit/81f4533513b2ee538111159f8e37cd7bd1db9f1e) Thanks [@niklaswolf](https://github.com/niklaswolf) and [@patzick](https://github.com/patzick)! - Added `getCategoryRoute` and `getProductRoute` helpers to create router lins with history API metadata
+
+### Patch Changes
+
+- Updated dependencies [[`53f81c32`](https://github.com/shopwell-shop/frontends/commit/53f81c32b50c1658ee5758820085580cceea8161), [`47221193`](https://github.com/shopwell-shop/frontends/commit/472211939db34c8c81e957bd3e91a765056c088c), [`58932a83`](https://github.com/shopwell-shop/frontends/commit/58932a83106f7c415e68c4c1555180ff844ec151), [`a1edcd18`](https://github.com/shopwell-shop/frontends/commit/a1edcd18f3665b9ecdc32f7d33902d9c394b4fb6), [`a367dba6`](https://github.com/shopwell-shop/frontends/commit/a367dba68ab73f9ed2213236c696718c222565bc)]:
+  - @shopwell-pwa/types@0.5.2
+
+## 0.1.26
+
+### Patch Changes
+
+- fixed published packages readme
+
+- Updated dependencies []:
+  - @shopwell-pwa/types@0.5.1
+
+## 0.1.25
+
+### Patch Changes
+
+- [`e2718c7d`](https://github.com/shopwell-shop/frontends/commit/e2718c7d20fac95c57436166083d6e5f599937c2) Thanks [@mkucmus](https://github.com/mkucmus)! - Methods for media extracting
+
+- [`5008dcbf`](https://github.com/shopwell-shop/frontends/commit/5008dcbf065fc54a3f51517460e409556f370adf) Thanks [@mkucmus](https://github.com/mkucmus)! - Adds Visibility by device feature for section and block (CMS)
+
+- [`0eaf57e1`](https://github.com/shopwell-shop/frontends/commit/0eaf57e17a1d8ee454533c33f7528b72021aed4b) Thanks [@mkucmus](https://github.com/mkucmus)! - JS-Doc improvements
+
+- [#86](https://github.com/shopwell-shop/frontends/pull/86) [`909ffcde`](https://github.com/shopwell-shop/frontends/commit/909ffcde24d5ae873d814027be0920a9e5976c72) Thanks [@mkucmus](https://github.com/mkucmus)! - Use technical URL as a fallback for navigation link
+
+- [`a15a3083`](https://github.com/shopwell-shop/frontends/commit/a15a308359497bb9d483bebe040d717114946ff0) Thanks [@mkucmus](https://github.com/mkucmus)! - Proper access for an URL of main product image
+
+- Updated dependencies [[`5008dcbf`](https://github.com/shopwell-shop/frontends/commit/5008dcbf065fc54a3f51517460e409556f370adf), [`e2718c7d`](https://github.com/shopwell-shop/frontends/commit/e2718c7d20fac95c57436166083d6e5f599937c2), [`9c7a0f28`](https://github.com/shopwell-shop/frontends/commit/9c7a0f280c20ccbafca0e3063533820e21050bee), [`3a90d299`](https://github.com/shopwell-shop/frontends/commit/3a90d299279b451e391a946dafecc857fe1f67fc), [`2f64a718`](https://github.com/shopwell-shop/frontends/commit/2f64a71824594ffcc4e5d59f8d5e30cd627893db), [`909ffcde`](https://github.com/shopwell-shop/frontends/commit/909ffcde24d5ae873d814027be0920a9e5976c72), [`a15a3083`](https://github.com/shopwell-shop/frontends/commit/a15a308359497bb9d483bebe040d717114946ff0), [`d358854c`](https://github.com/shopwell-shop/frontends/commit/d358854c632447228e719efdf639c428cf6ba804)]:
+  - @shopwell-pwa/types@0.5.0
+
+## 0.1.24
+
+### Patch Changes
+
+- [`680b4b77`](https://github.com/shopwell-shop/frontends/commit/680b4b778859f5f2fdf2325ce349f5534d3b965f) Thanks [@patzick](https://github.com/patzick)! - bump dependencies
+
+- Updated dependencies [[`244d0dca`](https://github.com/shopwell-shop/frontends/commit/244d0dcaadf2435e1895675e373c608631e94566)]:
+  - @shopwell-pwa/types@0.4.0
+
+## 0.1.23
+
+### Patch Changes
+
+- [`ccf4ed47`](https://github.com/shopwell-shop/frontends/commit/ccf4ed47e6bb46d1fcab7c1418a677fe575331b4) Thanks [@patzick](https://github.com/patzick)! - start deploying canary versions
+
+- Updated dependencies [[`6c045a44`](https://github.com/shopwell-shop/frontends/commit/6c045a44242dad42571df6ce82c564e07031d373), [`ccf4ed47`](https://github.com/shopwell-shop/frontends/commit/ccf4ed47e6bb46d1fcab7c1418a677fe575331b4), [`39d2d11c`](https://github.com/shopwell-shop/frontends/commit/39d2d11c922f5de9eb5d5c25225b6b93edd8ebcb)]:
+  - @shopwell-pwa/types@0.3.0
+
+## 0.1.22
+
+### Patch Changes
+
+- Updated dependencies [[`e21d67b`](https://github.com/shopwell-shop/frontends/commit/e21d67bc142076e93630139232ea39a07b51ebfb)]:
+  - @shopwell-pwa/types@0.2.0
+
+## 0.1.21
+
+### Patch Changes
+
+- [`29b677e`](https://github.com/shopwell-shop/frontends/commit/29b677e4ff59656f8a457ee4c8ab35e36cd06953) Thanks [@patzick](https://github.com/patzick)! - bump dependencies
+
+- Updated dependencies []:
+  - @shopwell-pwa/types@0.1.20
+
+## 0.1.20
+
+### Patch Changes
+
+- fa7e48f: Added changelog and readme file
+- Updated dependencies [fa7e48f]
+  - @shopwell-pwa/types@0.1.20

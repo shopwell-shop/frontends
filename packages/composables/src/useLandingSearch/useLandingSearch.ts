@@ -1,0 +1,59 @@
+import { useShopwellContext } from "#imports";
+import type { Schemas, operations } from "#shopwell";
+
+import { cmsAssociations } from "../cms/cmsAssociations";
+
+export type UseLandingSearchReturn = {
+  /**
+   * Search for landing page by ID
+   * Accepts optional media associations
+   */
+  search(
+    navigationId: string,
+    options?: {
+      withCmsAssociations?: boolean;
+    },
+  ): Promise<Schemas["LandingPage"]>;
+};
+
+/**
+ * Composable for landing page search.
+ * @public
+ * @category Navigation & Routing
+ */
+export function useLandingSearch(): {
+  search: (
+    navigationId: string,
+    options?: {
+      withCmsAssociations?: boolean;
+    },
+  ) => Promise<Schemas["LandingPage"]>;
+} {
+  const { apiClient } = useShopwellContext();
+
+  const search = async (
+    navigationId: string,
+    options?: {
+      withCmsAssociations?: boolean;
+    },
+  ) => {
+    const associations: operations["readLandingPage post /landing-page/{landingPageId}"]["body"]["associations"] =
+      options?.withCmsAssociations ? cmsAssociations.associations : {};
+    const result = await apiClient.invoke(
+      "readLandingPage post /landing-page/{landingPageId}",
+      {
+        pathParams: {
+          landingPageId: navigationId,
+        },
+        body: {
+          associations,
+        },
+      },
+    );
+    return result.data;
+  };
+
+  return {
+    search,
+  };
+}

@@ -1,0 +1,114 @@
+# Demo Store Template
+
+<a href="https://frontends-demo.vercel.app/" target="_blank"><img src="../../.assets/demo-store-template.jpg" alt="Demo Store Template Screenshot" class="border-1px border-#eeeeee rounded-md shadow-md my-8 hover:shadow-2xl hover:scale-105 transition duration-200" /></a>
+
+The demo store template is a reference implementation of an online store UI.
+
+:::warning DEPRECATED
+**Do not use this template to start a new project.** Use the [Vue Starter Template](./vue-starter-template.html) instead.
+
+It stays here to read for patterns. It is under constant development, is not subject to versioning, and has [Limitations](#limitations).
+:::
+
+## Setup & run
+
+There are no scaffolding commands here any more, because this template is deprecated. To start a project, follow the [Vue Starter Template](./vue-starter-template.html) guide.
+
+The sections below describe the template as it exists today, for reading and reference.
+
+The vue-demo-store template is connected to a Shopwell Cloud instance by default. However, you can change the [configuration](#configure) to use your own instance.
+
+We recommend using [devenv](https://developer.shopwell.com/docs/guides/installation/devenv.html) and Composable Frontends on your local machine. But if you want to use Docker and Composable Frontends, you should have a look at the [docker-composable-frontends](https://github.com/shopwell-shopLabs/docker-composable-frontends) repository.
+
+## Directory structure
+
+The directory structure is the same as in a [default Nuxt project](https://nuxtjs.org/docs/get-started/directory-structure/):
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/demo-store-template/directory-structure.txt" code lang="text" no-name -->
+
+```text
+demo-store/
+├─ components/
+|  ├─ layout/       /* header, footer, account menu etc. */
+|  ├─ checkout/     /* cart items, cart overview */
+|  ├─ account/      /* order history, account settings */
+|  ├─ shared/       /* modals, notifications */
+|  ├─ ...
+├─ layouts/
+│  ├─ checkout.vue  /* minimal layout without navigation and footer */
+│  ├─ default.vue   /* default layout with navigation and footer */
+├─ pages/
+│  ├─ checkout/     /* checkout pages */
+│  ├─ account/      /* user account pages */
+│  ├─ ...
+├─ app.vue          /* app root component */
+├─ nuxt.config.ts   /* app configuration */
+├─ package.json
+├─ tsconfig.json
+```
+
+<!-- /automd -->
+
+The `components` directory contains components that have been extracted from their corresponding page components, so these become more readable. The components within `components` are organized based on the page and layout components they are used in. The `shared` directory contains generic components that are used across multiple pages and layouts.
+
+## Customizing the template
+
+There is no concept of overwriting components in the demo store template. Instead, all components are modified directly. When you create a new project, we recommend adding your custom Git repository as a remote repository and keeping the original demo store template as a second repository so that you can always pull changes manually (see als Git Docu [Working with Remotes](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes)).
+
+:::warning Updates & Breaking Changes
+The demo store template is a boilerplate, so it will constantly be updated, as we will continously add new features and make improvements. These updates include breaking changes. If you want to stay up to date with the latest changes, you need to keep your project in sync manually.
+:::
+
+### CMS Components
+
+One exception to the rule are CMS components. CMS components are handled as a separate package `cms-base` in Shopwell Frontends and can be updated automatically. However, you can still override the components from the package in your custom project.
+
+<PageRef page="../../concepts/shopping-experiences.html" title="Customize CMS Components" sub="Override CMS components using the cms-base package" />
+
+## Configure
+
+The blank template is pre-configured to connect to a public Shopwell backend, so you start building right away.
+
+In order to connect it to your own store backend, you need to edit the `nuxt.config.ts` file and edit a configuration object with `shopwell` as a key:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/demo-store-template/configure.ts" code lang="ts" no-name -->
+
+```ts
+import { defineNuxtConfig } from "nuxt/config";
+
+/* ... */
+export default defineNuxtConfig({
+  runtimeConfig: {
+    // shopwell: {
+    /**
+     * SSR Shopwell Endpoint
+     * More here: https://developer.shopwell.com/frontends/introduction/templates/custom-vue-project.html#shopwell-endpoint-on-the-ssr-mode
+     */
+    //   endpoint: ""
+    // },
+    public: {
+      shopwell: {
+        endpoint: "https://your-business.shopwell.store",
+        accessToken: "access-token-from-settings",
+      },
+    },
+  },
+});
+```
+
+<!-- /automd -->
+
+You can also use `.env` file to override this configuration. More about this you can find [here](https://nuxt.com/docs/guide/going-further/runtime-config#environment-variables)
+
+## Limitations
+
+The **Demo Store Template** suggests how to build a store UI with Shopwell Frontends. It does not make any assumptions about custom implementations and hence does not contain every feature of Shopwell.
+
+Some important limitations are
+
+- Frontend settings are not synchronized from the backend - such as
+  - Available fields for checkout and registration
+- Not all Plugins or Apps are API aware
+- Not all Commercial features are supported, check the [Commercial Integrations](../../integrations/commercial/) page
+
+If you think a specific feature should be part of the demo store template, feel free to create an [issue](https://github.com/shopwell-shop/frontends/issues/new) or make a [contribution](https://github.com/shopwell-shop/frontends/pulls).

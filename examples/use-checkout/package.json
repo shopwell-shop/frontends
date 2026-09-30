@@ -1,0 +1,27 @@
+{
+  "name": "example-use-checkout",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt prepare && nuxt build",
+    "dev": "nuxt prepare && nuxt dev",
+    "generate": "nuxt generate",
+    "lint": "oxlint . && oxfmt --check .",
+    "lint:fix": "oxlint --fix . && oxfmt --write .",
+    "typecheck": "nuxt prepare && nuxi typecheck",
+    "preview": "nuxt preview"
+  },
+  "devDependencies": {
+    "@shopwell/composables": "canary",
+    "@shopwell/nuxt-module": "canary",
+    "@shopwell/api-client": "canary",
+    "@types/node": "22.13.14",
+    "@unocss/nuxt": "66.10.5",
+    "nuxt": "4.5.2",
+    "typescript": "5.9.3",
+    "vue": "3.5.43",
+    "vue-tsc": "3.3.11",
+    "oxfmt": "0.62.0",
+    "oxlint": "1.77.0"
+  }
+}

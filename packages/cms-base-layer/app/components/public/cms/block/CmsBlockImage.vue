@@ -1,0 +1,18 @@
+<script setup lang="ts">
+import type { CmsBlockImage } from "@shopwell/composables";
+import { computed } from "vue";
+
+import { useCmsBlock } from "#imports";
+
+const props = defineProps<{
+  content: CmsBlockImage;
+}>();
+
+const { getSlotContent } = useCmsBlock(() => props.content);
+const imageContent = computed(() => getSlotContent("image"));
+</script>
+<template>
+  <div>
+    <CmsGenericElement :content="imageContent" />
+  </div>
+</template>

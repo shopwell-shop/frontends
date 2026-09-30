@@ -1,0 +1,444 @@
+# Custom Vue.js project
+
+Follow these steps to integrate Shopwell Frontends into an existing, custom Vue.js project
+
+- Install the required dependencies
+- Prepare a Vue plugin for better encapsulation
+- Configure the API client and create application instance
+- Store and handle client state
+
+## Creating Vue project
+
+:::info
+You can skip this part if you have an existing project.
+::::
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/creating-vue-project.sh" code lang="bash" no-name -->
+
+```bash
+pnpm create vue@latest
+```
+
+<!-- /automd -->
+
+More information about creating a new Vue project can be found [here](https://vuejs.org/guide/quick-start.html)
+
+## Install dependencies
+
+First of all, install the required npm dependencies:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/install-dependencies.sh" code lang="bash" no-name -->
+
+```bash
+pnpm add @shopwell/composables @shopwell/api-client
+```
+
+<!-- /automd -->
+
+Additionally, to keep the current session context even after page reloads, we are going to install a cookie helper to set and get value of [context token](https://shopwell.stoplight.io/docs/store-api/ZG9jOjEwODA3NjQx-authentication-and-authorisation) in our plugin:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/install-dependencies-2.sh" code lang="bash" no-name -->
+
+```bash
+pnpm add js-cookie
+```
+
+<!-- /automd -->
+
+For CMS components, you can add a package that contains ready-to-use components.
+You can read more about CMS pages here:
+
+<PageRef page="../cms/content-pages.html" title="Create content pages" sub="Render a content page using components" />
+
+<!-- automd:pm-install name="@shopwell/cms-base-layer" dev -->
+
+```sh
+# ✨ Auto-detect
+npx nypm install -D @shopwell/cms-base-layer
+
+# npm
+npm install -D @shopwell/cms-base-layer
+
+# yarn
+yarn add -D @shopwell/cms-base-layer
+
+# pnpm
+pnpm add -D @shopwell/cms-base-layer
+
+# bun
+bun install -D @shopwell/cms-base-layer
+
+# deno
+deno install --dev npm:@shopwell/cms-base-layer
+```
+
+<!-- /automd -->
+
+## Configure API client
+
+:::tip Code example
+Find a full example of the Vue.js plugin [here](#plugin-code).
+:::
+
+Now, let's configure the API client and business logic together.
+
+:::info
+The business logic is written to be Vue 3 compatible. Under the hood, it utilizes the composition API, especially the `provide`/`inject` feature for sharing state.
+:::
+
+In order to configure the business logic and API client together with your Vue 3 application, it's required to create a Shopwell instance provided by a factory method within the `@shopwell/composables` package. Everything will be encapsulated in a plugin and installed later on.
+
+:::tip Vue plugins
+This section requires having knowledge about the [concept of Vue 3 plugins](https://vuejs.org/guide/reusability/plugins.html#writing-a-plugin).
+:::
+
+Import necessary methods from `@shopwell/api-client`, `@shopwell/composables` and `js-cookie` packages:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/configure-api-client.ts" code lang="ts" no-name -->
+
+```ts
+import { createAPIClient } from "@shopwell/api-client";
+import { createShopwellContext } from "@shopwell/composables";
+import Cookies from "js-cookie";
+// ./plugins/vue-shopwell-frontends.ts file
+import type { App } from "vue";
+import { ref } from "vue";
+
+interface ShopwellFrontendsOptions {
+  accessToken: string;
+  endpoint: string;
+}
+
+export default {
+  install: (app: App, options: ShopwellFrontendsOptions) => {
+    // Configure the API client and Shopwell context here.
+  },
+};
+```
+
+<!-- /automd -->
+
+We prepare some types to be used during the registration of the plugin to pass basic credentials for your Shopwell 6 instance.
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/configure-api-client-2.ts" code lang="ts" no-name -->
+
+```ts
+export type ShopwellFrontendsOptions = {
+  endpoint: string;
+  accessToken: string;
+  shopwellApiClient?: {
+    timeout: number;
+  };
+  enableDevtools?: boolean;
+};
+```
+
+<!-- /automd -->
+
+Now, once the plugin is created, we need to create an API client instance and the Shopwell instance for Vue application.
+
+The install method is a good place to do that:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/configure-api-client-3.ts" code lang="ts" no-name -->
+
+```ts
+import { createAPIClient } from "@shopwell/api-client";
+import type { operations } from "@shopwell/api-client/store-api-types";
+import Cookies from "js-cookie";
+import { ref } from "vue";
+
+import type { ShopwellFrontendsOptions } from "./configure-api-client-2";
+
+const options: ShopwellFrontendsOptions = {
+  endpoint: "https://demo-frontends.swstage.store/store-api",
+  accessToken: "SWSCBHFSNTVMAWNZDNFKSHLAYW",
+  shopwellApiClient: {
+    timeout: 5000,
+  },
+};
+
+const cookieContextToken = Cookies.get("sw-context-token");
+const cookieLanguageId = Cookies.get("sw-language-id");
+
+const contextToken = ref(cookieContextToken);
+const languageId = ref(cookieLanguageId);
+
+const apiClient = createAPIClient<operations>({
+  baseURL: options.endpoint,
+  accessToken: options.accessToken,
+  fetchOptions: {
+    timeout: options.shopwellApiClient?.timeout || 5000,
+  },
+  contextToken: contextToken.value,
+  defaultHeaders: {
+    "sw-language-id": languageId.value,
+  },
+});
+
+export { apiClient, contextToken, languageId };
+```
+
+<!-- /automd -->
+
+## Handle client state
+
+:::tip Code example
+Complete code example can be found [HERE](./custom-vue-project.html#plugin-code) you can find a full example of the plugin
+:::
+
+Now, we need to ensure that the context token, which identifies a user session, is properly stored and updated. The context token may change after operations like login or logout.
+
+Then, we can take advantage of the `onDefaultHeaderChanged` hook. It executes when the API client detects a changed default header value coming from the API (as a header parameter or in the response body). In that case, the new context token should be saved in the cookie to keep the correct session:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/handle-client-state.ts" code lang="ts" no-name -->
+
+```ts
+import { createAPIClient } from "@shopwell/api-client";
+import type { operations } from "@shopwell/api-client/store-api-types";
+import Cookies from "js-cookie";
+import { ref } from "vue";
+
+const contextToken = ref(Cookies.get("sw-context-token"));
+const languageId = ref(Cookies.get("sw-language-id"));
+const apiClient = createAPIClient<operations>({
+  baseURL: "https://demo-frontends.swstage.store/store-api",
+  accessToken: "SWSCBHFSNTVMAWNZDNFKSHLAYW",
+  contextToken: contextToken.value,
+  defaultHeaders: {
+    "sw-language-id": languageId.value,
+  },
+});
+
+/**
+ * Save current contextToken when it changes
+ */
+apiClient.hook("onDefaultHeaderChanged", (headerName, value) => {
+  try {
+    const headerValue = typeof value === "string" ? value : "";
+
+    if (headerName === "sw-context-token") {
+      Cookies.set("sw-context-token", headerValue, {
+        expires: 365,
+        sameSite: "Lax",
+        path: "/",
+      });
+      contextToken.value = headerValue;
+    }
+
+    if (headerName === "sw-language-id") {
+      Cookies.set("sw-language-id", headerValue, {
+        expires: 365,
+        sameSite: "Lax",
+        path: "/",
+      });
+      languageId.value = headerValue;
+    }
+  } catch (error) {
+    void error;
+    // Sometimes cookie is set on server after request is send, it can fail silently
+  }
+});
+```
+
+<!-- /automd -->
+
+Another step is to create a Shopwell instance that combines API Client and the business logic in composables to be used in entire Vue application:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/handle-client-state-2.ts" code lang="ts" no-name -->
+
+```ts
+import { createShopwellContext } from "@shopwell/composables";
+import { createApp } from "vue";
+
+const app = createApp({});
+const options = {
+  enableDevtools: false,
+};
+
+const shopwellContext = createShopwellContext(app, {
+  enableDevtools: !!options.enableDevtools, // decide if devtools should be enabled
+});
+
+export { shopwellContext };
+```
+
+<!-- /automd -->
+
+And the last step is to provide the shopwellContext:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/handle-client-state-3.ts" code lang="ts" no-name -->
+
+```ts
+import { createAPIClient } from "@shopwell/api-client";
+import type { operations } from "@shopwell/api-client/store-api-types";
+import { createShopwellContext } from "@shopwell/composables";
+import { createApp, ref } from "vue";
+
+const app = createApp({});
+const apiClient = createAPIClient<operations>({});
+const shopwellContext = createShopwellContext(app, {});
+
+app.provide("apiClient", apiClient);
+app.provide("shopwell", shopwellContext);
+// thanks to this, `shopwellContext` can be injected in a component and other Vue-instance-aware places (like composables).
+app.provide("swSessionContext", ref());
+```
+
+<!-- /automd -->
+
+## Register the plugin
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/register-the-plugin.ts" code lang="ts{6,9-14}" no-name -->
+
+```ts{6,9-14}
+// main.ts
+import { createApp } from "vue";
+
+import "./style.css";
+import App from "./App.vue";
+// import previously implemented module
+import ShopwellFrontends from "./plugins/vue-shopwell-frontends";
+const app = createApp(App);
+
+app.use(ShopwellFrontends, {
+  // pass options described under ShopwellFrontendsOptions type in the previous section
+  endpoint: "https://demo-frontends.swstage.store",
+  accessToken: "SWSCBHFSNTVMAWNZDNFKSHLAYW",
+  apiDefaults: {},
+});
+
+app.mount("#app");
+```
+
+<!-- /automd -->
+
+## Plugin code
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/plugin-code.ts" code lang="ts" no-name -->
+
+```ts
+import { createAPIClient } from "@shopwell/api-client";
+import type { operations } from "@shopwell/api-client/store-api-types";
+import { createShopwellContext } from "@shopwell/composables";
+import Cookies from "js-cookie";
+// ./plugins/vue-shopwell-frontends.ts file
+import { ref } from "vue";
+import type { App } from "vue";
+
+// Types to be used during the registration of the plugin to pass basic credentials for your Shopwell 6 instance.
+export type ShopwellFrontendsOptions = {
+  endpoint: string;
+  accessToken: string;
+  shopwellApiClient?: {
+    timeout: number;
+  };
+  enableDevtools?: boolean;
+};
+
+export default {
+  install: (app: App, options: ShopwellFrontendsOptions) => {
+    const cookieContextToken = Cookies.get("sw-context-token");
+    const cookieLanguageId = Cookies.get("sw-language-id");
+
+    const contextToken = ref(cookieContextToken);
+    const languageId = ref(cookieLanguageId);
+
+    const apiClient = createAPIClient<operations>({
+      baseURL: options.endpoint,
+      accessToken: options.accessToken,
+      contextToken: contextToken.value,
+      fetchOptions: {
+        timeout: options.shopwellApiClient?.timeout || 5000,
+      },
+      defaultHeaders: {
+        "sw-language-id": languageId.value,
+      },
+    });
+
+    const shopwellContext = createShopwellContext(app, {
+      enableDevtools: !!options.enableDevtools,
+    });
+
+    app.provide("apiClient", apiClient);
+    app.provide("shopwell", shopwellContext);
+    app.provide("swSessionContext", ref());
+  },
+};
+```
+
+<!-- /automd -->
+
+## Shopwell Endpoint on the SSR mode
+
+It may happen that for SSR and CSR, you need two different shopwell endpoints. One of the most common situations is when you are using an internal network for communication between apps.
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/shopwell-endpoint-on-the-ssr-mode" code no-name -->
+
+```
+Server URL to the backend: http://shopwell (not exposed)
+Client URL to the backend  https://demo-frontends.shopwell.store (exposed)
+```
+
+<!-- /automd -->
+
+If you are using the Nuxt plugin, you can set private and public envs:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/shopwell-endpoint-on-the-ssr-mode-2" code no-name -->
+
+```
+NUXT_SHOPWELL_ENDPOINT=http://shopwell
+NUXT_PUBLIC_SHOPWELL_ENDPOINT=https://demo-frontends.shopwell.store
+```
+
+<!-- /automd -->
+
+Otherwise, make sure that you are setting different values when creating the API client:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/custom-vue-project/shopwell-endpoint-on-the-ssr-mode.ts" code lang="ts" no-name -->
+
+```ts
+import { createAPIClient } from "@shopwell/api-client";
+import type { operations } from "@shopwell/api-client/store-api-types";
+import { ref } from "vue";
+
+import type { ShopwellFrontendsOptions } from "./configure-api-client-2";
+
+const ssrValue = "http://shopwell";
+const clientValue = "https://demo-frontends.shopwell.store";
+const options: ShopwellFrontendsOptions = {
+  endpoint: clientValue,
+  accessToken: "SWSCBHFSNTVMAWNZDNFKSHLAYW",
+  shopwellApiClient: {
+    timeout: 5000,
+  },
+};
+const contextToken = ref<string>();
+const languageId = ref<string>();
+
+const apiClient = createAPIClient<operations>({
+  baseURL: ssrValue || clientValue,
+  accessToken: options.accessToken,
+  fetchOptions: {
+    timeout: options.shopwellApiClient?.timeout || 5000,
+  },
+  contextToken: contextToken.value,
+  defaultHeaders: {
+    "sw-language-id": languageId.value,
+  },
+});
+
+export { apiClient };
+```
+
+<!-- /automd -->
+
+:::warning
+If you need to redirect your media, you can use the `shopwell.yaml` file to configure the main media URL.
+For more details, please visit this [site](https://developer.shopwell.com/docs/guides/hosting/infrastructure/filesystem.html#flysystem-overview).
+:::
+
+## Next steps
+
+After your setup, you can follow our building guides to get started with Shopwell Frontends
+
+<PageRef page="../page-elements/navigation.html" title="Getting Started - Navigation" sub="Let's implement a store navigation" />

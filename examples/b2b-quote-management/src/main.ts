@@ -1,0 +1,39 @@
+import Aura from "@primevue/themes/aura";
+import { createShopwellContext } from "@shopwell/composables";
+import PrimeVue from "primevue/config";
+import { createApp } from "vue";
+import { createRouter, createWebHistory } from "vue-router";
+
+import { apiClient } from "./apiClient";
+import App from "./App.vue";
+import Quote from "./components/Quote.vue";
+import QuotesTable from "./components/QuotesTable.vue";
+import RequestQuote from "./components/RequestQuote.vue";
+
+import "virtual:uno.css";
+import "./assets/main.css";
+
+const routes = [
+  { path: "/", component: App, name: "home" },
+  { path: "/quotes", component: QuotesTable, name: "quotesTable" },
+  { path: "/quote/:id", component: Quote, name: "quote" },
+  { path: "/request-quote", component: RequestQuote, name: "requestQuote" },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+const app = createApp(App);
+
+const shopwellContext = createShopwellContext(app, {});
+app.provide("apiClient", apiClient);
+app.use(shopwellContext);
+app.use(router);
+app.use(PrimeVue, {
+  theme: {
+    preset: Aura,
+  },
+});
+app.mount("#app");

@@ -1,0 +1,212 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+const addPluginMock = vi.fn();
+const addTypeTemplateMock = vi.fn();
+const addCustomTabMock = vi.fn();
+const loggerMock = {
+  info: vi.fn(),
+  warn: vi.fn(),
+};
+const useLoggerMock = vi.fn(() => loggerMock);
+const createResolverMock = vi.fn(() => ({
+  resolve: (path: string) => `/mocked-module-dir/${path}`,
+}));
+const defineNuxtModuleMock = vi.fn(
+  (config: { setup: (...args: unknown[]) => void }) => config,
+);
+
+const existsSyncMock = vi.fn();
+
+const isConfigDeprecatedMock = vi.fn(() => false);
+
+vi.mock("node:fs", () => ({
+  existsSync: existsSyncMock,
+}));
+
+vi.mock("@nuxt/kit", () => ({
+  addPlugin: addPluginMock,
+  addTypeTemplate: addTypeTemplateMock,
+  createResolver: createResolverMock,
+  defineNuxtModule: defineNuxtModuleMock,
+  useLogger: useLoggerMock,
+}));
+
+vi.mock("@nuxt/devtools-kit", () => ({
+  addCustomTab: addCustomTabMock,
+}));
+
+vi.mock("defu", () => ({
+  defu: (...args: unknown[]) => Object.assign({}, ...args),
+}));
+
+vi.mock("./utils", () => ({
+  isConfigDeprecated: isConfigDeprecatedMock,
+}));
+
+function createNuxtMock(rootDir: string) {
+  return {
+    options: {
+      rootDir,
+      runtimeConfig: {
+        shopwell: {},
+        public: {
+          shopwell: {
+            endpoint: "https://test.shopwell.store/store-api/",
+            accessToken: "test-token",
+          },
+        },
+      },
+    },
+  };
+}
+
+async function getModuleSetup() {
+  const mod = await import("./index");
+  return (
+    mod.default as unknown as {
+      setup: (options: Record<string, unknown>, nuxt: unknown) => Promise<void>;
+    }
+  ).setup;
+}
+
+describe("@shopwell/nuxt-module", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    isConfigDeprecatedMock.mockReturnValue(false);
+  });
+
+  const ALL_TYPE_CONTEXTS = {
+    nuxt: true,
+    nitro: true,
+    node: true,
+    shared: true,
+  };
+
+  it("should inject default shopwell.d.ts in all type contexts when project has no custom types", async () => {
+    existsSyncMock.mockReturnValue(false);
+    const setup = await getModuleSetup();
+
+    await setup({}, createNuxtMock("/tmp/test-project"));
+
+    expect(addTypeTemplateMock).toHaveBeenCalledWith(
+      {
+        filename: "shopwell.d.ts",
+        src: "/mocked-module-dir/../shopwell.d.ts",
+      },
+      ALL_TYPE_CONTEXTS,
+    );
+  });
+
+  it("should reference the project's own shopwell.d.ts in all type contexts when it exists", async () => {
+    existsSyncMock.mockReturnValue(true);
+    const setup = await getModuleSetup();
+
+    await setup({}, createNuxtMock("/tmp/test-project"));
+
+    expect(addTypeTemplateMock).toHaveBeenCalledTimes(1);
+    const [template, context] = addTypeTemplateMock.mock.calls[0] as [
+      { filename: string; getContents: () => string },
+      Record<string, boolean>,
+    ];
+    expect(template.filename).toBe("shopwell.d.ts");
+    expect(template.getContents()).toContain(
+      '/// <reference path="/tmp/test-project/shopwell.d.ts" />',
+    );
+    expect(context).toEqual(ALL_TYPE_CONTEXTS);
+  });
+
+  it("should check for shopwell.d.ts in the project root directory", async () => {
+    existsSyncMock.mockReturnValue(false);
+    const setup = await getModuleSetup();
+
+    await setup({}, createNuxtMock("/my/project"));
+
+    expect(existsSyncMock).toHaveBeenCalledWith("/my/project/shopwell.d.ts");
+  });
+
+  it("should always register the plugin", async () => {
+    existsSyncMock.mockReturnValue(false);
+    const setup = await getModuleSetup();
+
+    await setup({}, createNuxtMock("/tmp/test-project"));
+
+    expect(addPluginMock).toHaveBeenCalledWith({
+      src: "/mocked-module-dir/../plugin.ts",
+    });
+  });
+
+  it("should persist the resolved SSR endpoint into private runtime config", async () => {
+    existsSyncMock.mockReturnValue(false);
+    const setup = await getModuleSetup();
+    const nuxt = createNuxtMock("/tmp/test-project");
+
+    await setup({}, nuxt);
+
+    expect(nuxt.options.runtimeConfig.shopwell).toMatchObject({
+      endpoint: "https://test.shopwell.store/store-api/",
+    });
+  });
+
+  it("should preserve an explicit private SSR endpoint", async () => {
+    existsSyncMock.mockReturnValue(false);
+    const setup = await getModuleSetup();
+    const nuxt = createNuxtMock("/tmp/test-project");
+    nuxt.options.runtimeConfig.shopwell = {
+      endpoint: "http://internal.shopwell/store-api/",
+    };
+
+    await setup({}, nuxt);
+
+    expect(nuxt.options.runtimeConfig.shopwell).toMatchObject({
+      endpoint: "http://internal.shopwell/store-api/",
+    });
+  });
+
+  it("should warn when deprecated config keys are used", async () => {
+    existsSyncMock.mockReturnValue(false);
+    isConfigDeprecatedMock.mockReturnValue(true);
+    const setup = await getModuleSetup();
+
+    await setup({}, createNuxtMock("/tmp/test-project"));
+
+    expect(loggerMock.warn).toHaveBeenCalledWith(
+      "You are using deprecated configuration (shopwellEndpoint or shopwellAccessToken). 'shopwell' prefix is not needed anymore. Please update your _nuxt.config.ts_ ",
+    );
+  });
+
+  it("warns when the deprecated shopwell.apiClientConfig is set", async () => {
+    existsSyncMock.mockReturnValue(false);
+    const setup = await getModuleSetup();
+
+    await setup(
+      { apiClientConfig: { timeout: 5000 } },
+      createNuxtMock("/tmp/test-project"),
+    );
+
+    expect(loggerMock.warn).toHaveBeenCalledWith(
+      "shopwell.apiClientConfig is deprecated and will be removed in the next major. Move timeout to runtimeConfig.apiClientConfig or runtimeConfig.public.apiClientConfig.",
+    );
+  });
+
+  it("does not warn about an apiClientConfig that sets no timeout", async () => {
+    existsSyncMock.mockReturnValue(false);
+    const setup = await getModuleSetup();
+
+    await setup({ apiClientConfig: {} }, createNuxtMock("/tmp/test-project"));
+
+    expect(loggerMock.warn).not.toHaveBeenCalledWith(
+      expect.stringContaining("apiClientConfig"),
+    );
+  });
+
+  it("does not warn about shopwell.apiClientConfig when it is unset", async () => {
+    existsSyncMock.mockReturnValue(false);
+    const setup = await getModuleSetup();
+
+    await setup({}, createNuxtMock("/tmp/test-project"));
+
+    expect(loggerMock.warn).not.toHaveBeenCalledWith(
+      expect.stringContaining("apiClientConfig"),
+    );
+  });
+});

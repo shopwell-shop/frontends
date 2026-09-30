@@ -1,0 +1,115 @@
+# Vue components for Mollie Payments (Nuxt module)
+
+- [📖 &nbsp;Documentation](https://developer.shopwell.com/frontends)
+
+## Features
+
+<!-- Highlight some of the features your module provide here -->
+
+- ⛰ &nbsp;`useMollie` & `useMollieCreditCard` composable function
+- 🚠 &nbsp;`MollieCreditCardComponent.vue` component to use in a Vue project
+- 🌲 &nbsp;`ShopwellFrontendsCreditCard.vue` component to use in a Nuxt Shopwell Powered project
+
+## Requirements
+
+- Frontend side: any Nuxt 3 project, or a project with [Shopwell Frontends](https://developer.shopwell.com/frontends/getting-started/templates.html) registered and running (you can use one of the Nuxt templates provided in [shopwell/frontends](https://github.com/shopwell-shop/frontends/tree/main/templates) GitHub Project
+- Backend side: [Mollie Payments App for Shopwell](https://store.shopwell.com/en/molli23282346664f/mollie-payments-app-for-shopwell.html) installed on your environment ([See how to setup it locally](https://boxblinkracer.com/blog/mollie-app-setup))
+
+## Setup
+
+### Backend: Shopwell 6 admin panel
+
+Install the Mollie Payments in your Shopwell 6 instance and set it up
+
+### Frontend: Nuxt 3 project
+
+0. Install the dependencies
+
+   run `pnpm i` command.
+
+1. Configure Mollie module in `runtimeConfig > public` section of _nuxt.config.ts_
+
+```js
+// ./nuxt.config.ts
+mollie: {
+    defaultLocale: "en_US", // fallback locale
+    profileId: "pfl_E5EmGZ98YT", // from Mollie's dashboard
+    testMode: true,
+},
+```
+
+## Use Credit Card components
+
+1. For Shopwell Frontends aware projects (with `@shopwell/nuxt-module` enabled)
+
+```html
+<script setup lang="ts">
+  import { useCheckout } from "@shopwell/composables/dist";
+  const { selectedPaymentMethod } = useCheckout();
+  // the name may vary, so first, please check what comes from API
+  const showMollieCreditCardComponent = computed(
+    () =>
+      selectedPaymentMethod.value?.shortName ===
+      "mollie_payments_app_mollie_creditcard",
+  );
+</script>
+<template>
+  <!-- show credit card component conditionally -->
+  <ShopwellFrontendsCreditCard :v-if="showMollieCreditCardComponent" />
+</template>
+```
+
+In this case, by clicking a submit / save button under the credit card form, there will be an additional request made to the mollie's endpoint in your Shopwell 6 instance.
+
+2. For plain Nuxt 3 project
+
+```html
+<MollieCreditCardComponent />
+```
+
+## Events and properties
+
+Control credit card form and react on events using events and properties:
+
+```ts
+const props = defineProps<{
+  locale?: MollieLocale;
+  submitButtonLabel?: string;
+  submitDisabled?: boolean;
+}>();
+
+const emits = defineEmits<{
+  (e: "submit", token: string | undefined): void;
+  (e: "error", error: string | undefined): void;
+}>();
+```
+
+Example:
+
+```html
+<ShopwellFrontendsCreditCard
+  submit-button-label="Save"
+  locale="en_US"
+  :submit-disabled="!!CreditCardToken"
+  @submit="
+      (token) => {
+        CreditCardToken = `${token} ✔️`;
+        CreditCardError = null;
+      }
+    "
+  @error="
+      (message) => {
+        CreditCardError = `${message} ❌`;
+      }
+    "
+/>
+```
+
+## Development
+
+Run a playground project with configured Mollie module from current dir.
+
+```bash
+# Run a playground (nuxt 3) project in dev mode
+pnpm dev
+```

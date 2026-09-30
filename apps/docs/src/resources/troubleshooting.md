@@ -1,0 +1,259 @@
+---
+head:
+  - - meta
+    - name: og:title
+      content: Troubleshooting - Shopwell Composable Frontends
+  - - meta
+    - name: og:description
+      content: "Collection of common issues you may run into while working with Shopwell Composable Frontends."
+  - - meta
+    - name: og:image
+      content: "https://frontends-og-image.vercel.app/Troubleshooting?fontSize=150px"
+---
+
+# 😱 Troubleshooting
+
+Collection of common issues you may run into while working with Shopwell Composable Frontends. If you need help or have other questions, feel free to join the [frontends Discord channel](https://discord.com/channels/1308047705309708348/1405501315160739951/archives/C050L6NCMGQ).
+
+## Which SalesChannel type to use for Composable Frontends?
+
+Currently you should use the default **Storefront SalesChannel type**. This sounds wrong, but if you using the Headless SalesChannel type you will not have nice speaking seo urls at the moment. Because the generation of seo urls will only be executed for SalesChannels with the type Storefront. We working on a more flexible solution with the core team to not have this confusion in the future.
+
+## The access token for the store API is public visible?
+
+In general, the store API should only output content that would also be visible on a standard storefront. Therefore, do not output any sensitive data to the store API. For our vue-starter-template, we decided to use a public access token, also to have a simple configuration. However, this does not mean that you should do the same in a production environment. To secure your access token, you can use [proxy api requests](#proxy-api-requests) also have a look at our [community modules](../resources/community-modules/) how others are doing this.
+
+## How to use https for your localhost with Composable Frontends?
+
+### Option 1: Manual with mkcert
+
+- Make sure you have `mkcert` installed on your system. Otherwise, follow [here](https://github.com/FiloSottile/mkcert) to set it up.
+- Create a valid certificate in your project folder by running `mkcert localhost`.
+- Update the `nuxt dev` command in your `package.json`.  
+  It should look like this: `NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem`
+- Now run your project with `npm run dev` or `pnpm run dev` from your project root.
+- Your browser may ask you to accept the risk when you visit `https://localhost:3000`. This is because it is a self-signed certificate.
+
+### Option 2: Vite plugin
+
+- Execute `pnpm add -D @vitejs/plugin-basic-ssl` in your project folder
+- Edit your `nuxt.config.ts` file and add:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/resources/troubleshooting/option-2-vite-plugin.ts" code lang="ts" no-name -->
+
+```ts
+import basicSsl from "@vitejs/plugin-basic-ssl";
+import { defineNuxtConfig } from "nuxt/config";
+
+// https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
+export default defineNuxtConfig({
+  devServer: {
+    https: true,
+  },
+  vite: {
+    plugins: [basicSsl()],
+  },
+});
+```
+
+<!-- /automd -->
+
+- Start your dev server with `pnpm run dev`
+- Your browser may ask you to accept the risk when you visit `https://localhost:3000`. This is because it is a self-signed certificate.
+
+## SSR throws error in local environment with DDEV?
+
+If you are using DDEV as a local environment with SSR = true (Nuxt config for routes) and you always get a 500 error message that the context is not provided for category, you may have a problem with the SSL certificate. Try to use `NODE_TLS_REJECT_UNAUTHORIZED = 0` in [.env file](https://nuxt.com/docs/guide/directory-structure/env) (this is a issue with self-signed certificates). To validate if this is your problem: Connect the local Frontend with a valid SSL from a cloud instance and check it against this instance. Also check if you can reach any local store API endpoint with some API client.
+
+## 412 error page during local development?
+
+The HTTP status code 412 (Precondition Failed) usually means in the Shopwell `store API` context that the specified `accessToken` is incorrect or not correct for the specified `endpoint`. Check your `nuxt.config.ts` file, if you do not see an error, please try connecting directly to your `store API` endpoint using an API client.
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/resources/troubleshooting/412-error-page-during-local-development.ts" code lang="ts" no-name -->
+
+```ts
+import { defineNuxtConfig } from "nuxt/config";
+
+export default defineNuxtConfig({
+  shopwell: {
+    accessToken: "SWSCBHFSNTVMAWNZDNFKSHLAYW", // access token for corresponding sales channel
+    endpoint: "https://demo-frontends.shopwell.store/store-api/", // endpoint where store-api is available
+    devStorefrontUrl: "https://demo-frontends.shopwell.store", // see section below
+  },
+});
+```
+
+<!-- /automd -->
+
+## What is `devStorefrontUrl` and when to use it?
+
+`devStorefrontUrl` overrides the `storefrontUrl` that Shopwell Frontends sends to the Store API. It is needed for **customer registration**, **password recovery** and **newsletter subscription**, because those endpoints require a URL that matches a domain configured under **Sales Channel → Domains** — and during local development your browser origin is `http://localhost:3000`, which matches none.
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/resources/troubleshooting/what-is-devstorefronturl-and-when-to-use-it.ts" code lang="ts" no-name -->
+
+```ts
+import { defineNuxtConfig } from "nuxt/config";
+
+// nuxt.config.ts
+export default defineNuxtConfig({
+  shopwell: {
+    endpoint: "https://your-shop.shopwell.store/store-api",
+    accessToken: "your-access-token",
+    devStorefrontUrl: "https://your-shop.shopwell.store", // must match a Sales Channel domain
+  },
+});
+```
+
+<!-- /automd -->
+
+The environment variable below overrides it, but **only if the `devStorefrontUrl` key is already present** in `nuxt.config.ts` (an empty string is enough) — Nuxt applies `NUXT_*` overrides only to keys that already exist, and the module does not seed a default:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/resources/troubleshooting/what-is-devstorefronturl-and-when-to-use-it-2.sh" code lang="bash" no-name -->
+
+```bash
+NUXT_PUBLIC_SHOPWELL_DEV_STOREFRONT_URL=https://your-shop.shopwell.store
+```
+
+<!-- /automd -->
+
+:::tip
+If customer registration works in production but fails locally, `devStorefrontUrl` is likely the solution. Set it to your production storefront domain during local development.
+:::
+
+For the full explanation — what the backend does with `storefrontUrl`, which endpoints require it, `replaceToDevStorefront()`, and the constraint-violation errors — see [Storefront URL](../guides/storefront-url.html).
+
+## Access from origin 127.0.0.1:3000 has been blocked by CORS policy
+
+Depending on your server, you may need to set the `Access-Control-Allow-Origin` header to access your server from an external origin. And yes, your local development server is also an external origin in this case. Also, have a look at this [documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSMissingAllowOrigin) from MDN.
+
+## Proxy API requests
+
+If you're encountering issues related to Cross-Origin Resource Sharing (CORS) or if you wish to conceal the backend API URL, you can use Vite's proxy mechanism
+
+### Nuxt example
+
+Edit your `nuxt.config.ts` file and add:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/resources/troubleshooting/nuxt-example.txt" code no-name -->
+
+```txt
+vite: {
+    server: {
+      proxy: {
+        "/store-api": {
+          target: "<backend url>",
+          changeOrigin: true,
+          secure: false,
+        },
+      },
+    },
+  },
+```
+
+<!-- /automd -->
+
+Modify the Shopwell API endpoint to match your local frontend URL.
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/resources/troubleshooting/nuxt-example-2.txt" code no-name -->
+
+```txt
+{
+    ...
+      shopwell: {
+          endpoint: "<frontends >store-api/",
+          ...
+      }
+  }
+```
+
+<!-- /automd -->
+
+## Broadcasting and BFCache Compatibility
+
+### Issue
+
+When Broadcasting is enabled, the BFCache (Back-Forward Cache) functionality is not operational. This incompatibility can lead to suboptimal performance and user experience when navigating back and forth between pages.
+
+### Resolution (vue-demo template)
+
+To leverage the benefits of BFCache, we have decided to disable Broadcasting. By turning off Broadcasting, we ensure that the BFCache can function correctly, providing a smoother and faster navigation experience for users.
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/resources/troubleshooting/resolution-vue-demo-template.txt" code no-name -->
+
+```txt
+...
+runtimeConfig: {
+  broadcasting: true,
+},
+...
+```
+
+<!-- /automd -->
+
+### Additional Information
+
+BFCache is a browser optimization that allows pages to be stored in memory, enabling instant loading when users navigate back or forward. While Broadcasting is useful for real-time updates, its current implementation conflicts with BFCache. Disabling Broadcasting allows us to prioritize the performance improvements offered by BFCache.
+
+For more details on BFCache, refer to the [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/Performance/Navigation_and_resource_timing#bfcache), [WHATWG](https://github.com/whatwg/html/issues/7253)
+
+## CORS (Cross-Origin Resource Sharing) Issues
+
+See the [CORS](./troubleshooting/CORS) page for more information on how to handle CORS issues in your project.
+
+## [unimport] failed to find "createShopwellContext" imported from "#imports"
+
+### Problem
+
+This error occurs when `@shopwell/nuxt-module` is added to your project, but `@shopwell/composables/nuxt-layer` is not extended in your Nuxt configuration.
+
+### Why it happens
+
+The `@shopwell/nuxt-module` plugin imports `createShopwellContext` from the `#imports` alias. The `@shopwell/composables/nuxt-layer` is responsible for configuring Nuxt's auto-import system and TypeScript paths to make composables exports available via `#imports`.
+
+When you use Nuxt layers, the layer system merges TypeScript configuration files from both the composables layer and your project. This merge adds the composables exports to the `#imports` alias scope. Without extending the composables layer, these exports are not available, causing the import error.
+
+### Solution
+
+Extend `@shopwell/composables/nuxt-layer` in your `nuxt.config.ts`:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/resources/troubleshooting/solution.ts" code lang="ts" no-name -->
+
+```ts
+import { defineNuxtConfig } from "nuxt/config";
+
+// nuxt.config.ts
+export default defineNuxtConfig({
+  extends: ["@shopwell/composables/nuxt-layer"],
+  modules: ["@shopwell/nuxt-module"],
+  // ... rest of your configuration
+});
+```
+
+<!-- /automd -->
+
+:::tip
+If you're using `@shopwell/cms-base-layer`, you can extend both layers together:
+
+<!-- automd:file src="examples/docs-code-examples/src/generated/resources/troubleshooting/solution-2.ts" code lang="ts" no-name -->
+
+```ts
+import { defineNuxtConfig } from "nuxt/config";
+
+export default defineNuxtConfig({
+  extends: [
+    "@shopwell/composables/nuxt-layer",
+    "@shopwell/cms-base-layer",
+    "@shopwell/unocss-design-tokens-layer",
+  ],
+});
+```
+
+<!-- /automd -->
+
+:::
+
+### Additional Information
+
+- The `@shopwell/composables/nuxt-layer` sets up auto-imports for all composables from the `src` directory
+- It also configures TypeScript path aliases (`#imports` and `#shopwell`) that are required by the nuxt-module
+- Always extend the composables layer when using `@shopwell/nuxt-module` in your project

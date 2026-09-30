@@ -1,0 +1,133 @@
+import { describe, expect, it } from "vitest";
+
+import { getMainImageUrl } from "./getMainImageUrl";
+
+describe("Helpers - getMainImageUrl", () => {
+  const mediaUrl =
+    "https://shopwell.test/media/8a/fd/cb/1572351035/msh06-gray_main_2.jpg";
+
+  it("should contain url from first media gallery as a fallback if cover does not exist", () => {
+    const product = {
+      media: [
+        {
+          media: {
+            url: "fallback-url",
+          },
+        },
+      ],
+      apiAlias: "product",
+    };
+    const coverUrl = getMainImageUrl(product);
+    expect(coverUrl).toEqual("fallback-url");
+  });
+
+  it("should contain url in nested media object", () => {
+    const product = {
+      cover: {
+        media: {
+          url: mediaUrl,
+        },
+      },
+      apiAlias: "product",
+    };
+    const coverUrl = getMainImageUrl(product);
+    expect(coverUrl).toEqual(mediaUrl);
+  });
+
+  it("should contain url in nested cover object when lineItem", () => {
+    const lineItem = {
+      cover: {
+        url: mediaUrl,
+      },
+    };
+    const coverUrl = getMainImageUrl(lineItem);
+    expect(coverUrl).toEqual(mediaUrl);
+  });
+
+  it("should contain empty string when there is no media gallery or cover", () => {
+    const product = {};
+    const coverUrl = getMainImageUrl(product);
+    expect(coverUrl).toEqual("");
+  });
+
+  it("Should take the url from the media object first", () => {
+    const product = {
+      cover: {
+        url: "https://shopwell.test/media/8a/fd/cb/1572351035/msh06-gray_main_1.jpg",
+        media: {
+          url: mediaUrl,
+        },
+      },
+      apiAlias: "product",
+    };
+    const coverUrl = getMainImageUrl(product);
+    expect(coverUrl).toEqual(mediaUrl);
+  });
+
+  it("should return null for product without cover media and cover url", () => {
+    const emptyProduct = {};
+    const coverUrl = getMainImageUrl(emptyProduct);
+    expect(coverUrl).toEqual("");
+  });
+
+  it("should return default negative value if argument wasn't provided", () => {
+    // @ts-expect-error type should be wrong here
+    const coverUrl = getMainImageUrl(undefined);
+    expect(coverUrl).toEqual("");
+  });
+
+  it("should return default value if product was null", () => {
+    // @ts-expect-error type should be wrong here
+    const coverUrl = getMainImageUrl(null);
+    expect(coverUrl).toEqual("");
+  });
+
+  it("should return empty string if cover.media is defined but url is not", () => {
+    const product = {
+      cover: {
+        media: {
+          url: undefined,
+        },
+      },
+    };
+    // @ts-expect-error - url should be string
+    const coverUrl = getMainImageUrl(product);
+    expect(coverUrl).toEqual("");
+  });
+
+  it("should return empty string if cover is defined but url is not", () => {
+    const product = {
+      cover: {
+        url: undefined,
+      },
+    };
+    // @ts-expect-error - url should be string
+    const coverUrl = getMainImageUrl(product);
+    expect(coverUrl).toEqual("");
+  });
+
+  it("should return empty string if cover exists but has neither media nor url", () => {
+    const product = {
+      cover: {
+        id: "some-id",
+      },
+    };
+    // @ts-expect-error - cover shape doesn't match expected types
+    const coverUrl = getMainImageUrl(product);
+    expect(coverUrl).toEqual("");
+  });
+
+  it("should return empty string if media is defined but url is not", () => {
+    const product = {
+      media: [
+        {
+          media: {
+            url: undefined,
+          },
+        },
+      ],
+    };
+    const coverUrl = getMainImageUrl(product);
+    expect(coverUrl).toEqual("");
+  });
+});

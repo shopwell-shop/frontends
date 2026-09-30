@@ -1,0 +1,562 @@
+# @shopwell/nuxt-module
+
+## 1.5.2
+
+### Patch Changes
+
+- [#2598](https://github.com/shopwell-shop/frontends/pull/2598) [`204c8f4`](https://github.com/shopwell-shop/frontends/commit/204c8f45f737e724db6d00b80c5faef8ddb77cb4) Thanks [@dependabot](https://github.com/apps/dependabot)! - Fix Nuxt plugin injection typing for Nuxt 4.5 and maintenance mode error handling.
+
+- Updated dependencies [[`2ddf156`](https://github.com/shopwell-shop/frontends/commit/2ddf156805b2941fe2069e78453fb3c4eb6d44ac), [`204c8f4`](https://github.com/shopwell-shop/frontends/commit/204c8f45f737e724db6d00b80c5faef8ddb77cb4), [`7020545`](https://github.com/shopwell-shop/frontends/commit/70205458cb9357a068029d0aaef41898ab94b354), [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e), [`458494e`](https://github.com/shopwell-shop/frontends/commit/458494e8bd2be88d4fbf161636a109c8f4efc443), [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e), [`183c183`](https://github.com/shopwell-shop/frontends/commit/183c183f905486c27fa770fd0f4cd9993e86c20e), [`8913956`](https://github.com/shopwell-shop/frontends/commit/89139563924163e57cafdd9770fe603f2dbd8cba), [`458494e`](https://github.com/shopwell-shop/frontends/commit/458494e8bd2be88d4fbf161636a109c8f4efc443)]:
+  - @shopwell/helpers@1.8.0
+  - @shopwell/composables@1.13.0
+  - @shopwell/api-client@1.6.0
+
+## 1.5.1
+
+### Patch Changes
+
+- Updated dependencies [[`6315350`](https://github.com/shopwell-shop/frontends/commit/6315350add0464abef153343897d42f5808f2003), [`b767721`](https://github.com/shopwell-shop/frontends/commit/b767721847bf3391f9067eca7a045089fb22fce0), [`f16c5a0`](https://github.com/shopwell-shop/frontends/commit/f16c5a0785d6187b73c3edcf37feab7c90bd7988), [`978b02c`](https://github.com/shopwell-shop/frontends/commit/978b02c969ca4b16f5fc1d7a953ec4cce3d98173), [`6572aa8`](https://github.com/shopwell-shop/frontends/commit/6572aa84431e1f4a34d6cf04e549037692d638a6), [`744833b`](https://github.com/shopwell-shop/frontends/commit/744833b9d7d2f8ea1f5dfe65be3fa554dbe4a09f), [`e03c91b`](https://github.com/shopwell-shop/frontends/commit/e03c91be172374894d90b7a0111855b76719fee1), [`33facb1`](https://github.com/shopwell-shop/frontends/commit/33facb178792c8cb26b47ab984ac48c08ab4b72b), [`9137475`](https://github.com/shopwell-shop/frontends/commit/91374753cedb2034385f642e6af11314f2971caa), [`474d3fe`](https://github.com/shopwell-shop/frontends/commit/474d3fed346816135b0c7c797990b215a8b691c0), [`38379a5`](https://github.com/shopwell-shop/frontends/commit/38379a5d52ab09008774533ef417ebe2cde3f7fd)]:
+  - @shopwell/composables@1.12.1
+  - @shopwell/api-client@1.5.1
+  - @shopwell/helpers@1.7.2
+
+## 1.5.0
+
+### Minor Changes
+
+- [#2473](https://github.com/shopwell-shop/frontends/pull/2473) [`22611e5`](https://github.com/shopwell-shop/frontends/commit/22611e542b8f42a4f34dce5186f628f9a17f457b) Thanks [@mkucmus](https://github.com/mkucmus)! - Add an opt-in `cacheableReads` flag that routes anonymous Store API reads through their cacheable GET variants instead of POST. Criteria is compressed into the `_criteria` query param via `encodeForQuery` from `@shopwell/api-client/helpers`, which lets CDNs / reverse proxies / the browser cache the responses.
+
+  Disabled by default — fully backwards compatible. Enable it in `nuxt.config` (`shopwell: { cacheableReads: true }`) or via `createShopwellContext(app, { cacheableReads: true })` for non-Nuxt setups. It is surfaced on the Shopwell context and read by the affected composables; public composable signatures are unchanged.
+
+  Affected composables: `useNavigation`, `useNavigationSearch`, `useCountries`, `useUser` (country + salutation lookups), `useSalutations`, `useInternationalization`, `useProductConfigurator`, `useProductSearch`, and `useCategorySearch.advancedSearch`.
+
+  `useListing` (product-listing), single-category `useCategorySearch.search`, and `useLandingSearch` remain POST for now: the generated Store API schema does not type `_criteria` on those GET routes (a Shopwell OpenAPI gap). The backend does honor `_criteria` on product-listing GET at runtime, so that one can be migrated later once the types are augmented.
+
+### Patch Changes
+
+- [#2488](https://github.com/shopwell-shop/frontends/pull/2488) [`c56b89e`](https://github.com/shopwell-shop/frontends/commit/c56b89e16a9fbd9283e40a4e2c0f7cc6034226a1) Thanks [@mkucmus](https://github.com/mkucmus)! - Register the `#shopwell` types in every TypeScript context (app, server/nitro, node, shared) instead of only the app one. This fixes `Cannot find module '#shopwell'` in server-side code (e.g. `server/` routes and API builders) when a project uses the Nuxt 4 project-references `tsconfig.json` layout. Projects that ship their own `shopwell.d.ts` are referenced in place so their relative imports keep resolving.
+
+- Updated dependencies [[`8be060d`](https://github.com/shopwell-shop/frontends/commit/8be060de825ca799f98a8f045a5e7fea61f5d1a2), [`5678fb0`](https://github.com/shopwell-shop/frontends/commit/5678fb008cbd86eaddd061e004de89e6f45bb7ec), [`22611e5`](https://github.com/shopwell-shop/frontends/commit/22611e542b8f42a4f34dce5186f628f9a17f457b)]:
+  - @shopwell/composables@1.12.0
+
+## 1.4.4
+
+### Patch Changes
+
+- [#2370](https://github.com/shopwell-shop/frontends/pull/2370) [`9661432`](https://github.com/shopwell-shop/frontends/commit/96614324dfed3d9d83fbf85710145dd529a23f46) Thanks [@patzick](https://github.com/patzick)! - Fix SSR and CSR Shopwell endpoint handling in the Nuxt module.
+
+  The module now persists the resolved SSR endpoint into private runtime config,
+  avoids reading private runtime config on the client, and correctly honors both
+  `endpoint` and deprecated `shopwellEndpoint` values during server rendering.
+
+- Updated dependencies [[`22fc8a7`](https://github.com/shopwell-shop/frontends/commit/22fc8a7301f6a7d2612d907ab73555978b651c00), [`bea7f58`](https://github.com/shopwell-shop/frontends/commit/bea7f5882cb58c6d47c84a82db5c8ecaf9bcf8ef), [`b8c0091`](https://github.com/shopwell-shop/frontends/commit/b8c00913c3afb5e1e63de9565105f8f8e3bf299f)]:
+  - @shopwell/helpers@1.7.1
+  - @shopwell/composables@1.11.1
+
+## 1.4.3
+
+### Patch Changes
+
+- [#2232](https://github.com/shopwell-shop/frontends/pull/2232) [`f52c2da`](https://github.com/shopwell-shop/frontends/commit/f52c2da685c0c5085e6579aea37f86b6ce1d8281) Thanks [@patzick](https://github.com/patzick)! - bump h3 version after security audit
+
+- [#2321](https://github.com/shopwell-shop/frontends/pull/2321) [`5a785cc`](https://github.com/shopwell-shop/frontends/commit/5a785ccff72c4fe95ec3f774eeb7053e8b1e55fa) Thanks [@mkucmus](https://github.com/mkucmus)! - Auto-inject `#shopwell` types via `addTypeTemplate`, skip if project provides own `shopwell.d.ts`
+
+- Updated dependencies [[`9604f22`](https://github.com/shopwell-shop/frontends/commit/9604f22678150d04c3c3156fd8ee2ce440c8c8bf), [`b40305f`](https://github.com/shopwell-shop/frontends/commit/b40305f9e2ec51f29c279650e411bb773438faed), [`432dd24`](https://github.com/shopwell-shop/frontends/commit/432dd246571dfa8c149293da97d5bb16f505e54c), [`b5f7e2a`](https://github.com/shopwell-shop/frontends/commit/b5f7e2a20c9dfdde1690e9006252d847f732bc0a), [`b5f7e2a`](https://github.com/shopwell-shop/frontends/commit/b5f7e2a20c9dfdde1690e9006252d847f732bc0a), [`9604f22`](https://github.com/shopwell-shop/frontends/commit/9604f22678150d04c3c3156fd8ee2ce440c8c8bf), [`a871c7b`](https://github.com/shopwell-shop/frontends/commit/a871c7b6256b75c2e40d93fc0354ba1971420062), [`c9bde38`](https://github.com/shopwell-shop/frontends/commit/c9bde38d497d5c6c2fbd97700a362eb44ce8881f)]:
+  - @shopwell/api-client@1.5.0
+  - @shopwell/composables@1.11.0
+  - @shopwell/helpers@1.7.0
+
+## 1.4.2
+
+### Patch Changes
+
+- Updated dependencies [[`87771c3`](https://github.com/shopwell-shop/frontends/commit/87771c3b7a4521fcdba43cb4c967b61f5db01b3e), [`22ff62e`](https://github.com/shopwell-shop/frontends/commit/22ff62e354f024599d64ea8096af57695248851c), [`a44d871`](https://github.com/shopwell-shop/frontends/commit/a44d8712d9ae5ee196c03ac8b894f3d1392d0e68), [`e43d9b7`](https://github.com/shopwell-shop/frontends/commit/e43d9b7f559af21be8b66f2021cea2d14940e4aa), [`2cbda25`](https://github.com/shopwell-shop/frontends/commit/2cbda257a1056454e12f2fba9052f83eecb6d986), [`2cbda25`](https://github.com/shopwell-shop/frontends/commit/2cbda257a1056454e12f2fba9052f83eecb6d986), [`7fe2ef9`](https://github.com/shopwell-shop/frontends/commit/7fe2ef96a9d9d156683b85d31f0a660458c9fbfd), [`70dcf95`](https://github.com/shopwell-shop/frontends/commit/70dcf95d4370c63964d877a5cab113a53f93ca19), [`56cd178`](https://github.com/shopwell-shop/frontends/commit/56cd178e25fe2399b7170ccac3044e980621f041), [`c647baf`](https://github.com/shopwell-shop/frontends/commit/c647baf93e7174b849f5961ee5803add99d78602), [`e1fae3e`](https://github.com/shopwell-shop/frontends/commit/e1fae3eb6430e5c8e133456fbaf7f215f80c36f6), [`c647baf`](https://github.com/shopwell-shop/frontends/commit/c647baf93e7174b849f5961ee5803add99d78602), [`c77daa6`](https://github.com/shopwell-shop/frontends/commit/c77daa6a11e96c7f3688b16f7da010b54c7f5e8b)]:
+  - @shopwell/composables@1.10.0
+  - @shopwell/helpers@1.6.0
+  - @shopwell/api-client@1.4.0
+
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies [[`ab040bb`](https://github.com/shopwell-shop/frontends/commit/ab040bb6cc05541001a983c26d5cb6dbf3192394), [`c8fa438`](https://github.com/shopwell-shop/frontends/commit/c8fa438b38de6dbc43a2895f2d1906907447c384)]:
+  - @shopwell/composables@1.9.1
+  - @shopwell/helpers@1.5.0
+
+## 1.4.0
+
+### Minor Changes
+
+- [#1812](https://github.com/shopwell-shop/frontends/pull/1812) [`c28810d`](https://github.com/shopwell-shop/frontends/commit/c28810d0ca503b97c232438e200bbf5ba5dab403) Thanks [@patzick](https://github.com/patzick)! - `useShopwellContext` - added `browserLocale` field. With nuxt-module it's automatically injected into context. Should be used for proper date formatting.
+
+### Patch Changes
+
+- Updated dependencies [[`d016d6b`](https://github.com/shopwell-shop/frontends/commit/d016d6b845bff9a148405a74dae88d7fc81ec99c), [`c28810d`](https://github.com/shopwell-shop/frontends/commit/c28810d0ca503b97c232438e200bbf5ba5dab403), [`a7ff606`](https://github.com/shopwell-shop/frontends/commit/a7ff60681d1a164d5c9f2020c506262e96fad5dc), [`d016d6b`](https://github.com/shopwell-shop/frontends/commit/d016d6b845bff9a148405a74dae88d7fc81ec99c), [`bd70905`](https://github.com/shopwell-shop/frontends/commit/bd70905b8443fd57d8d8cb3cfc6501a9117dea49)]:
+  - @shopwell/api-client@1.3.0
+  - @shopwell/composables@1.9.0
+
+## 1.3.1
+
+### Patch Changes
+
+- [#1628](https://github.com/shopwell-shop/frontends/pull/1628) [`a22588f`](https://github.com/shopwell-shop/frontends/commit/a22588f12393309d356c5d2f1a16526591f4e3d5) Thanks [@mkucmus](https://github.com/mkucmus)! - Read private shopwell config only in SSR context.
+
+- Updated dependencies [[`7324620`](https://github.com/shopwell-shop/frontends/commit/7324620a3f39c1b62f7cc294192a3e8b8b336d09)]:
+  - @shopwell/api-client@1.2.1
+  - @shopwell/composables@1.8.1
+
+## 1.3.0
+
+### Minor Changes
+
+- [#1602](https://github.com/shopwell-shop/frontends/pull/1602) [`bb7d1cb`](https://github.com/shopwell-shop/frontends/commit/bb7d1cbc4204ff1d48f77416f94f550bc235e5ed) Thanks [@patzick](https://github.com/patzick)! - Package `@shopwell-pwa/nuxt3-module` is deprecated. Use [@shopwell/nuxt-module](https://www.npmjs.com/package/@shopwell/nuxt-module) instead.
+
+- [#1602](https://github.com/shopwell-shop/frontends/pull/1602) [`bb7d1cb`](https://github.com/shopwell-shop/frontends/commit/bb7d1cbc4204ff1d48f77416f94f550bc235e5ed) Thanks [@patzick](https://github.com/patzick)! - Switch from `@shopwell-pwa/helpers-next` to `@shopwell/helpers` package.
+
+- [#1602](https://github.com/shopwell-shop/frontends/pull/1602) [`bb7d1cb`](https://github.com/shopwell-shop/frontends/commit/bb7d1cbc4204ff1d48f77416f94f550bc235e5ed) Thanks [@patzick](https://github.com/patzick)! - Switch from `@shopwell-pwa/cms-base` to `@shopwell/cms-base-layer` package.
+
+### Patch Changes
+
+- Updated dependencies [[`bb7d1cb`](https://github.com/shopwell-shop/frontends/commit/bb7d1cbc4204ff1d48f77416f94f550bc235e5ed), [`bb7d1cb`](https://github.com/shopwell-shop/frontends/commit/bb7d1cbc4204ff1d48f77416f94f550bc235e5ed)]:
+  - @shopwell/composables@1.8.0
+  - @shopwell/helpers@1.4.0
+
+## 1.2.0
+
+### Minor Changes
+
+- [#1596](https://github.com/shopwell-shop/frontends/pull/1596) [`3a79106`](https://github.com/shopwell-shop/frontends/commit/3a791065d04152255095965e3fb12ea538a22639) Thanks [@patzick](https://github.com/patzick)! - Changed `@shopwell-pwa/composables` package to `@shopwell/composables`. Just rename it in package.json file and run install.
+
+- [#1599](https://github.com/shopwell-shop/frontends/pull/1599) [`6736509`](https://github.com/shopwell-shop/frontends/commit/67365096168e28b9683cfd3b5d4c8bb3b4ae07e3) Thanks [@patzick](https://github.com/patzick)! - Package `@shopwell-pwa/nuxt3-module` is deprecated. Use [@shopwell/nuxt-module](https://www.npmjs.com/package/@shopwell/nuxt-module) instead.
+
+### Patch Changes
+
+- Updated dependencies [[`3a79106`](https://github.com/shopwell-shop/frontends/commit/3a791065d04152255095965e3fb12ea538a22639), [`6736509`](https://github.com/shopwell-shop/frontends/commit/67365096168e28b9683cfd3b5d4c8bb3b4ae07e3)]:
+  - @shopwell/composables@1.7.0
+  - @shopwell-pwa/helpers-next@1.3.0
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [[`957e514`](https://github.com/shopwell-shop/frontends/commit/957e51451b3a6e4833c4b58794993b729a53f3bc)]:
+  - @shopwell-pwa/composables-next@1.6.1
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [[`3d2f2b5`](https://github.com/shopwell-shop/frontends/commit/3d2f2b5595ac847be66302befed921aa2f9264b6), [`a04aa8c`](https://github.com/shopwell-shop/frontends/commit/a04aa8c0c705626bb231f8ead59c4c67a2d0d715), [`3778061`](https://github.com/shopwell-shop/frontends/commit/3778061f7fbc82e7deabfa466fd3bb8f34325f42), [`63d56b3`](https://github.com/shopwell-shop/frontends/commit/63d56b3dacd6ca48a44744e387e6212a23c8bf4a)]:
+  - @shopwell-pwa/composables-next@1.6.0
+
+## 1.1.0
+
+### Minor Changes
+
+- [#1442](https://github.com/shopwell-shop/frontends/pull/1442) [`9669d1b`](https://github.com/shopwell-shop/frontends/commit/9669d1b39fca71461a3641840632db171f2968ed) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Added possibility to use Nuxt config file for setting the API requests headers. Headers are added to each request SSR and CSR.
+
+### Patch Changes
+
+- [#1514](https://github.com/shopwell-shop/frontends/pull/1514) [`05a4792`](https://github.com/shopwell-shop/frontends/commit/05a479240cac709e18f411a6276de359937341a6) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Replace `createError` with `showError` function in the `onResponseError` hook to redirect the user to the Nuxt error page.
+
+- Updated dependencies [[`a87bbcf`](https://github.com/shopwell-shop/frontends/commit/a87bbcfa3f5aa440265b1e8f0fc72a204863befc), [`2c337b5`](https://github.com/shopwell-shop/frontends/commit/2c337b5555495e5cc75f17f1c7f50cc25dfe7c1e), [`13c83be`](https://github.com/shopwell-shop/frontends/commit/13c83bec53a6aaba49941b9bf869629eadeb4515), [`13c83be`](https://github.com/shopwell-shop/frontends/commit/13c83bec53a6aaba49941b9bf869629eadeb4515), [`8ba9702`](https://github.com/shopwell-shop/frontends/commit/8ba9702657d1dc31cc653728788830fa38bb4992), [`a03a492`](https://github.com/shopwell-shop/frontends/commit/a03a492f18ebff84606e47f5239330454c9f3039)]:
+  - @shopwell/api-client@1.2.0
+  - @shopwell-pwa/composables-next@1.5.0
+  - @shopwell-pwa/helpers-next@1.2.0
+
+## 1.0.8
+
+### Patch Changes
+
+- Updated dependencies [[`938c4cf`](https://github.com/shopwell-shop/frontends/commit/938c4cfe6438f0e11a34f69bc7a183f10ba7f381)]:
+  - @shopwell/api-client@1.1.2
+  - @shopwell-pwa/composables-next@1.4.2
+
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies [[`8df7651`](https://github.com/shopwell-shop/frontends/commit/8df76511c8afca78c79fe3f009ed32d207913f86)]:
+  - @shopwell/api-client@1.1.1
+  - @shopwell-pwa/composables-next@1.4.1
+
+## 1.0.6
+
+### Patch Changes
+
+- Updated dependencies [[`6abe9ab`](https://github.com/shopwell-shop/frontends/commit/6abe9abb64b9d2fe94d565393b1c08ec68b58162), [`fa517bc`](https://github.com/shopwell-shop/frontends/commit/fa517bc68e33b97f6cf34205587218314cb4f5f6), [`0643174`](https://github.com/shopwell-shop/frontends/commit/06431743162c088d46cf1e6305332bd51542eec4), [`266bb32`](https://github.com/shopwell-shop/frontends/commit/266bb32e119d7e1b3df7e082fb0fe4b0a475af44), [`f9fb243`](https://github.com/shopwell-shop/frontends/commit/f9fb243d56d05a66ca4efd277c137e2ae8967f7b), [`15bebee`](https://github.com/shopwell-shop/frontends/commit/15bebee0daefacc078ac99fea8725b95fdbc1cc7), [`75df238`](https://github.com/shopwell-shop/frontends/commit/75df238da11635418554329f1ca01f3a256fe0a0), [`266bb32`](https://github.com/shopwell-shop/frontends/commit/266bb32e119d7e1b3df7e082fb0fe4b0a475af44), [`ebb10eb`](https://github.com/shopwell-shop/frontends/commit/ebb10eba629b3ec2c5a4a50fa12ef0b134601d6f)]:
+  - @shopwell/api-client@1.1.0
+  - @shopwell-pwa/composables-next@1.4.0
+
+## 1.0.5
+
+### Patch Changes
+
+- [#1207](https://github.com/shopwell-shop/frontends/pull/1207) [`7531874`](https://github.com/shopwell-shop/frontends/commit/75318747536b3cad5b83804a730b6680deb3fc8d) Thanks [@mkucmus](https://github.com/mkucmus)! - Improvements within a nuxt module and the plugin:
+
+  - properly loading a `sw-context-token` cookie in SSR
+  - exposing an [API client](https://www.npmjs.com/package/@shopwell/api-client) instance provided in a nuxt plugin
+  - adds corresponding types
+
+  ```ts
+  // works also in a route middleware
+  const { $shopwellApiClient } = useNuxtApp();
+
+  await $shopwellApiClient.invoke("readContext get /context");
+  ```
+
+- Updated dependencies [[`6ee2f90`](https://github.com/shopwell-shop/frontends/commit/6ee2f90ca3b21730fa05e1120072ac4dd45aa665), [`6ee2f90`](https://github.com/shopwell-shop/frontends/commit/6ee2f90ca3b21730fa05e1120072ac4dd45aa665)]:
+  - @shopwell-pwa/composables-next@1.3.0
+  - @shopwell-pwa/helpers-next@1.1.0
+
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [[`2e4c887`](https://github.com/shopwell-shop/frontends/commit/2e4c8872060fb2ebabe5b89d92761994a2ed8128), [`aa8f5a4`](https://github.com/shopwell-shop/frontends/commit/aa8f5a4d2eabce1d6119e31af8c7479911d7b07b)]:
+  - @shopwell-pwa/helpers-next@1.0.2
+  - @shopwell-pwa/composables-next@1.2.0
+
+## 1.0.3
+
+### Patch Changes
+
+- [#1089](https://github.com/shopwell-shop/frontends/pull/1089) [`db7c93f`](https://github.com/shopwell-shop/frontends/commit/db7c93ff8cbb581221c11a492e77068af8faa8d6) Thanks [@mkucmus](https://github.com/mkucmus)! - Migrate eslint config to flat format
+
+- Updated dependencies [[`b688163`](https://github.com/shopwell-shop/frontends/commit/b68816391ee8ed1ac94a6462a2a016d708f259b4), [`b688163`](https://github.com/shopwell-shop/frontends/commit/b68816391ee8ed1ac94a6462a2a016d708f259b4), [`db7c93f`](https://github.com/shopwell-shop/frontends/commit/db7c93ff8cbb581221c11a492e77068af8faa8d6), [`b688163`](https://github.com/shopwell-shop/frontends/commit/b68816391ee8ed1ac94a6462a2a016d708f259b4), [`3bde5fe`](https://github.com/shopwell-shop/frontends/commit/3bde5fe6d4a9c31d380defc05a7903cf99cb8136)]:
+  - @shopwell-pwa/helpers-next@1.0.1
+  - @shopwell-pwa/composables-next@1.1.1
+  - @shopwell/api-client@1.0.2
+
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [[`f9d2735`](https://github.com/shopwell-shop/frontends/commit/f9d27353ec6383cb22cdece0469f8fdd13250958), [`d95751e`](https://github.com/shopwell-shop/frontends/commit/d95751ecde443a033f17def838bcc25aeba6951e)]:
+  - @shopwell-pwa/composables-next@1.1.0
+
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [[`19f2800`](https://github.com/shopwell-shop/frontends/commit/19f28003cf937bcb630257cb7cfd2bd131b7cf9d), [`1954022`](https://github.com/shopwell-shop/frontends/commit/19540220d87788eed08991d35aaaead2e18564e5), [`19f2800`](https://github.com/shopwell-shop/frontends/commit/19f28003cf937bcb630257cb7cfd2bd131b7cf9d)]:
+  - @shopwell/api-client@1.0.1
+  - @shopwell-pwa/composables-next@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- [#871](https://github.com/shopwell-shop/frontends/pull/871) [`1566f7a`](https://github.com/shopwell-shop/frontends/commit/1566f7a3962c511b5c72e12a4a5db40c4aa5d198) Thanks [@patzick](https://github.com/patzick)! - Read more about new major release: https://github.com/shopwell-shop/frontends/discussions/965
+
+- [#452](https://github.com/shopwell-shop/frontends/pull/452) [`e2c225f`](https://github.com/shopwell-shop/frontends/commit/e2c225f1d69a5d523f3c1e6c90449ee28f98b2f2) Thanks [@patzick](https://github.com/patzick)! - Created Nuxt layer for `composables` and `cms-base`. This way overriding any part of that is now possible.
+
+### Patch Changes
+
+- [#478](https://github.com/shopwell-shop/frontends/pull/478) [`df96fd0`](https://github.com/shopwell-shop/frontends/commit/df96fd09b9bef27d058e3f7ee9b4f18f7035d622) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@nuxt/kit_ from **^3.8.1** to **^3.8.2**
+
+- [#742](https://github.com/shopwell-shop/frontends/pull/742) [`aa97efe`](https://github.com/shopwell-shop/frontends/commit/aa97efe0131024fb3d61cf0d8df6c44eccc62e70) Thanks [@mkucmus](https://github.com/mkucmus)! - Use new format of module config & deprecation warning for old config format
+
+- [#664](https://github.com/shopwell-shop/frontends/pull/664) [`af2bc19`](https://github.com/shopwell-shop/frontends/commit/af2bc19063d967bd1d13b388ddf430d97ae8445a) Thanks [@rebewp](https://github.com/rebewp)! - Changed usage of env variables to be able to adjust their naming to only include shopwell once.
+  After merging, ENV Variables with names including _*SHOPWELL_SHOPWELL*_ still work.
+- Updated dependencies [[`38a3853`](https://github.com/shopwell-shop/frontends/commit/38a385374a99d114c4ed3477f14c9e06dedb0dcd), [`2343012`](https://github.com/shopwell-shop/frontends/commit/2343012ad552b06557e6715055b3abc534fa2fae), [`f1b2a30`](https://github.com/shopwell-shop/frontends/commit/f1b2a307de58e0f296edab3222b7cd5684104347), [`2ade07a`](https://github.com/shopwell-shop/frontends/commit/2ade07ad51944eebb7d1962c36823875cd5e959e), [`fc262dd`](https://github.com/shopwell-shop/frontends/commit/fc262dd3a93338353394c03faf7fee36a0c36511), [`1566f7a`](https://github.com/shopwell-shop/frontends/commit/1566f7a3962c511b5c72e12a4a5db40c4aa5d198), [`823aa9b`](https://github.com/shopwell-shop/frontends/commit/823aa9b4626c8931d2bea1399e825162c44fd45c), [`4dce006`](https://github.com/shopwell-shop/frontends/commit/4dce006460611e59fed084511ca9ecb814f95cf1), [`c729e70`](https://github.com/shopwell-shop/frontends/commit/c729e7014c70d7f71edf5297104065d18e482e04), [`bebae42`](https://github.com/shopwell-shop/frontends/commit/bebae42e58e3dd47f13bf166b0fb0d8ac9a416e3), [`782ef4d`](https://github.com/shopwell-shop/frontends/commit/782ef4d417dce6e6d60992bd54f876aa4bc5f45d), [`9643e56`](https://github.com/shopwell-shop/frontends/commit/9643e56dafba9282b75c12c96b2afb3a4738f86e), [`1583a7a`](https://github.com/shopwell-shop/frontends/commit/1583a7ae0d68b72fb362b625e1634e03bad68110), [`97d2859`](https://github.com/shopwell-shop/frontends/commit/97d2859e4dcbdc563200f2f64d1a20880b675d87), [`864616f`](https://github.com/shopwell-shop/frontends/commit/864616f0c9e1cbe11e434b9a04a35ff9520bcb3c), [`d60d062`](https://github.com/shopwell-shop/frontends/commit/d60d0620c7114a2f26bb2faf24241e2cbabc8798), [`a92941e`](https://github.com/shopwell-shop/frontends/commit/a92941ed59313fe85d5bbe204c2930d8a1a106b1), [`487d991`](https://github.com/shopwell-shop/frontends/commit/487d991f2cda0fbf637502597b20dd931498fe6a), [`013a1d6`](https://github.com/shopwell-shop/frontends/commit/013a1d6f88377686cfc1a85903a0c48d8fda67f5), [`53e7177`](https://github.com/shopwell-shop/frontends/commit/53e71770ad741bb558f193a95cae6bcc025a047f), [`99ad5e9`](https://github.com/shopwell-shop/frontends/commit/99ad5e99652771ea7cd5e1395708a878cca980f5), [`c729e70`](https://github.com/shopwell-shop/frontends/commit/c729e7014c70d7f71edf5297104065d18e482e04), [`04ac2ad`](https://github.com/shopwell-shop/frontends/commit/04ac2ada522c881bb06565c332baf5f2cf08643d), [`e2c225f`](https://github.com/shopwell-shop/frontends/commit/e2c225f1d69a5d523f3c1e6c90449ee28f98b2f2), [`89a97a4`](https://github.com/shopwell-shop/frontends/commit/89a97a45ae4a58616e41f63e9884a2a67f0a6ce8), [`c729e70`](https://github.com/shopwell-shop/frontends/commit/c729e7014c70d7f71edf5297104065d18e482e04), [`864616f`](https://github.com/shopwell-shop/frontends/commit/864616f0c9e1cbe11e434b9a04a35ff9520bcb3c), [`8f0b468`](https://github.com/shopwell-shop/frontends/commit/8f0b46850a0b89667934c551431306f7d765f86b), [`97b5949`](https://github.com/shopwell-shop/frontends/commit/97b5949da2663700aa4047c4927b4a5f192cee74), [`05ca5b6`](https://github.com/shopwell-shop/frontends/commit/05ca5b68f098bc8969c2c50e270b19b00938513c), [`7a3a92c`](https://github.com/shopwell-shop/frontends/commit/7a3a92c3ee1a337e752adbcfa5057d30064eed7c), [`6664aa2`](https://github.com/shopwell-shop/frontends/commit/6664aa2aa48ec63fc053ad024a03940113e17956), [`479357c`](https://github.com/shopwell-shop/frontends/commit/479357c74d40c99218eb22ccd4089357ffab5872), [`6b54268`](https://github.com/shopwell-shop/frontends/commit/6b54268049ae9b1b3d311b9a122f43a752a2b715), [`6b54268`](https://github.com/shopwell-shop/frontends/commit/6b54268049ae9b1b3d311b9a122f43a752a2b715)]:
+  - @shopwell-pwa/composables-next@1.0.0
+  - @shopwell/api-client@1.0.0
+  - @shopwell-pwa/helpers-next@1.0.0
+
+## 0.5.6
+
+### Patch Changes
+
+- [#458](https://github.com/shopwell-shop/frontends/pull/458) [`135ca37d`](https://github.com/shopwell-shop/frontends/commit/135ca37d9c911cf47d75705006af2879ab7800a8) Thanks [@danielroe](https://github.com/danielroe)! - This improves performance slightly when developing; we can avoid loading the entire barrel file at `#app` by using the new granular imports merged in https://github.com/nuxt/nuxt/pull/23951.
+
+- Updated dependencies [[`c3aa09ee`](https://github.com/shopwell-shop/frontends/commit/c3aa09ee9e73c23b79bf9c1b3e5e63d7d39f1550), [`0e031efe`](https://github.com/shopwell-shop/frontends/commit/0e031efe7a3c0249a5e883c85ec87542ab07a4c0)]:
+  - @shopwell-pwa/composables-next@0.14.1
+  - @shopwell-pwa/api-client@0.7.0
+
+## 0.5.5
+
+### Patch Changes
+
+- [#418](https://github.com/shopwell-shop/frontends/pull/418) [`67cf5650`](https://github.com/shopwell-shop/frontends/commit/67cf56506f58973bf3ab8bb8acef06758a6a6720) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@nuxt/kit_ from **^3.7.3** to **^3.7.4**
+
+- [#404](https://github.com/shopwell-shop/frontends/pull/404) [`f3566759`](https://github.com/shopwell-shop/frontends/commit/f35667597b70eb719d0bcaf1c969f23216b66095) Thanks [@BrocksiNet](https://github.com/BrocksiNet)! - Refactoring and sorting of used composables
+
+- [#396](https://github.com/shopwell-shop/frontends/pull/396) [`dfc49b80`](https://github.com/shopwell-shop/frontends/commit/dfc49b80bcaa8e00b71e0dff6e35b413383274f5) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@nuxt/kit_ from **^3.7.1** to **^3.7.3**
+
+- [#435](https://github.com/shopwell-shop/frontends/pull/435) [`a4483ed8`](https://github.com/shopwell-shop/frontends/commit/a4483ed8bf9370e87aedeb81846fe9d31880b3e0) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@nuxt/kit_ from **^3.7.4** to **^3.8.0**
+
+- [#454](https://github.com/shopwell-shop/frontends/pull/454) [`07ef770d`](https://github.com/shopwell-shop/frontends/commit/07ef770d31b9331536ab9c846f4a8ce46e49ed84) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@nuxt/kit_ from **^3.8.0** to **^3.8.1**
+
+- Updated dependencies [[`f5adaeba`](https://github.com/shopwell-shop/frontends/commit/f5adaeba6dec11422e0c02d92aba8caf56017af5), [`f5adaeba`](https://github.com/shopwell-shop/frontends/commit/f5adaeba6dec11422e0c02d92aba8caf56017af5), [`67cf5650`](https://github.com/shopwell-shop/frontends/commit/67cf56506f58973bf3ab8bb8acef06758a6a6720), [`c264bf5d`](https://github.com/shopwell-shop/frontends/commit/c264bf5d41638c6013ebf14e7cd9615e5b5ef9bf), [`85628cc6`](https://github.com/shopwell-shop/frontends/commit/85628cc65216417a887398f0838714fc03544303), [`87213fb0`](https://github.com/shopwell-shop/frontends/commit/87213fb02b292b11f45b7fb5956fb8bc1ae33800), [`a4483ed8`](https://github.com/shopwell-shop/frontends/commit/a4483ed8bf9370e87aedeb81846fe9d31880b3e0), [`12ed75ff`](https://github.com/shopwell-shop/frontends/commit/12ed75ffd3d98bf2623161e44f63c40dfc1ef0e3), [`43510a10`](https://github.com/shopwell-shop/frontends/commit/43510a108d351aca361e460844b2cddd29f889b5)]:
+  - @shopwell-pwa/composables-next@0.14.0
+  - @shopwell-pwa/api-client@0.7.0
+
+## 0.5.4
+
+### Patch Changes
+
+- [#387](https://github.com/shopwell-shop/frontends/pull/387) [`3520c261`](https://github.com/shopwell-shop/frontends/commit/3520c261129a6a785802aa14107b8b39cdd8baf4) Thanks [@mkucmus](https://github.com/mkucmus)! - Load composables explicitly within the shopwell plugin
+
+- [#385](https://github.com/shopwell-shop/frontends/pull/385) [`5d7e7973`](https://github.com/shopwell-shop/frontends/commit/5d7e7973437a4d74d19ec2fa0765c6d927bf8b2a) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@nuxt/kit_ from **^3.6.5** to **^3.7.1**
+
+- Updated dependencies [[`211ccbb2`](https://github.com/shopwell-shop/frontends/commit/211ccbb2e4d9d6009847e6ff53099deb97d569de), [`b2b6905b`](https://github.com/shopwell-shop/frontends/commit/b2b6905beb8f28b79c0989ff9340c757e60001c9), [`61de0366`](https://github.com/shopwell-shop/frontends/commit/61de03662869e9ad8b69e2d8a868313a61a7a741), [`5d7e7973`](https://github.com/shopwell-shop/frontends/commit/5d7e7973437a4d74d19ec2fa0765c6d927bf8b2a)]:
+  - @shopwell-pwa/composables-next@0.13.3
+  - @shopwell-pwa/api-client@0.6.0
+
+## 0.5.3
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @shopwell-pwa/composables-next@0.13.2
+
+## 0.5.2
+
+### Patch Changes
+
+- Updated dependencies [[`4532b60d`](https://github.com/shopwell-shop/frontends/commit/4532b60d449e1b5a45506fafa16eb7d156dc2359)]:
+  - @shopwell-pwa/api-client@0.6.0
+  - @shopwell-pwa/composables-next@0.13.1
+
+## 0.5.1
+
+### Patch Changes
+
+- Updated dependencies [[`d03228a`](https://github.com/shopwell-shop/frontends/commit/d03228a51058ec376b003e80dd0395237a12bfb6), [`3683116`](https://github.com/shopwell-shop/frontends/commit/3683116588a7ef75e750fc33deee119f038c88e8)]:
+  - @shopwell-pwa/composables-next@0.13.0
+
+## 0.5.0
+
+### Minor Changes
+
+- [#325](https://github.com/shopwell-shop/frontends/pull/325) [`faf28ca`](https://github.com/shopwell-shop/frontends/commit/faf28ca3f150b22d567b1f9e94b75e156c5d0aaa) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add private `shopwellEndpoint` config for SSR instance creation
+
+### Patch Changes
+
+- [#349](https://github.com/shopwell-shop/frontends/pull/349) [`5d14bb5`](https://github.com/shopwell-shop/frontends/commit/5d14bb5df65fb14d630a8c4ab2b474fde04c477b) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@nuxt/kit_ from **^3.6.3** to **^3.6.5**
+
+- Updated dependencies [[`5d14bb5`](https://github.com/shopwell-shop/frontends/commit/5d14bb5df65fb14d630a8c4ab2b474fde04c477b)]:
+  - @shopwell-pwa/composables-next@0.12.1
+  - @shopwell-pwa/api-client@0.5.2
+
+## 0.4.0
+
+### Minor Changes
+
+- [#309](https://github.com/shopwell-shop/frontends/pull/309) [`84a7fe6`](https://github.com/shopwell-shop/frontends/commit/84a7fe6468041a4b12841fdf4844f3b38dfa387d) Thanks [@patzick](https://github.com/patzick)! - Added new config `useUserContextInSSR` - set to true if you want for the server to use session from cookie and prepare view with it. Use carefully with edge caching to avoid sharing user data with edge cache. Default is false, so server will always use new context to prepare rendered view.
+
+### Patch Changes
+
+- [#303](https://github.com/shopwell-shop/frontends/pull/303) [`aeb639a`](https://github.com/shopwell-shop/frontends/commit/aeb639a3244f812c275145345618e5bc0045be0d) Thanks [@patzick](https://github.com/patzick)! - Improved linting in packages. Types should be more reliable
+
+- [#313](https://github.com/shopwell-shop/frontends/pull/313) [`0e82ab3`](https://github.com/shopwell-shop/frontends/commit/0e82ab395cc88e992d2d64853d27603548c36bb9) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@nuxt/kit_ from **^3.6.1** to **^3.6.2**
+
+- [#328](https://github.com/shopwell-shop/frontends/pull/328) [`a75617f`](https://github.com/shopwell-shop/frontends/commit/a75617f4104f7e66599aa5341e46759bb9d414c9) Thanks [@patzick](https://github.com/patzick)! - Dependency changes:
+
+  - Changed dependency _@nuxt/kit_ from **^3.6.2** to **^3.6.3**
+
+- Updated dependencies [[`aeb639a`](https://github.com/shopwell-shop/frontends/commit/aeb639a3244f812c275145345618e5bc0045be0d), [`8c6ff0a`](https://github.com/shopwell-shop/frontends/commit/8c6ff0ac87143a014f609aedd22aac99888da337), [`b9a2004`](https://github.com/shopwell-shop/frontends/commit/b9a20044d3df04370c62ab392b5144a62fbb57a9)]:
+  - @shopwell-pwa/composables-next@0.12.0
+  - @shopwell-pwa/api-client@0.5.2
+
+## 0.3.7
+
+### Patch Changes
+
+- [#295](https://github.com/shopwell-shop/frontends/pull/295) [`23a0a53`](https://github.com/shopwell-shop/frontends/commit/23a0a532410990c0075ea7fff622949ccdecfd49) Thanks [@patzick](https://github.com/patzick)! - bump dependencies
+
+- Updated dependencies [[`e6a52ec`](https://github.com/shopwell-shop/frontends/commit/e6a52ec4b7c28627c55cbd8ca15b8458cedf53bd), [`23a0a53`](https://github.com/shopwell-shop/frontends/commit/23a0a532410990c0075ea7fff622949ccdecfd49), [`bb48e13`](https://github.com/shopwell-shop/frontends/commit/bb48e131570a2db4b7431c842e54ad67d9384cd5), [`14d97c5`](https://github.com/shopwell-shop/frontends/commit/14d97c5942adf5a49163625b2740d95bc5772689)]:
+  - @shopwell-pwa/composables-next@0.11.0
+  - @shopwell-pwa/api-client@0.5.1
+
+## 0.3.6
+
+### Patch Changes
+
+- Updated dependencies [[`558c9d0`](https://github.com/shopwell-shop/frontends/commit/558c9d0f2127776a0542e8d1d95734cb5d4c7e75)]:
+  - @shopwell-pwa/composables-next@0.10.0
+
+## 0.3.5
+
+### Patch Changes
+
+- [#243](https://github.com/shopwell-shop/frontends/pull/243) [`d5f0bcc`](https://github.com/shopwell-shop/frontends/commit/d5f0bcc18cb581a48185cb8622d0e0d9b7fea23f) Thanks [@patzick](https://github.com/patzick)! - bump dependencies
+
+- Updated dependencies [[`b9881b8`](https://github.com/shopwell-shop/frontends/commit/b9881b89da2605a5ccd78617d3f8ae8e05e8c43a), [`d1e07d6`](https://github.com/shopwell-shop/frontends/commit/d1e07d6f73135cb742807aba78f1271943d47beb), [`e359aa2`](https://github.com/shopwell-shop/frontends/commit/e359aa28c9c9c7fb2521be3ebd5b847c855e4d24), [`55db3a6`](https://github.com/shopwell-shop/frontends/commit/55db3a695ee6638f33f836890dad65742ddccf94), [`3ffd000`](https://github.com/shopwell-shop/frontends/commit/3ffd000195be60da9fbb3b41cd39fb9f4ab6167e), [`b294182`](https://github.com/shopwell-shop/frontends/commit/b294182dbc9cda82a6d2b3c13663799a9f874c66), [`8a561b9`](https://github.com/shopwell-shop/frontends/commit/8a561b9aa12b50a816203c387417c2108761dcf9), [`d5f0bcc`](https://github.com/shopwell-shop/frontends/commit/d5f0bcc18cb581a48185cb8622d0e0d9b7fea23f), [`d1e07d6`](https://github.com/shopwell-shop/frontends/commit/d1e07d6f73135cb742807aba78f1271943d47beb)]:
+  - @shopwell-pwa/composables-next@0.9.0
+  - @shopwell-pwa/api-client@0.5.0
+
+## 0.3.4
+
+### Patch Changes
+
+- Types for `devStorefrontUrl`
+
+- Updated dependencies [[`0242a3ad`](https://github.com/shopwell-shop/frontends/commit/0242a3adcde82e301f2e53fb562c0bbd767c04f9)]:
+  - @shopwell-pwa/composables-next@0.8.2
+
+## 0.3.3
+
+### Patch Changes
+
+- updated changelog in readme
+
+- Updated dependencies []:
+  - @shopwell-pwa/composables-next@0.8.1
+  - @shopwell-pwa/api-client@0.4.1
+
+## 0.3.2
+
+### Patch Changes
+
+- [#172](https://github.com/shopwell-shop/frontends/pull/172) [`4b323a14`](https://github.com/shopwell-shop/frontends/commit/4b323a14f3cb7b8c76f53133e43a64fc56d27c3a) Thanks [@patzick](https://github.com/patzick)! - Proper SSR context for requests. Logged in client have hydrated data on reload.
+
+- [#204](https://github.com/shopwell-shop/frontends/pull/204) [`ed35e37d`](https://github.com/shopwell-shop/frontends/commit/ed35e37dbedf43aef3ab34dde54230e912f8fa35) Thanks [@mkucmus](https://github.com/mkucmus)! - Package.json parser removed
+
+- [#200](https://github.com/shopwell-shop/frontends/pull/200) [`329b0aec`](https://github.com/shopwell-shop/frontends/commit/329b0aec74c85683f4b69c3cc94ef398f797cf8b) Thanks [@mkucmus](https://github.com/mkucmus)! - Internal dependency resolving
+
+- Updated dependencies [[`0e85ad14`](https://github.com/shopwell-shop/frontends/commit/0e85ad14c7a115a9e4e79cb3d89e41129be30f03), [`3764736e`](https://github.com/shopwell-shop/frontends/commit/3764736e52fffb7f7abeb4c044dee2adc812cbb6), [`7fe30878`](https://github.com/shopwell-shop/frontends/commit/7fe3087844007d12dc26d9c6817ecd12eb431b9b), [`e03c67a8`](https://github.com/shopwell-shop/frontends/commit/e03c67a8d553694be6e14e2c8d1a3f99b1b2ffbe), [`1fd1962f`](https://github.com/shopwell-shop/frontends/commit/1fd1962f7f4ee26461e8918e70e5f686fa431c6d), [`bb64070f`](https://github.com/shopwell-shop/frontends/commit/bb64070f69e47c14653c524d864f7a8ab8290724), [`693f9829`](https://github.com/shopwell-shop/frontends/commit/693f9829d5082307cb1f3b18d5b0217e42c6cf68), [`eddcfcca`](https://github.com/shopwell-shop/frontends/commit/eddcfcca8e00530147e77bd1122fc9e6828fbf57), [`8dc64e31`](https://github.com/shopwell-shop/frontends/commit/8dc64e31756e8509866efdc2b52915b8862598cb), [`eddcfcca`](https://github.com/shopwell-shop/frontends/commit/eddcfcca8e00530147e77bd1122fc9e6828fbf57), [`7fe30878`](https://github.com/shopwell-shop/frontends/commit/7fe3087844007d12dc26d9c6817ecd12eb431b9b), [`0188b36a`](https://github.com/shopwell-shop/frontends/commit/0188b36acdf43278163a2fee74ff5b1c1aba55d8)]:
+  - @shopwell-pwa/composables-next@0.8.0
+  - @shopwell-pwa/api-client@0.4.0
+
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @shopwell-pwa/composables-next@0.7.1
+  - @shopwell-pwa/api-client@0.3.1
+
+## 0.3.0
+
+### Minor Changes
+
+- [#71](https://github.com/shopwell-shop/frontends/pull/71) [`e71cc788`](https://github.com/shopwell-shop/frontends/commit/e71cc788c375c19ec449b820c0813b83503ef067) Thanks [@patzick](https://github.com/patzick)! - **BREAKING**: Remove default config and use Nuxt runtime config
+
+  change your `nuxt.config.js` from:
+
+  ```ts
+  export default defineNuxtConfig({
+    ///...
+    shopwell: {
+      shopwellEndpoint: "http://localhost:8000",
+      shopwellAccessToken: "your-access-token",
+    },
+    ///...
+  });
+  ```
+
+  to
+
+  ```ts
+  export default defineNuxtConfig({
+    ///...
+    runtimeConfig: {
+      public: {
+        shopwell: {
+          shopwellEndpoint: "http://localhost:8000",
+          shopwellAccessToken: "your-access-token",
+        },
+      },
+    },
+    ///...
+  });
+  ```
+
+### Patch Changes
+
+- [`09e49987`](https://github.com/shopwell-shop/frontends/commit/09e499877efe6f7ccccf6fc166a07d806a68a136) Thanks [@mkucmus](https://github.com/mkucmus)! - Correct languageId access on config change
+
+- [#79](https://github.com/shopwell-shop/frontends/pull/79) [`b2fde982`](https://github.com/shopwell-shop/frontends/commit/b2fde98223ad49a791d01803349ee5664743c714) Thanks [@patzick](https://github.com/patzick)! - upgraded Nuxt to 3.3.2
+
+- [`aff245cb`](https://github.com/shopwell-shop/frontends/commit/aff245cb43ac2b69772ffd08e3250c52decf31f4) Thanks [@elkmod](https://github.com/elkmod)! - Added devtools integration to nuxt-module
+
+- Updated dependencies [[`50e74be5`](https://github.com/shopwell-shop/frontends/commit/50e74be52034d1947e273985f778e986f077db44), [`0eaf57e1`](https://github.com/shopwell-shop/frontends/commit/0eaf57e17a1d8ee454533c33f7528b72021aed4b), [`d358854c`](https://github.com/shopwell-shop/frontends/commit/d358854c632447228e719efdf639c428cf6ba804), [`dab0f839`](https://github.com/shopwell-shop/frontends/commit/dab0f839eeebe6bb9999cdd0ec11925d935b08b9), [`ec030631`](https://github.com/shopwell-shop/frontends/commit/ec0306312fa42451f5f4a98c3e8985b70496fd37), [`da2f6897`](https://github.com/shopwell-shop/frontends/commit/da2f6897e6839fbeb3ba7eae1eac376f423f2f99), [`0eaf57e1`](https://github.com/shopwell-shop/frontends/commit/0eaf57e17a1d8ee454533c33f7528b72021aed4b), [`30493417`](https://github.com/shopwell-shop/frontends/commit/30493417ad5b97ee1f0553f68357a23446b85522), [`e13d3d9a`](https://github.com/shopwell-shop/frontends/commit/e13d3d9adde759e97ca7fa9b7a782b7991428679), [`e71cc788`](https://github.com/shopwell-shop/frontends/commit/e71cc788c375c19ec449b820c0813b83503ef067)]:
+  - @shopwell-pwa/composables-next@0.7.0
+  - @shopwell-pwa/api-client@0.3.0
+
+## 0.2.1
+
+### Patch Changes
+
+- [`680b4b77`](https://github.com/shopwell-shop/frontends/commit/680b4b778859f5f2fdf2325ce349f5534d3b965f) Thanks [@patzick](https://github.com/patzick)! - bump dependencies
+
+- Updated dependencies [[`680b4b77`](https://github.com/shopwell-shop/frontends/commit/680b4b778859f5f2fdf2325ce349f5534d3b965f), [`313e0810`](https://github.com/shopwell-shop/frontends/commit/313e0810014611a0429b76b51747536630f24627)]:
+  - @shopwell-pwa/composables-next@0.6.0
+  - @shopwell-pwa/api-client@0.2.3
+
+## 0.2.0
+
+### Minor Changes
+
+- [`c300b89b`](https://github.com/shopwell-shop/frontends/commit/c300b89b80cf3476e8023db1796cec972db519f8) Thanks [@patzick](https://github.com/patzick)! - Changed `useCart` in now a shared composable, so there is only one instance.
+
+### Patch Changes
+
+- [`ccf4ed47`](https://github.com/shopwell-shop/frontends/commit/ccf4ed47e6bb46d1fcab7c1418a677fe575331b4) Thanks [@patzick](https://github.com/patzick)! - start deploying canary versions
+
+- [`39d2d11c`](https://github.com/shopwell-shop/frontends/commit/39d2d11c922f5de9eb5d5c25225b6b93edd8ebcb) Thanks [@mkucmus](https://github.com/mkucmus)! - Payment related processes and documentation
+
+- Updated dependencies [[`57d720ab`](https://github.com/shopwell-shop/frontends/commit/57d720ab6c8f605de605dbbe9de53d4ce43347e5), [`29deb04f`](https://github.com/shopwell-shop/frontends/commit/29deb04fd1a871cb28f1fe3af3c007ae21de999f), [`ccf4ed47`](https://github.com/shopwell-shop/frontends/commit/ccf4ed47e6bb46d1fcab7c1418a677fe575331b4), [`0a8f4ea1`](https://github.com/shopwell-shop/frontends/commit/0a8f4ea1a95cd684178ae412687575bf735894a7), [`4d5b04b5`](https://github.com/shopwell-shop/frontends/commit/4d5b04b5fa09910b0c02bc59b33534772da66eeb), [`77a0bbcd`](https://github.com/shopwell-shop/frontends/commit/77a0bbcd8a5ce830219e2c04c0c99d08e6c4f4f2), [`c300b89b`](https://github.com/shopwell-shop/frontends/commit/c300b89b80cf3476e8023db1796cec972db519f8), [`0855add8`](https://github.com/shopwell-shop/frontends/commit/0855add83ca04e816caed65a0538c1dbf624bb0d), [`39d2d11c`](https://github.com/shopwell-shop/frontends/commit/39d2d11c922f5de9eb5d5c25225b6b93edd8ebcb), [`4fc1cd83`](https://github.com/shopwell-shop/frontends/commit/4fc1cd833a9ebca73536b2be45cfec35f6a27dfc), [`f364da48`](https://github.com/shopwell-shop/frontends/commit/f364da4881b2c172947e394fcd8e23ddc3689a51), [`21d8331a`](https://github.com/shopwell-shop/frontends/commit/21d8331aff13cef7ed041c60376504b2f324c1f5)]:
+  - @shopwell-pwa/composables-next@0.5.0
+  - @shopwell-pwa/api-client@0.2.2
+
+## 0.1.24
+
+### Patch Changes
+
+- [`e21d67b`](https://github.com/shopwell-shop/frontends/commit/e21d67bc142076e93630139232ea39a07b51ebfb) Thanks [@patzick](https://github.com/patzick)! - `swSessionContext` available also in Nuxt `useState`
+
+- Updated dependencies [[`7310ca6`](https://github.com/shopwell-shop/frontends/commit/7310ca64506ca5418d3ec2ef80f5c7d0fe4b779c), [`e21d67b`](https://github.com/shopwell-shop/frontends/commit/e21d67bc142076e93630139232ea39a07b51ebfb)]:
+  - @shopwell-pwa/composables-next@0.4.0
+  - @shopwell-pwa/api-client@0.2.1
+
+## 0.1.23
+
+### Patch Changes
+
+- [`29b677e`](https://github.com/shopwell-shop/frontends/commit/29b677e4ff59656f8a457ee4c8ab35e36cd06953) Thanks [@patzick](https://github.com/patzick)! - bump dependencies
+
+- Updated dependencies [[`b3f711c`](https://github.com/shopwell-shop/frontends/commit/b3f711ccb230025c0567b0a06a292bf9255a4992), [`9cd4078`](https://github.com/shopwell-shop/frontends/commit/9cd4078433c5644d2153a8a1212b9076a8d37347), [`29b677e`](https://github.com/shopwell-shop/frontends/commit/29b677e4ff59656f8a457ee4c8ab35e36cd06953), [`c0b9cc3`](https://github.com/shopwell-shop/frontends/commit/c0b9cc35fdb588ef5e580dc7e19fa4414ba64d04)]:
+  - @shopwell-pwa/api-client@0.2.0
+  - @shopwell-pwa/composables-next@0.3.0
+
+## 0.1.22
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @shopwell-pwa/composables-next@0.2.1
+
+## 0.1.21
+
+### Patch Changes
+
+- Updated dependencies [[`16ee1d5`](https://github.com/shopwell-shop/frontends/commit/16ee1d52f76dc62ac5931dfd2ef0c428096db960)]:
+  - @shopwell-pwa/composables-next@0.2.0
+
+## 0.1.20
+
+### Patch Changes
+
+- fa7e48f: Added changelog and readme file
+- Updated dependencies [fa7e48f]
+  - @shopwell-pwa/api-client@0.1.20
+  - @shopwell-pwa/composables-next@0.1.20

@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "name": "example-adyen-dropin-playground",
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt prepare && nuxt dev",
+    "build": "nuxt prepare && nuxt build",
+    "lint": "oxlint . && oxfmt --check .",
+    "lint:fix": "oxlint --fix . && oxfmt --write .",
+    "typecheck": "nuxt prepare && nuxi typecheck",
+    "generate": "nuxt generate",
+    "generate-types": "shopwell-api-gen generate --apiType=store"
+  },
+  "devDependencies": {
+    "@adyen/adyen-web": "6.41.0",
+    "@shopwell/composables": "canary",
+    "@shopwell/nuxt-module": "canary",
+    "@shopwell/api-client": "canary",
+    "@shopwell/api-gen": "canary",
+    "@unocss/nuxt": "66.10.5",
+    "nuxt": "4.5.2",
+    "vue-tsc": "3.3.11",
+    "oxfmt": "0.62.0",
+    "oxlint": "1.77.0"
+  }
+}

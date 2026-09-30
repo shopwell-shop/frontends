@@ -1,0 +1,2 @@
+NUXT_SHOPWELL_ENDPOINT=http://shopwell
+NUXT_PUBLIC_SHOPWELL_ENDPOINT=https://demo-frontends.shopwell.store

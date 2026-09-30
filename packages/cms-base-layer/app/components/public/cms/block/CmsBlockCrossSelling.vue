@@ -1,0 +1,17 @@
+<script setup lang="ts">
+import type { CmsBlockCrossSelling } from "@shopwell/composables";
+import { computed } from "vue";
+
+import { useCmsBlock } from "#imports";
+
+const props = defineProps<{
+  content: CmsBlockCrossSelling;
+}>();
+const { getSlotContent } = useCmsBlock(() => props.content);
+const slotContent = computed(() => getSlotContent("content"));
+</script>
+<template>
+  <div class="cms-block-cross-selling">
+    <CmsGenericElement :content="slotContent" />
+  </div>
+</template>
