@@ -55,6 +55,6 @@
     "@typescript/native-preview": "7.0.0-dev.20260205.1",
     "nuxt": "4.5.2",
     "unbuild": "3.6.1",
-    "vitest": "5.0.0"
+    "vitest": "5.0.2"
   }
 }
