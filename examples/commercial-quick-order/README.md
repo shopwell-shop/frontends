@@ -50,7 +50,7 @@ pnpm dev
 
 or...
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/shopwell/frontends/tree/main/examples/commercial-quick-order?file=README.md)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/shopwell-shop/frontends/tree/main/examples/commercial-quick-order?file=README.md)
 
 ⚠️ Remember to prepare your app first, see **Configuration** chapter above.
 

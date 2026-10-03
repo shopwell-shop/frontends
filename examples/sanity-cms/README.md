@@ -137,4 +137,4 @@ on mount) and never baked into the cacheable SSR HTML.
 
 ## Try it online
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/shopwell/frontends/tree/main/examples/sanity-cms)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/shopwell-shop/frontends/tree/main/examples/sanity-cms)

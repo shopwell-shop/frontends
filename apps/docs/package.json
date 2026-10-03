@@ -5,7 +5,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "docs:env": "[ -d \"../../../developer-portal\" ] && ../../../developer-portal/docs-cli.cjs pull || (git clone git@github.com:shopwell/developer-portal.git ../../../developer-portal && pnpm i -C ../../../developer-portal)",
+    "docs:env": "if [ -x \"../../../developer-portal/docs-cli.cjs\" ]; then ../../../developer-portal/docs-cli.cjs pull; else echo \"Provide ../../../developer-portal/docs-cli.cjs before running docs:env\" >&2; exit 1; fi",
     "docs:link": "../../../developer-portal/docs-cli.cjs link --src apps/docs/src --dst frontends --symlink --keep",
     "docs:preview": "../../../developer-portal/docs-cli.cjs preview",
     "docs:cli": "../../../developer-portal/docs-cli.cjs",

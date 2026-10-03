@@ -13,7 +13,7 @@
       "issueUrl": "https://github.com/shopwell-shop/frontends/issues/new?labels=template&title=%5Bvue-starter-template%5D+",
       "supportLevel": "supported",
       "scaffoldable": true,
-      "scaffoldCommand": "npx tiged shopwell/frontends/templates/vue-starter-template my-project",
+      "scaffoldCommand": "npx tiged shopwell-shop/frontends/templates/vue-starter-template my-project",
       "deployable": true,
       "devcontainer": true,
       "env": {
@@ -102,7 +102,7 @@
       "issueUrl": "https://github.com/shopwell-shop/frontends/issues/new?labels=template&title=%5Bastro%5D+",
       "supportLevel": "example",
       "scaffoldable": true,
-      "scaffoldCommand": "npx tiged shopwell/frontends/templates/astro my-project",
+      "scaffoldCommand": "npx tiged shopwell-shop/frontends/templates/astro my-project",
       "deployable": false,
       "devcontainer": false,
       "env": {
@@ -129,7 +129,7 @@
       "issueUrl": "https://github.com/shopwell-shop/frontends/issues/new?labels=template&title=%5Bvue-blank%5D+",
       "supportLevel": "example",
       "scaffoldable": true,
-      "scaffoldCommand": "npx tiged shopwell/frontends/templates/vue-blank my-project",
+      "scaffoldCommand": "npx tiged shopwell-shop/frontends/templates/vue-blank my-project",
       "deployable": false,
       "devcontainer": false,
       "env": {
@@ -156,7 +156,7 @@
       "issueUrl": "https://github.com/shopwell-shop/frontends/issues/new?labels=template&title=%5Bvue-vite-blank%5D+",
       "supportLevel": "example",
       "scaffoldable": true,
-      "scaffoldCommand": "npx tiged shopwell/frontends/templates/vue-vite-blank my-project",
+      "scaffoldCommand": "npx tiged shopwell-shop/frontends/templates/vue-vite-blank my-project",
       "deployable": false,
       "devcontainer": false,
       "env": {

@@ -280,7 +280,7 @@ export async function generate(args: {
         // falback from the github
         // TODO: change to main branch
         schema = await ofetch(
-          `https://raw.githubusercontent.com/shopwell/frontends/main/packages/api-client/api-types/${args.apiType}ApiTypes.d.ts`,
+          `https://raw.githubusercontent.com/shopwell-shop/frontends/main/packages/api-client/api-types/${args.apiType}ApiTypes.d.ts`,
         );
       }
       schema = normalizeCustomFieldsTypes(schema);

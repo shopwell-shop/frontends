@@ -3,8 +3,6 @@ name: E2E Starter Template
 run-name: Playwright e2e suite against vue-starter-template 🚀
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 4 * * *"
 
 permissions:
   contents: read
@@ -21,6 +19,8 @@ jobs:
     timeout-minutes: 45
     env:
       BASE_E2E_URL: http://localhost:3000/
+      NUXT_PUBLIC_SHOPWELL_ENDPOINT: ${{ vars.STOREFRONT_API_URL }}
+      NUXT_PUBLIC_SHOPWELL_ACCESS_TOKEN: ${{ secrets.STOREFRONT_ACCESS_TOKEN }}
     steps:
       - name: Check out code
         uses: actions/checkout@v7
@@ -37,6 +37,11 @@ jobs:
       - name: Install dependencies with Playwright
         run: pnpm playwright install --with-deps chromium
 
+      - name: Verify Store API configuration
+        run: |
+          test -n "$NUXT_PUBLIC_SHOPWELL_ENDPOINT"
+          test -n "$NUXT_PUBLIC_SHOPWELL_ACCESS_TOKEN"
+
       # Leave NITRO_PRESET unset. The default node-server preset is the one that
       # writes .output/server/index.mjs, which is what `nuxt preview` runs.
       # Through turbo: postinstall skips the package build on CI, so the
@@ -48,7 +53,7 @@ jobs:
         env:
           # The template default is the demo store domain, which this sales
           # channel rejects. Template bug, tracked in #2585.
-          NUXT_PUBLIC_SHOPWELL_DEV_STOREFRONT_URL: https://demo-frontends.shopwell.store/figma
+          NUXT_PUBLIC_SHOPWELL_DEV_STOREFRONT_URL: ${{ vars.STOREFRONT_DEV_URL }}
           # Records Store API calls made while rendering, which Playwright
           # cannot see. Test only.
           SSR_NETWORK_LOG: ${{ github.workspace }}/apps/e2e-tests/diagnostics/ssr-network.jsonl
@@ -77,8 +82,7 @@ jobs:
 
       - name: Run tests
         id: e2e
-        # No continue-on-error: the run has to fail for failed-job-check.yml to
-        # notify. Nothing is gated on it, since this is scheduled only.
+        # No continue-on-error: the run has to fail for failed-job-check.yml to notify.
         timeout-minutes: 25
         run: |
           cd apps/e2e-tests
@@ -100,10 +104,8 @@ jobs:
           cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
           `test:e2e` against vue-starter-template: **${{ steps.e2e.outcome }}**
 
-          Scheduled only, so nothing is gated on this. A failure notifies
-          Slack through failed-job-check.yml. The suite is expected to pass;
-          runs share one demo backend that intermittently drops store-api
-          calls, which retries usually absorb.
+          A failure notifies Slack through failed-job-check.yml when the
+          optional webhook secret is configured.
           EOF
 
           echo "::group::storefront log"

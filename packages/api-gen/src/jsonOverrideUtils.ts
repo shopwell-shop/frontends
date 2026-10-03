@@ -159,7 +159,7 @@ export async function resolveSinglePath<T = JSON>(
     }
 
     // 4. check at github external resource for file name
-    const githubFile = `https://raw.githubusercontent.com/shopwell/frontends/main/packages/api-client/api-types/${pathToResolve}`;
+    const githubFile = `https://raw.githubusercontent.com/shopwell-shop/frontends/main/packages/api-client/api-types/${pathToResolve}`;
     const localGithubFile = await loadLocalJSONFile(githubFile);
     if (localGithubFile) {
       console.log("Resolved file from", githubFile);
@@ -193,7 +193,7 @@ export async function loadJsonOverrides({
     ? localPath
     : existsSync(localNodePath)
       ? localNodePath
-      : `https://raw.githubusercontent.com/shopwell/frontends/main/packages/api-client/api-types/${apiType}ApiSchema.overrides.json`;
+      : `https://raw.githubusercontent.com/shopwell-shop/frontends/main/packages/api-client/api-types/${apiType}ApiSchema.overrides.json`;
 
   const patchesToResolve: string[] = Array.isArray(paths)
     ? paths

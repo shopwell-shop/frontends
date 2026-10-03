@@ -10,14 +10,14 @@ The blank template contains no UI or markup - it's just a blank Nuxt3 applicatio
 
 ## Setup & run
 
-<PageRef target="blank" title="Run on Stackblitz" page="https://stackblitz.com/github/shopwell/frontends/tree/main/templates/vue-blank" sub="Open the Blank Template with our browser IDE in a new window" :icon="stackblitzIcon" />
+<PageRef target="blank" title="Run on Stackblitz" page="https://stackblitz.com/github/shopwell-shop/frontends/tree/main/templates/vue-blank" sub="Open the Blank Template with our browser IDE in a new window" :icon="stackblitzIcon" />
 
 Alternatively, set up the vue-blank template manually by running the following commands in a new directory:
 
 <!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/blank-template/setup-run.sh" code lang="bash" no-name -->
 
 ```bash
-npx tiged shopwell/frontends/templates/vue-blank vue-blank && cd vue-blank
+npx tiged shopwell-shop/frontends/templates/vue-blank vue-blank && cd vue-blank
 npm i && npm run dev
 ```
 
@@ -58,4 +58,4 @@ export default defineNuxtConfig({
 
 ## What next?
 
-<PageRef page="../page-elements/navigation.html" title="Build your first component" sub="Now that your blank template is set up, let's work with the main navigation." />
+<PageRef page="../../frontends-recipes/context/navigation.html" title="Build your first component" sub="Now that your blank template is set up, let's work with the main navigation." />

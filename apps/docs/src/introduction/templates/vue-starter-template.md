@@ -17,7 +17,7 @@ Alternatively, set up the vue-starter-template manually by running the following
 <!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/vue-starter-template/setup-run.sh" code lang="bash" no-name -->
 
 ```bash
-npx tiged shopwell/frontends/templates/vue-starter-template my-store && cd my-store
+npx tiged shopwell-shop/frontends/templates/vue-starter-template my-store && cd my-store
 pnpm i && pnpm dev
 ```
 
@@ -180,7 +180,7 @@ For example, to override the product card:
 
 <!-- /automd -->
 
-<PageRef page="../../packages/cms-base-layer.html#overwriting-components" title="Override CMS Components" sub="Learn how to customize CMS components from the base layer" />
+<PageRef page="../../packages/cms-base-layer.html#🔄-overwriting-components" title="Override CMS Components" sub="Learn how to customize CMS components from the base layer" />
 
 ### Styling with UnoCSS
 
@@ -227,6 +227,6 @@ The Vue Starter Template can be extended using [Nuxt layers](https://nuxt.com/do
 
 ## What's Next?
 
-<PageRef page="../page-elements/navigation.html" title="Build your navigation" sub="Learn how to implement the main navigation for your store" />
+<PageRef page="../../frontends-recipes/context/navigation.html" title="Build your navigation" sub="Learn how to implement the main navigation for your store" />
 
-<PageRef page="../cms/content-pages.html" title="Work with CMS" sub="Integrate Shopwell Shopping Experiences into your frontend" />
+<PageRef page="../../frontends-recipes/cms/rendering.html" title="Work with CMS" sub="Integrate Shopwell Shopping Experiences into your frontend" />
