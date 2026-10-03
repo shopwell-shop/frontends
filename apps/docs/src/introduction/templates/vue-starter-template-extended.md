@@ -27,8 +27,8 @@ Scaffold both templates side by side:
 <!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/vue-starter-template-extended/quick-setup.sh" code lang="bash" no-name -->
 
 ```bash
-npx tiged shopwell/frontends/templates/vue-starter-template vue-starter-template
-npx tiged shopwell/frontends/templates/vue-starter-template-extended lumora-store
+npx tiged shopwell-shop/frontends/templates/vue-starter-template vue-starter-template
+npx tiged shopwell-shop/frontends/templates/vue-starter-template-extended lumora-store
 ```
 
 <!-- /automd -->
@@ -295,4 +295,4 @@ npm run preview
 
 <PageRef page="https://nuxt.com/docs/getting-started/layers" target="blank" title="Nuxt Layers Documentation" sub="Deep dive into Nuxt's layer system" />
 
-<PageRef page="../../packages/cms-base-layer.html#overwriting-components" title="Override CMS Components" sub="Customize CMS components from the base layer" />
+<PageRef page="../../packages/cms-base-layer.html#🔄-overwriting-components" title="Override CMS Components" sub="Customize CMS components from the base layer" />

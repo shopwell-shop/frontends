@@ -12,14 +12,14 @@ The blank Astro bootstrap application with pre-installed dependencies, so you ca
 
 ## Setup & run
 
-<PageRef target="blank" title="Run on Stackblitz" page="https://stackblitz.com/github/shopwell/frontends/tree/main/templates/astro" sub="Open the Blank Template with our browser IDE in a new window" :icon="stackblitzIcon" />
+<PageRef target="blank" title="Run on Stackblitz" page="https://stackblitz.com/github/shopwell-shop/frontends/tree/main/templates/astro" sub="Open the Blank Template with our browser IDE in a new window" :icon="stackblitzIcon" />
 
 Alternatively, set up the astro-blank template manually by running the following commands in a new directory:
 
 <!-- automd:file src="examples/docs-code-examples/src/generated/introduction/templates/astro-template/setup-run.sh" code lang="bash" no-name -->
 
 ```bash
-npx tiged shopwell/frontends/templates/astro astro-blank && cd astro-blank
+npx tiged shopwell-shop/frontends/templates/astro astro-blank && cd astro-blank
 npm i && npm run dev
 ```
 
@@ -49,4 +49,4 @@ If the customization isn't enough, visit `src/entrypoints/_shopwell.ts` file and
 
 ## What next?
 
-<PageRef page="../page-elements/navigation.html" title="Build your first component" sub="Now that your astro template is set up, let's work with the main navigation." />
+<PageRef page="../../frontends-recipes/context/navigation.html" title="Build your first component" sub="Now that your astro template is set up, let's work with the main navigation." />

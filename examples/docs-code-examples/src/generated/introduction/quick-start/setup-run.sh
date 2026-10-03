@@ -1,2 +1,2 @@
-npx tiged shopwell/frontends/templates/vue-starter-template my-store && cd my-store
+npx tiged shopwell-shop/frontends/templates/vue-starter-template my-store && cd my-store
 npm i && npm run dev

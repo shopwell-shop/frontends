@@ -65,7 +65,7 @@ ships a `pnpm.onlyBuiltDependencies` list so a fresh scaffold runs unattended.
 <!-- automd:file src="examples/docs-code-examples/src/generated/introduction/requirements/package-manager.sh" code lang="bash" no-name -->
 
 ```bash
-npx tiged shopwell/frontends/templates/vue-starter-template my-store && cd my-store
+npx tiged shopwell-shop/frontends/templates/vue-starter-template my-store && cd my-store
 pnpm i && pnpm dev
 ```
 

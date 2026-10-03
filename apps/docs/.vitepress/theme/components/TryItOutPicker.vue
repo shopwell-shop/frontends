@@ -56,7 +56,7 @@ const environmentsById: Record<EnvId, Env> = {
     unavailableFor: (t) => (t.scaffoldable ? null : NOT_SCAFFOLDABLE),
     buildOpenUrl: (t) =>
       t.scaffoldable
-        ? `https://stackblitz.com/github/shopwell/frontends/tree/main/templates/${t.id}`
+        ? `https://stackblitz.com/github/shopwell-shop/frontends/tree/main/templates/${t.id}`
         : null,
   },
   codespaces: {
@@ -70,7 +70,7 @@ const environmentsById: Record<EnvId, Env> = {
       t.devcontainer ? null : "This template has no devcontainer yet.",
     buildOpenUrl: (t) =>
       t.devcontainer
-        ? `https://github.com/codespaces/new?repo=shopwell/frontends&ref=main&devcontainer_path=.devcontainer/${t.id}/devcontainer.json`
+        ? `https://github.com/codespaces/new?repo=shopwell-shop/frontends&ref=main&devcontainer_path=.devcontainer/${t.id}/devcontainer.json`
         : null,
   },
 };
@@ -120,7 +120,7 @@ const aiPrompts: Record<string, string> = {
 
 In my current working directory, please:
 
-1. Run \`npx tiged shopwell/frontends/templates/vue-starter-template my-store\`
+1. Run \`npx tiged shopwell-shop/frontends/templates/vue-starter-template my-store\`
 2. \`cd my-store\`
 3. Run \`pnpm install\`
 4. Start the dev server with \`pnpm dev\` and tell me when it's ready on http://localhost:3000
@@ -132,8 +132,8 @@ The template is Nuxt 4 + UnoCSS + the Shopwell composables/cms-base layers, pre-
 
 This template is a Nuxt layer that extends \`vue-starter-template\`, so we need both. In my current working directory, please:
 
-1. Scaffold the base: \`npx tiged shopwell/frontends/templates/vue-starter-template vue-starter-template\`
-2. Scaffold the extended: \`npx tiged shopwell/frontends/templates/vue-starter-template-extended lumora-store\`
+1. Scaffold the base: \`npx tiged shopwell-shop/frontends/templates/vue-starter-template vue-starter-template\`
+2. Scaffold the extended: \`npx tiged shopwell-shop/frontends/templates/vue-starter-template-extended lumora-store\`
 3. In \`lumora-store/package.json\`:
    - replace \`"vue-starter-template": "workspace:*"\` with \`"vue-starter-template": "file:../vue-starter-template"\`
    - replace any other \`workspace:*\` dep with \`"canary"\` (the published npm tag)

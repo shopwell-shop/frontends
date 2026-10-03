@@ -29,7 +29,7 @@ useBreadcrumbs([
   <div class="flex justify-center">
     <img
       class="md:w-11/12"
-      src="https://raw.githubusercontent.com/shopwell/frontends/main/.readme/shopwell-frontends-logo.png"
+      src="https://raw.githubusercontent.com/shopwell-shop/frontends/main/.readme/shopwell-frontends-logo.png"
       alt="logo shopwell frontends"
     />
   </div>
@@ -47,7 +47,7 @@ useBreadcrumbs([
   <div class="mx-10 mt-10 flex flex-wrap justify-center">
     <img
       class="md:w-9/12"
-      src="https://raw.githubusercontent.com/shopwell/frontends/main/.readme/shopwell-frontends-techstack.png"
+      src="https://raw.githubusercontent.com/shopwell-shop/frontends/main/.readme/shopwell-frontends-techstack.png"
       alt="techstack shopwell frontends"
     />
   </div>

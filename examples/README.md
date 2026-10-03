@@ -12,7 +12,7 @@ In order to open and run an example use a StackBlitz pattern:
 
 For example, to run `login-form` example you would need to open in your browser:
 
-[https://stackblitz.com/github/shopwell/frontends/tree/main/examples/login-form](https://stackblitz.com/github/shopwell/frontends/tree/main/examples/login-form)
+[https://stackblitz.com/github/shopwell-shop/frontends/tree/main/examples/login-form](https://stackblitz.com/github/shopwell-shop/frontends/tree/main/examples/login-form)
 
 In an example URL above there are few parts that need explanation:
 

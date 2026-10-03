@@ -24,7 +24,7 @@ On this page we explain the basics of how to integrate it into our [vue-blank te
 ## Step by step guide
 
 1. Checkout the vue-blank template
-   `pnpx tiged shopwell/frontends/templates/vue-blank vue-blank-storyblok && cd vue-blank-storyblok`
+   `pnpx tiged shopwell-shop/frontends/templates/vue-blank vue-blank-storyblok && cd vue-blank-storyblok`
 2. Install the dependencies and run the dev server
    `pnpm i && pnpm run dev`
 3. Install the [storyblok nuxt module](https://nuxt.com/modules/storyblok)

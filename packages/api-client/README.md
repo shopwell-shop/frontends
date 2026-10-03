@@ -301,7 +301,7 @@ See the [@shopwell/api-gen documentation](https://www.npmjs.com/package/@shopwel
 
 ## Basic usage
 
-Take a look at [example project using API Client](https://stackblitz.com/github/shopwell/frontends/tree/main/examples/new-api-client).
+Take a look at [example project using API Client](https://stackblitz.com/github/shopwell-shop/frontends/tree/main/examples/new-api-client).
 
 ### Simple invocation
 

@@ -74,12 +74,12 @@
         "docsUrl": {
           "type": ["string", "null"],
           "description": "Documentation page for this template. Null when no page exists, which is a gap worth closing rather than a valid state. Must resolve to a file under apps/docs/src/.",
-          "pattern": "^https://developer\\.shopwell\\.com/frontends/.+\\.html$"
+          "pattern": "^https://developer\\.shopwell\\.cn/frontends/.+\\.html$"
         },
         "issueUrl": {
           "type": "string",
           "description": "Prefilled link for reporting a problem with this template. The title is prefixed with the template id so issues arrive already triaged.",
-          "pattern": "^https://github\\.com/shopwell/frontends/issues/new\\?.+$"
+          "pattern": "^https://github\\.com/shopwell-shop/frontends/issues/new\\?.+$"
         },
         "supportLevel": {
           "type": "string",

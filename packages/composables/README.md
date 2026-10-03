@@ -148,7 +148,7 @@ apiClient.hook("onContextChanged", (newContextToken) => {
 
 Thanks to this, the session will be kept to the corresponding `sw-context-token` saved in the cookie, so it can be reachable also in the SSR. Check the example to see it in action:
 
-[![](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/shopwell/frontends/tree/main/examples/blank-playground?file=src%2Fmain.ts)
+[![](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/shopwell-shop/frontends/tree/main/examples/blank-playground?file=src%2Fmain.ts)
 
 ## TypeScript support
 

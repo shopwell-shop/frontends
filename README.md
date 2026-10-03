@@ -40,12 +40,7 @@ pnpm run docs:link
 pnpm run docs:preview
 ```
 
-`docs:env` clones [developer-portal](https://github.com/shopwell-shop/developer-portal) next to this repo over SSH, so it needs a [GitHub SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh). Without one, clone it yourself over HTTPS first and rerun the command:
-
-```sh
-git clone https://github.com/shopwell-shop/developer-portal.git ../developer-portal
-pnpm i -C ../developer-portal
-```
+The documentation commands require a separately supplied `../developer-portal/docs-cli.cjs`. `docs:env` exits with a clear error when that local tool is unavailable.
 
 ## Architecture
 

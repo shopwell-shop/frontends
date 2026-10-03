@@ -114,7 +114,7 @@ Server API exposes an endpoint under `/api/translations` for HTTP GET requests t
 
 ## Try it online
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/shopwell/frontends/tree/main/examples/snippets-middleware)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/shopwell-shop/frontends/tree/main/examples/snippets-middleware)
 
 Create the same `.env` file there, or the translations endpoint has no credentials.
 

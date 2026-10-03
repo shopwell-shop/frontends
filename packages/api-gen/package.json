@@ -53,11 +53,12 @@
     "@vitest/utils": "5.0.0",
     "json5": "2.2.3",
     "picocolors": "1.1.1",
+    "tsconfig": "workspace:*",
     "unbuild": "3.6.1",
     "vitest": "5.0.0"
   },
   "dependencies": {
-    "@shopwell/api-client": "1.6.0",
+    "@shopwell/api-client": "workspace:*",
     "ofetch": "1.5.1",
     "openapi-typescript": "7.13.0",
     "oxfmt": "0.65.0",
