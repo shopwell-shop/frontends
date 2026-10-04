@@ -63,8 +63,8 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@shopwell/helpers": "1.8.0",
-    "@shopwell/api-client": "1.6.0",
+    "@shopwell/helpers": "workspace:*",
+    "@shopwell/api-client": "workspace:*",
     "@vueuse/core": "15.0.0",
     "defu": "6.1.7",
     "scule": "1.3.0"
@@ -75,6 +75,8 @@
     "@vitest/coverage-v8": "5.0.0",
     "@vue/test-utils": "2.5.1",
     "happy-dom": "20.14.5",
+    "pathe": "2.0.3",
+    "tsconfig": "workspace:*",
     "typescript": "5.9.3",
     "unbuild": "3.6.1",
     "vitest": "5.0.0",

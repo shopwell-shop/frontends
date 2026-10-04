@@ -43,9 +43,9 @@
   },
   "dependencies": {
     "@nuxt/kit": "4.5.2",
-    "@shopwell/composables": "1.13.1",
-    "@shopwell/helpers": "1.8.0",
-    "@shopwell/api-client": "1.6.0",
+    "@shopwell/composables": "workspace:*",
+    "@shopwell/helpers": "workspace:*",
+    "@shopwell/api-client": "workspace:*",
     "defu": "6.1.7",
     "h3": "1.15.11",
     "js-cookie": "3.0.7"
@@ -54,6 +54,7 @@
     "@nuxt/schema": "4.5.2",
     "@typescript/native-preview": "7.0.0-dev.20260205.1",
     "nuxt": "4.5.2",
+    "tsconfig": "workspace:*",
     "unbuild": "3.6.1",
     "vitest": "5.0.0"
   }

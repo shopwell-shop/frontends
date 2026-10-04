@@ -3,8 +3,14 @@ import { describe, expect, it } from "vitest";
 import type { operations } from "../api-types/storeApiTypes";
 import { createAPIClient } from "./createAPIClient";
 
-const baseURL = "https://demo-frontends.shopwell.store/store-api";
-const accessToken = "SWSCBHFSNTVMAWNZDNFKSHLAYW";
+const baseURL = process.env.SHOPWELL_STORE_API_URL;
+const accessToken = process.env.SHOPWELL_STORE_API_TOKEN;
+
+if (!baseURL || !accessToken) {
+  throw new Error(
+    "SHOPWELL_STORE_API_URL and SHOPWELL_STORE_API_TOKEN are required for live API tests",
+  );
+}
 
 // hits the live demo instance, so the 5s default timeout flakes in CI
 describe("Test real API invocations", { retry: 2, timeout: 30_000 }, () => {

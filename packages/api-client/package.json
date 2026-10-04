@@ -58,7 +58,8 @@
     "lint": "oxlint . && oxfmt --check .",
     "lint:fix": "oxlint --fix . && oxfmt --write . && pnpm typecheck",
     "typecheck": "tsgo --noEmit",
-    "test": "vitest run --typecheck",
+    "test": "vitest run --typecheck --exclude '**/*.e2e.test.ts'",
+    "test:e2e": "vitest run --typecheck e2e.test.ts",
     "test:bench": "vitest bench",
     "test:watch": "vitest --typecheck",
     "load-schema": "esno ../api-gen/src/cli.ts loadSchema --apiType=store",
@@ -72,6 +73,7 @@
     "fflate": "0.8.3",
     "h3": "1.15.11",
     "happy-dom": "20.14.5",
+    "tsconfig": "workspace:*",
     "unbuild": "3.6.1",
     "vitest": "5.0.0"
   },

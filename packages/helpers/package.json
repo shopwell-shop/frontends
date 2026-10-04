@@ -45,6 +45,7 @@
     "@typescript/native-preview": "7.0.0-dev.20260205.1",
     "@vitest/coverage-v8": "5.0.0",
     "happy-dom": "20.14.5",
+    "tsconfig": "workspace:*",
     "unbuild": "3.6.1",
     "vitest": "5.0.0"
   }

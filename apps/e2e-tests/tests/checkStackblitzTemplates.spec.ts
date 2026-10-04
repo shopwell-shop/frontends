@@ -44,7 +44,7 @@ for (const template of templates.filter((t) => t.scaffoldable)) {
       "https://demo-frontends.shopwell.store/store-api/context",
     );
     await expect(page).toHaveURL(
-      `https://stackblitz.com/github/shopwell/frontends/tree/main/templates/${template.id}?file=README.md`,
+      `https://stackblitz.com/github/shopwell-shop/frontends/tree/main/templates/${template.id}?file=README.md`,
     );
 
     const consoleLogs: string[] = [];

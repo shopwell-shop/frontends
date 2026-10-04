@@ -26,7 +26,7 @@ repository uses pnpm.
 As a standalone project:
 
 ```bash
-npx tiged shopwell/frontends/templates/vue-starter-template my-store
+npx tiged shopwell-shop/frontends/templates/vue-starter-template my-store
 cd my-store
 pnpm i
 pnpm dev
@@ -127,4 +127,4 @@ Nuxt and Nitro emit these headers. A CDN such as Fastly still has to be configur
 
 ## Try it online
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/shopwell/frontends/tree/main/templates/vue-starter-template)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/shopwell-shop/frontends/tree/main/templates/vue-starter-template)
