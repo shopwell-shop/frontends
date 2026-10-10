@@ -1,5 +1,59 @@
 # @shopwell/composables
 
+## 2.0.0
+
+### Major Changes
+
+- [#6](https://github.com/shopwell-shop/frontends/pull/6) [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983) Thanks [@xgll7](https://github.com/xgll7)! - Customers, users, order customers, addresses and newsletter recipients now carry a single `name` instead of `firstName` and `lastName`.
+
+  `firstName` and `lastName` are gone from the Admin API and Store API schemas of `Customer`, `CustomerAddress`, `OrderCustomer`, `OrderAddress`, `User` and `NewsletterRecipient`. They expose `name` (the full name) instead. The same applies to the request bodies that used to send both fields — customer registration, profile update, contact form, newsletter subscription and the revocation request form — and to the `contactForm` shop settings, where `firstNameFieldRequired` and `lastNameFieldRequired` are merged into `nameFieldRequired`.
+
+  `useOrderDetails()` returns the customer's full name as `name` in the personal details.
+
+  The newsletter and contact form CMS elements render a single name input instead of separate first and last name inputs.
+
+### Minor Changes
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Let the CMS tree lookups follow a changing `content`, and fix `resolveCmsComponent().isResolved`
+
+  **`useCmsSection` and `useCmsBlock` accept a `ref` or a getter.** Both took a plain object and closed over it, so `getPositionContent()` and `getSlotContent()` kept reading the tree captured at setup: a component receiving a new `content` prop had to remount to see it, and calling the function again did not help. Both now accept `MaybeRefOrGetter` and resolve it with `toValue()` on every call.
+
+  Passing a plain object still works exactly as before, so nothing has to change. To benefit, pass a getter and read the lookups through a `computed`:
+
+  ```ts
+  const { getSlotContent } = useCmsBlock(() => props.content);
+  const leftContent = computed(() => getSlotContent("left"));
+  ```
+
+  The returned `section` and `block` are still the value read when the composable was called, so they do not follow a replacement — use the source you passed in when you need that.
+
+  **`resolveCmsComponent().isResolved` now means resolved.** It compared the resolved value with `content.type`, while Vue's `resolveComponent` returns the _component name_ when nothing is registered — two strings that never match, so `isResolved` was `true` even when nothing resolved, and code guarding a fallback with `!isResolved` never ran. It is now derived from `resolvedComponent !== undefined`. Check `resolvedComponent` directly if you want the component itself.
+
+  The `resolved` field, which appears only when resolving throws, is now marked `@deprecated`. It always equals `isResolved`, so read that instead.
+
+  Note what is not fixed here: `getSlotContent()` still returns `undefined` at runtime for a slot the block does not carry, while its return type promises a value. The signature stays as it is because correcting it would be a breaking type change; the JSDoc now says so, and callers should keep guarding on the result.
+
+### Patch Changes
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Add an optional notification action (label + link) so add-to-cart toasts can offer a "View cart" shortcut, and keep those toasts visible a little longer.
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Fall back `getStorefrontUrl()` to a sales channel domain
+
+  `useUser().register()` injects `storefrontUrl` from `getStorefrontUrl()`. Shopwell rejects that value unless it matches a **Sales Channel → Domains** entry, so guest checkout against the public demo (`devStorefrontUrl` pointing at the starter Vercel host) never reached `POST /checkout/order`.
+
+  `getStorefrontUrl()` now uses the preferred URL when it is one of the current sales channel domains, and otherwise the domain for the active language (or the first configured domain).
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Refresh the cart after `register()`
+
+  `useUser().register()` changed the session context without refreshing the cart, while `login()` and `logout()` both did. Registration is the first point at which the backend learns the customer's billing country, which drives tax rates, shipping surcharges and customer-group prices, so the cart totals held in `useCart()` could stay at their pre-registration values while the order was placed at the recalculated ones.
+
+  `register()` now awaits `refreshCart()` after `refreshSessionContext()`, so a caller that awaits `register()` cannot observe the pre-registration totals afterwards. Note this makes `register()` resolve slightly later than before, and a failing cart refresh now rejects `register()` even though the customer was created — the same property `refreshSessionContext()` on the preceding line already had.
+
+  `login()` and `logout()` still call `refreshCart()` without awaiting it and are unchanged here.
+
+- Updated dependencies [[`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95)]:
+  - @shopwell/api-client@2.0.0
+
 ## 1.13.1
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @shopwell/nuxt-module
 
+## 1.6.0
+
+### Minor Changes
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - `apiClientConfig.timeout` now works. Set it in milliseconds under `runtimeConfig.apiClientConfig` or `runtimeConfig.public.apiClientConfig`, next to `headers`, and the plugin forwards it to the API client. Unset by default. Only a positive number arms it, and a numeric string is coerced. Any other value is ignored and logged once as a warning naming the config path the value came from, instead of being dropped silently. It aborts a request whose response headers do not arrive in time, including one still opening its connection. It does not abort a response that stalls after its headers arrived, unless the call passes its own `signal`.
+
+  `apiClientConfig` under the `shopwell` module options is deprecated, and now works as a fallback. It had never been read before, so a value set there in the past becomes active with this release. It is read last, only when neither `runtimeConfig` path holds a valid value, and Nuxt warns at build time when a timeout is set there. Move to `runtimeConfig.apiClientConfig`; the fallback goes away in the next major.
+
+### Patch Changes
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Resolve plugin configuration types from the published package entrypoint.
+- Updated dependencies [[`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95)]:
+  - @shopwell/api-client@2.0.0
+  - @shopwell/composables@2.0.0
+
 ## 1.5.3
 
 ### Patch Changes

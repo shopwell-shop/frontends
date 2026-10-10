@@ -1,5 +1,44 @@
 # @shopwell/cms-base-layer
 
+## 5.0.0
+
+### Major Changes
+
+- [#6](https://github.com/shopwell-shop/frontends/pull/6) [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983) Thanks [@xgll7](https://github.com/xgll7)! - Customers, users, order customers, addresses and newsletter recipients now carry a single `name` instead of `firstName` and `lastName`.
+
+  `firstName` and `lastName` are gone from the Admin API and Store API schemas of `Customer`, `CustomerAddress`, `OrderCustomer`, `OrderAddress`, `User` and `NewsletterRecipient`. They expose `name` (the full name) instead. The same applies to the request bodies that used to send both fields — customer registration, profile update, contact form, newsletter subscription and the revocation request form — and to the `contactForm` shop settings, where `firstNameFieldRequired` and `lastNameFieldRequired` are merged into `nameFieldRequired`.
+
+  `useOrderDetails()` returns the customer's full name as `name` in the personal details.
+
+  The newsletter and contact form CMS elements render a single name input instead of separate first and last name inputs.
+
+### Minor Changes
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Render blocks reactively and survive a missing slot
+
+  `CmsGenericElement` now takes `content` as an optional prop and renders nothing when it is missing, instead of handing `undefined` to `resolveCmsComponent` and throwing. A block does not have to carry every slot its layout allows, so that is no longer an error path.
+
+  Every block component now passes its `content` to `useCmsBlock` as a getter and reads slot lookups through a `computed`, and `CmsSectionSidebar` does the same with `useCmsSection`. A block or section that receives new content re-resolves which slot goes where, instead of rendering the tree it was mounted with.
+
+  That stops at the element boundary. Element components still call `useCmsElementConfig(props.content)` and `useCmsElementImage(props.content)`, which capture the slot object at setup, so an element reused for a different slot of the same type keeps its old config- and media-derived values — an image its old source, a text its old configured content. Only values read straight from the prop (`props.content.data`) follow. Making those composables accept a getter is a separate change.
+
+  Both generic components also stop emitting an empty `<div>` where they used to render a placeholder: a missing slot and — in production — a block or element type with no component now render nothing. Dev mode is unchanged: it still warns and renders `CmsNoComponent`.
+
+  `CmsGenericBlock` and `CmsGenericElement` dropped their `Problem resolving component: …` branch. It sat behind `if (resolvedComponent)` and tested `isResolved`, which was always `true` there, so it never rendered; an unresolved component still logs a dev warning and renders `CmsNoComponent`.
+
+### Patch Changes
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Use Three.js vectors for the 3D camera and light positions.
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Add an optional notification action (label + link) so add-to-cart toasts can offer a "View cart" shortcut, and keep those toasts visible a little longer.
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Drive the product listing from the URL. Browser back and forward now update the products, and sorting no longer fires a duplicate request.
+
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Write listing filters to the URL before fetching, so a slow or failed request no longer drops the selection. Expose the product id on the add-to-cart button.
+- Updated dependencies [[`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95)]:
+  - @shopwell/api-client@2.0.0
+  - @shopwell/composables@2.0.0
+
 ## 4.0.1
 
 ### Patch Changes
