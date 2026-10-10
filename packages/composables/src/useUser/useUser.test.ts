@@ -37,8 +37,7 @@ const REGISTRATION_DATA: Omit<
   acceptedDataProtection: true,
   accountType: "private",
   salutationId: "d5e543063dd642b48ef94b02d68e5785",
-  firstName: "test",
-  lastName: "test",
+  name: "test",
   email: "test@test.testwwww",
   password: "ZAQ!2wsx",
   billingAddress: {
@@ -49,8 +48,7 @@ const REGISTRATION_DATA: Omit<
     countryStateId: "",
     customerId: "",
     id: "",
-    firstName: "test",
-    lastName: "test",
+    name: "test",
   },
 };
 
@@ -266,8 +264,7 @@ describe("useUser", () => {
     injections.apiClient.invoke.mockResolvedValue({ data: {} });
 
     await vm.updatePersonalInfo({
-      firstName: "test",
-      lastName: "test",
+      name: "test",
       salutationId: "d5e543063dd642b48ef94b02d68e5785",
       title: "",
       accountType: "business",
@@ -279,8 +276,7 @@ describe("useUser", () => {
       expect.stringContaining("changeProfile"),
       expect.objectContaining({
         body: {
-          firstName: "test",
-          lastName: "test",
+          name: "test",
           salutationId: "d5e543063dd642b48ef94b02d68e5785",
           title: "",
           accountType: "business",
@@ -291,8 +287,7 @@ describe("useUser", () => {
     );
 
     await vm.updatePersonalInfo({
-      firstName: "test",
-      lastName: "test",
+      name: "test",
       salutationId: "d5e543063dd642b48ef94b02d68e5785",
       title: "",
       accountType: "business",
@@ -304,8 +299,7 @@ describe("useUser", () => {
       expect.stringContaining("changeProfile"),
       expect.objectContaining({
         body: {
-          firstName: "test",
-          lastName: "test",
+          name: "test",
           salutationId: "d5e543063dd642b48ef94b02d68e5785",
           title: "",
           accountType: "business",
@@ -320,8 +314,7 @@ describe("useUser", () => {
     const { vm, injections } = useSetup(() => useUser());
     injections.apiClient.invoke.mockResolvedValue({ data: {} });
     await vm.updatePersonalInfo({
-      firstName: "test",
-      lastName: "test",
+      name: "test",
       salutationId: "d5e543063dd642b48ef94b02d68e5785",
       title: "",
       accountType: "private",
@@ -331,8 +324,7 @@ describe("useUser", () => {
       expect.stringContaining("changeProfile"),
       expect.objectContaining({
         body: {
-          firstName: "test",
-          lastName: "test",
+          name: "test",
           salutationId: "d5e543063dd642b48ef94b02d68e5785",
           title: "",
           accountType: "private",

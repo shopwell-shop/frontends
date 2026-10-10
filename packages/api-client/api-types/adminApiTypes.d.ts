@@ -8792,8 +8792,6 @@ export type Schemas = {
      * To capture date and time of customer's first login.
      */
     firstLogin?: string;
-    /** First name of the customer. */
-    firstName: string;
     /** Customer group determining pricing and permissions */
     group?: components["schemas"]["CustomerGroup"];
     /** Unique identity of customer group. */
@@ -8812,8 +8810,6 @@ export type Schemas = {
      * To capture date and time of customer's last login.
      */
     lastLogin?: string;
-    /** Last name of the customer. */
-    lastName: string;
     /**
      * Format: date-time
      * Captures last order date.
@@ -8823,6 +8819,8 @@ export type Schemas = {
     lastPaymentMethod?: components["schemas"]["PaymentMethod"];
     /** Unique identity of previous payment method. */
     lastPaymentMethodId?: string;
+    /** Full name of the customer. */
+    name: string;
     /**
      * Format: int64
      * Captures the number of orders placed.
@@ -8935,13 +8933,11 @@ export type Schemas = {
         };
       };
     };
-    /** First name of the customer. */
-    firstName: string;
     /** Runtime field, cannot be used as part of the criteria. */
     hash?: string;
     id: string;
-    /** Last name of the customer. */
-    lastName: string;
+    /** Full name of the customer. */
+    name: string;
     /** Customer's phone number. */
     phoneNumber?: string;
     salutation?: components["schemas"]["Salutation"];
@@ -9023,13 +9019,11 @@ export type Schemas = {
         };
       };
     };
-    /** First name of the customer. */
-    firstName: string;
     /** Runtime field, cannot be used as part of the criteria. */
     hash?: string;
     id: string;
-    /** Last name of the customer. */
-    lastName: string;
+    /** Full name of the customer. */
+    name: string;
     /** Customer's phone number. */
     phoneNumber?: string;
     relationships?: {
@@ -9648,8 +9642,6 @@ export type Schemas = {
      * To capture date and time of customer's first login.
      */
     firstLogin?: string;
-    /** First name of the customer. */
-    firstName: string;
     /** Unique identity of customer group. */
     groupId: string;
     /** Boolean value is `true` if it is to be a guest account. */
@@ -9664,8 +9656,6 @@ export type Schemas = {
      * To capture date and time of customer's last login.
      */
     lastLogin?: string;
-    /** Last name of the customer. */
-    lastName: string;
     /**
      * Format: date-time
      * Captures last order date.
@@ -9673,6 +9663,8 @@ export type Schemas = {
     readonly lastOrderDate?: string;
     /** Unique identity of previous payment method. */
     lastPaymentMethodId?: string;
+    /** Full name of the customer. */
+    name: string;
     /**
      * Format: int64
      * Captures the number of orders placed.
@@ -15329,16 +15321,14 @@ export type Schemas = {
     customFields?: CustomFields | null;
     /** Email of the recipient. */
     email: string;
-    /** First name of the recipient. */
-    firstName?: string;
     /** Password hash for account recovery. */
     hash: string;
     id: string;
     language?: components["schemas"]["Language"];
     /** Unique identity of language. */
     languageId: string;
-    /** Last name of the recipient. */
-    lastName?: string;
+    /** Full name of the recipient. */
+    name?: string;
     salesChannel?: components["schemas"]["SalesChannel"];
     /** Unique identity of the sales channel. */
     salesChannelId: string;
@@ -15373,15 +15363,13 @@ export type Schemas = {
     customFields?: CustomFields | null;
     /** Email of the recipient. */
     email: string;
-    /** First name of the recipient. */
-    firstName?: string;
     /** Password hash for account recovery. */
     hash: string;
     id: string;
     /** Unique identity of language. */
     languageId: string;
-    /** Last name of the recipient. */
-    lastName?: string;
+    /** Full name of the recipient. */
+    name?: string;
     relationships?: {
       language?: {
         data?: {
@@ -16296,13 +16284,11 @@ export type Schemas = {
     customFields?: CustomFields | null;
     /** Name of the department. */
     department?: string;
-    /** First name of the customer. */
-    firstName: string;
     /** Runtime field, cannot be used as part of the criteria. */
     hash?: string;
     id: string;
-    /** Last name of the customer. */
-    lastName: string;
+    /** Full name of the customer. */
+    name: string;
     order?: components["schemas"]["Order"];
     orderDeliveries?: components["schemas"]["OrderDelivery"][];
     /** Unique identity of order. */
@@ -16346,13 +16332,11 @@ export type Schemas = {
     customFields?: CustomFields | null;
     /** Name of the department. */
     department?: string;
-    /** First name of the customer. */
-    firstName: string;
     /** Runtime field, cannot be used as part of the criteria. */
     hash?: string;
     id: string;
-    /** Last name of the customer. */
-    lastName: string;
+    /** Full name of the customer. */
+    name: string;
     /** Unique identity of order. */
     orderId: string;
     orderVersionId?: string;
@@ -16465,11 +16449,9 @@ export type Schemas = {
     customFields?: CustomFields | null;
     /** Email address of the customer. */
     email: string;
-    /** First name of the customer. */
-    firstName: string;
     id: string;
-    /** Last name of the customer. */
-    lastName: string;
+    /** Full name of the customer. */
+    name: string;
     order?: components["schemas"]["Order"];
     /** Unique identity of order. */
     orderId: string;
@@ -16498,11 +16480,9 @@ export type Schemas = {
     customFields?: CustomFields | null;
     /** Email address of the customer. */
     email: string;
-    /** First name of the customer. */
-    firstName: string;
     id: string;
-    /** Last name of the customer. */
-    lastName: string;
+    /** Full name of the customer. */
+    name: string;
     /** Unique identity of order. */
     orderId: string;
     orderVersionId?: string;
@@ -35477,12 +35457,8 @@ export type Schemas = {
         };
       };
     };
-    /** First name of the user. */
-    firstName: string;
     id: string;
     importExportLogEntries?: components["schemas"]["ImportExportLog"][];
-    /** Last name of the user. */
-    lastName: string;
     /**
      * Format: date-time
      * Parameter that indicates when the password was last updated by the user.
@@ -35493,6 +35469,8 @@ export type Schemas = {
     localeId: string;
     mcpAllowlist?: GenericRecord;
     media?: components["schemas"]["Media"][];
+    /** Full name of the user. */
+    name: string;
     recoveryUser?: components["schemas"]["UserRecovery"];
     stateMachineHistoryEntries?: components["schemas"]["StateMachineHistory"][];
     /** Time configuration in the user's profile. */
@@ -35948,11 +35926,7 @@ export type Schemas = {
         };
       };
     };
-    /** First name of the user. */
-    firstName: string;
     id: string;
-    /** Last name of the user. */
-    lastName: string;
     /**
      * Format: date-time
      * Parameter that indicates when the password was last updated by the user.
@@ -35961,6 +35935,8 @@ export type Schemas = {
     /** Unique identity of locale. */
     localeId: string;
     mcpAllowlist?: GenericRecord;
+    /** Full name of the user. */
+    name: string;
     relationships?: {
       accessKeys?: {
         data?: {

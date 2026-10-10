@@ -12,8 +12,7 @@ const MOCKED_ADDRESS = {
   countryId: "6777d83705454d078fc9a7419296c7dc",
   countryStateId: "",
   salutationId: "d5e543063dd642b48ef94b02d68e5785",
-  firstName: "Test",
-  lastName: "Test",
+  name: "Test",
   zipcode: "123-1234",
   city: "city test",
   street: "test street address",
@@ -163,13 +162,13 @@ describe("useAddress", () => {
     const messageBlank = vm.errorMessageBuilder({
       code: "VIOLATION::IS_BLANK_ERROR",
       source: {
-        pointer: "/data/attributes/firstName",
+        pointer: "/data/attributes/name",
       },
       detail: "This value should not be blank.",
     });
 
     expect(messageBlank).toBe(
-      "data/attributes/firstName - This value should not be blank.",
+      "data/attributes/name - This value should not be blank.",
     );
   });
 });

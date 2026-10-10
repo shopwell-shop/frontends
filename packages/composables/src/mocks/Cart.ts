@@ -545,7 +545,7 @@ const Cart = {
             customFields: {},
             addressFormat: [
               ["address/company", "symbol/dash", "address/department"],
-              ["address/first_name", "address/last_name"],
+              ["address/name"],
               ["address/street"],
               ["address/zipcode", "address/city"],
               ["address/country", "address/country_state"],
@@ -587,7 +587,7 @@ const Cart = {
           defaultPostalCodePattern: "\\d{5}",
           addressFormat: [
             ["address/company", "symbol/dash", "address/department"],
-            ["address/first_name", "address/last_name"],
+            ["address/name"],
             ["address/street"],
             ["address/zipcode", "address/city"],
             ["address/country", "address/country_state"],

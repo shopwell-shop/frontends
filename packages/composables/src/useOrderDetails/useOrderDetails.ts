@@ -43,8 +43,7 @@ export type UseOrderDetailsReturn = {
    */
   personalDetails: ComputedRef<{
     email: string | undefined;
-    firstName: string | undefined;
-    lastName: string | undefined;
+    name: string | undefined;
   }>;
   /**
    * Payment URL for external payment methods (e.g. async payment in external payment gateway)
@@ -156,8 +155,7 @@ export function useOrderDetails(
 
   const personalDetails = computed(() => ({
     email: _sharedOrder.value?.orderCustomer?.email,
-    firstName: _sharedOrder.value?.orderCustomer?.firstName,
-    lastName: _sharedOrder.value?.orderCustomer?.lastName,
+    name: _sharedOrder.value?.orderCustomer?.name,
   }));
   const billingAddress = computed(() =>
     _sharedOrder.value?.addresses?.find(

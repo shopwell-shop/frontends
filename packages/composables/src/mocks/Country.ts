@@ -6,7 +6,7 @@ const Country = {
         customFields: {},
         addressFormat: [
           ["address/company", "symbol/dash", "address/department"],
-          ["address/first_name", "address/last_name"],
+          ["address/name"],
           ["address/street"],
           ["address/zipcode", "address/city"],
           ["address/country"],
@@ -48,7 +48,7 @@ const Country = {
       defaultPostalCodePattern: "\\d{3} ?\\d{2}",
       addressFormat: [
         ["address/company", "symbol/dash", "address/department"],
-        ["address/first_name", "address/last_name"],
+        ["address/name"],
         ["address/street"],
         ["address/zipcode", "address/city"],
         ["address/country"],
@@ -63,7 +63,7 @@ const Country = {
         customFields: {},
         addressFormat: [
           ["address/company", "symbol/dash", "address/department"],
-          ["address/first_name", "address/last_name"],
+          ["address/name"],
           ["address/street"],
           ["address/zipcode", "address/city"],
           ["address/country"],
@@ -105,7 +105,7 @@ const Country = {
       defaultPostalCodePattern: "[\\dA-Z]{3}( ?[\\dA-Z]{4})?",
       addressFormat: [
         ["address/company", "symbol/dash", "address/department"],
-        ["address/first_name", "address/last_name"],
+        ["address/name"],
         ["address/street"],
         ["address/zipcode", "address/city"],
         ["address/country"],
@@ -120,7 +120,7 @@ const Country = {
         customFields: {},
         addressFormat: [
           ["address/company", "symbol/dash", "address/department"],
-          ["address/first_name", "address/last_name"],
+          ["address/name"],
           ["address/street"],
           ["address/zipcode", "address/city"],
           ["address/country"],
@@ -162,7 +162,7 @@ const Country = {
       defaultPostalCodePattern: "\\d{4}",
       addressFormat: [
         ["address/company", "symbol/dash", "address/department"],
-        ["address/first_name", "address/last_name"],
+        ["address/name"],
         ["address/street"],
         ["address/zipcode", "address/city"],
         ["address/country"],
