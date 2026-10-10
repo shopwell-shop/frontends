@@ -96,8 +96,7 @@
       "changePasswordButton": "Change password",
       "form": {
         "accountType": "Account type",
-        "firstName": "First name",
-        "lastName": "Last name",
+        "name": "Name",
         "company": "Company",
         "vatIds": "VAT Registration Number",
         "buttonSubmit": "Change data",

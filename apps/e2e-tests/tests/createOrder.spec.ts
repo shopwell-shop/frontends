@@ -40,8 +40,7 @@ test.describe("Create Order", { tag: "@frontends" }, () => {
     await homePage.openRegistrationPage();
     await page.waitForLoadState("networkidle");
     await registrationPage.fillCustomerData(
-      `e2e ${faker.person.firstName()}`,
-      `e2e ${faker.person.lastName()}`,
+      `e2e ${faker.person.firstName()} ${faker.person.lastName()}`,
       uniqueEmail(),
       faker.internet.password(),
     );
@@ -85,8 +84,7 @@ test.describe("Create Order", { tag: "@frontends" }, () => {
     await cartPage.openMiniCart();
     await checkoutPage.goToCheckout();
     await checkoutPage.fillGuestUserData(
-      `e2e ${faker.person.firstName()}`,
-      `e2e ${faker.person.lastName()}`,
+      `e2e ${faker.person.firstName()} ${faker.person.lastName()}`,
       email,
       faker.location.street(),
       faker.location.zipCode(),
@@ -120,8 +118,7 @@ test.describe("Create Order", { tag: "@frontends" }, () => {
     await checkoutPage.goToCheckout();
     await checkoutPage.checkNotCreateAccount();
     await checkoutPage.fillGuestUserData(
-      `e2e ${faker.person.firstName()}`,
-      `e2e ${faker.person.lastName()}`,
+      `e2e ${faker.person.firstName()} ${faker.person.lastName()}`,
       uniqueEmail(),
       faker.location.street(),
       faker.location.zipCode(),

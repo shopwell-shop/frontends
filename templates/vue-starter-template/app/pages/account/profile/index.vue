@@ -9,8 +9,7 @@ const { handleApiError } = useApiErrorsResolver("account_profile_form");
 type AccountType = "private" | "business";
 
 const state = ref({
-  firstName: "",
-  lastName: "",
+  name: "",
   salutationId: "",
   title: "",
   accountType: "private" as AccountType,
@@ -19,8 +18,7 @@ const state = ref({
 });
 
 onBeforeMount(() => {
-  state.value.firstName = user.value?.firstName || "";
-  state.value.lastName = user.value?.lastName || "";
+  state.value.name = user.value?.name || "";
   state.value.salutationId = user.value?.salutationId || "";
   state.value.title = user.value?.title || "";
   state.value.accountType = user.value?.accountType || "private";
@@ -43,16 +41,9 @@ async function handleSubmit() {
   }
 
   try {
-    const {
-      firstName,
-      lastName,
-      salutationId,
-      title,
-      accountType,
-      company,
-      vatIds,
-    } = state.value;
-    const basePayload = { firstName, lastName, salutationId, title };
+    const { name, salutationId, title, accountType, company, vatIds } =
+      state.value;
+    const basePayload = { name, salutationId, title };
 
     await updatePersonalInfo(
       accountType === "business"

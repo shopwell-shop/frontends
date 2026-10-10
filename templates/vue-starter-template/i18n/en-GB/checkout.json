@@ -8,10 +8,8 @@
     "placeOrderButton": "Confirm and place order",
     "placingOrder": "Placing order…",
     "customerAddress": {
-      "firstNamePlaceholder": "Enter first name",
-      "firstNameLabel": "First name",
-      "lastNamePlaceholder": "Enter last name",
-      "lastNameLabel": "Last name",
+      "namePlaceholder": "Enter name",
+      "nameLabel": "Name",
       "streetPlaceholder": "Enter street address",
       "streetLabel": "Street address",
       "zipcodePlaceholder": "Enter ZIP code",

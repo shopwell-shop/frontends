@@ -35,8 +35,7 @@ const initialState = {
   requestedGroupId: props.customerGroupId,
   accountType: props.companyOnly ? "business" : "private",
   salutationId: "",
-  firstName: "",
-  lastName: "",
+  name: "",
   email: "",
   password: "",
   vatIds: [null],
@@ -56,11 +55,7 @@ const rules = computed(() => ({
   accountType: {
     required,
   },
-  firstName: {
-    required,
-    minLength: minLength(3),
-  },
-  lastName: {
+  name: {
     required,
     minLength: minLength(3),
   },
@@ -194,55 +189,29 @@ useBreadcrumbs([
           </select>
         </div>
 
-        <div class="col-span-12 md:col-span-4">
-          <label for="first-name">{{ $t("form.firstName") }} *</label>
+        <div class="col-span-12 md:col-span-8">
+          <label for="name">{{ $t("form.name") }} *</label>
           <input
-            id="first-name"
-            v-model="state.firstName"
-            name="first-name"
+            id="name"
+            v-model="state.name"
+            name="name"
             type="text"
-            autocomplete="given-name"
+            autocomplete="name"
             class="appearance-none relative block w-full px-3 py-2 border placeholder-secondary-500 text-secondary-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:z-10 sm:text-sm"
             :class="[
-              $v.firstName.$error
+              $v.name.$error
                 ? 'border-red-600 focus:border-red-600'
                 : 'border-secondary-300 focus:border-indigo-500',
             ]"
-            :placeholder="$t('form.firstNamePlaceholder')"
-            data-testid="registration-first-name-input"
-            @blur="$v.firstName.$touch()"
+            :placeholder="$t('form.namePlaceholder')"
+            data-testid="registration-name-input"
+            @blur="$v.name.$touch()"
           />
           <span
-            v-if="$v.firstName.$error && $v.firstName.$errors[0]?.$message"
+            v-if="$v.name.$error && $v.name.$errors[0]?.$message"
             class="pt-1 text-sm text-red-600 focus:ring-primary border-secondary-300"
           >
-            {{ $v.firstName.$errors[0].$message }}
-          </span>
-        </div>
-
-        <div class="col-span-12 md:col-span-4">
-          <label for="last-name">{{ $t("form.lastName") }} *</label>
-          <input
-            id="last-name"
-            v-model="state.lastName"
-            name="last-name"
-            type="text"
-            autocomplete="family-name"
-            class="appearance-none relative block w-full px-3 py-2 border placeholder-secondary-500 text-secondary-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:z-10 sm:text-sm"
-            :class="[
-              $v.lastName.$error
-                ? 'border-red-600 focus:border-red-600'
-                : 'border-secondary-300 focus:border-indigo-500',
-            ]"
-            :placeholder="$t('form.lastNamePlaceholder')"
-            data-testid="registration-last-name-input"
-            @blur="$v.lastName.$touch()"
-          />
-          <span
-            v-if="$v.lastName.$error && $v.lastName.$errors[0]?.$message"
-            class="pt-1 text-sm text-red-600 focus:ring-primary border-secondary-300"
-          >
-            {{ $v.lastName.$errors[0].$message }}
+            {{ $v.name.$errors[0].$message }}
           </span>
         </div>
 

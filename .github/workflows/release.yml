@@ -32,7 +32,6 @@ jobs:
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
       - name: Check out code
@@ -57,7 +56,6 @@ jobs:
         with:
           node-version: "24"
           cache: "pnpm"
-          registry-url: "https://registry.npmjs.org"
       - name: install
         if: steps.pending.outputs.found == 'true'
         run: pnpm install --frozen-lockfile --prefer-offline
@@ -91,7 +89,6 @@ jobs:
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
       - name: Check out code
@@ -102,7 +99,6 @@ jobs:
         with:
           node-version: "24"
           cache: "pnpm"
-          registry-url: "https://registry.npmjs.org"
       - name: install
         run: pnpm install --frozen-lockfile --prefer-offline
 
@@ -128,9 +124,6 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
     steps:
       - name: Check out code
         uses: actions/checkout@v7
@@ -140,7 +133,6 @@ jobs:
         with:
           node-version: "24"
           cache: "pnpm"
-          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline

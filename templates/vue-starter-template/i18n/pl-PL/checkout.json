@@ -8,10 +8,8 @@
     "placeOrderButton": "Złóż zamówienie",
     "placingOrder": "Składanie zamówienia…",
     "customerAddress": {
-      "firstNamePlaceholder": "Wprowadź imię",
-      "firstNameLabel": "Imię",
-      "lastNamePlaceholder": "Wprowadź nazwisko",
-      "lastNameLabel": "Nazwisko",
+      "namePlaceholder": "Wpisz imię i nazwisko",
+      "nameLabel": "Imię i nazwisko",
       "streetPlaceholder": "Wprowadź adres",
       "streetLabel": "Adres",
       "zipcodePlaceholder": "Wprowadź kod pocztowy",

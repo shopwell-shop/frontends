@@ -99,10 +99,7 @@ onBeforeMount(async () => {
         <h3 class="border-b pb-3 font-bold mb-3 text-xl">
           {{ $t("account.yourProfile") }}
         </h3>
-        <p>
-          {{ user?.firstName }}
-          {{ user?.lastName }}
-        </p>
+        <p>{{ user?.name }}</p>
         <p>{{ user?.email }}</p>
         <div class="mt-5">
           <NuxtLink

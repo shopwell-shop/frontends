@@ -30,8 +30,7 @@ const formData = reactive<Schemas["CustomerAddress"]>({
   countryId: address?.countryId ?? "",
   countryStateId: address?.countryStateId ?? "",
   salutationId: address?.salutationId ?? "",
-  firstName: address?.firstName ?? "",
-  lastName: address?.lastName ?? "",
+  name: address?.name ?? "",
   zipcode: address?.zipcode ?? "",
   city: address?.city ?? "",
   street: address?.street ?? "",
@@ -55,8 +54,8 @@ const invokeSave = async (): Promise<void> => {
   }
 };
 
-const firstNameInputElement = useTemplateRef("firstNameInputElement");
-useFocus(firstNameInputElement, { initialValue: true });
+const nameInputElement = useTemplateRef("nameInputElement");
+useFocus(nameInputElement, { initialValue: true });
 </script>
 
 <template>
@@ -94,40 +93,23 @@ useFocus(firstNameInputElement, { initialValue: true });
                 </option>
               </select>
             </div>
-            <div class="col-span-6 sm:col-span-3">
+            <div class="col-span-6">
               <label
-                for="first-name"
+                for="name"
                 class="block mb-2 text-sm font-medium text-secondary-500"
               >
-                {{ $t("form.firstName") }}
+                {{ $t("form.name") }}
               </label>
               <input
-                id="first-name"
-                ref="firstNameInputElement"
-                v-model="formData.firstName"
+                id="name"
+                ref="nameInputElement"
+                v-model="formData.name"
                 type="text"
                 required
-                name="first-name"
+                name="name"
+                autocomplete="name"
                 class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
-                data-testid="account-address-form-firstname-input"
-              />
-            </div>
-
-            <div class="col-span-6 sm:col-span-3">
-              <label
-                for="last-name"
-                class="block mb-2 text-sm font-medium text-secondary-500"
-              >
-                {{ $t("form.lastName") }}
-              </label>
-              <input
-                id="last-name"
-                v-model="formData.lastName"
-                type="text"
-                required
-                name="last-name"
-                class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
-                data-testid="account-address-form-lastname-input"
+                data-testid="account-address-form-name-input"
               />
             </div>
             <SharedCountryStateInput

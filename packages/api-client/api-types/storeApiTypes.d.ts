@@ -1636,8 +1636,6 @@ export type Schemas = {
      * To capture date and time of customer's first login.
      */
     firstLogin?: string;
-    /** First name of the customer. */
-    firstName: string;
     /** Customer group determining pricing and permissions */
     group?: components["schemas"]["CustomerGroup"];
     /** Unique identity of customer group. */
@@ -1656,8 +1654,6 @@ export type Schemas = {
      * To capture date and time of customer's last login.
      */
     lastLogin?: string;
-    /** Last name of the customer. */
-    lastName: string;
     /**
      * Format: date-time
      * Captures last order date.
@@ -1667,6 +1663,8 @@ export type Schemas = {
     lastPaymentMethod?: components["schemas"]["PaymentMethod"];
     /** Unique identity of previous payment method. */
     lastPaymentMethodId?: string;
+    /** Full name of the customer. */
+    name: string;
     /**
      * Format: int64
      * Captures the number of orders placed.
@@ -1779,8 +1777,6 @@ export type Schemas = {
         };
       };
     };
-    /** First name of the customer. */
-    firstName: string;
     /** Runtime field, cannot be used as part of the criteria. */
     hash?: string;
     id: string;
@@ -1788,8 +1784,8 @@ export type Schemas = {
     isDefaultBillingAddress?: boolean;
     /** Added since version: 6.7.7.0. Runtime field, cannot be used as part of the criteria. */
     isDefaultShippingAddress?: boolean;
-    /** Last name of the customer. */
-    lastName: string;
+    /** Full name of the customer. */
+    name: string;
     /** Customer's phone number. */
     phoneNumber?: string;
     salutation?: components["schemas"]["Salutation"];
@@ -1815,8 +1811,7 @@ export type Schemas = {
     countryStateId?: string;
     customFields?: CustomFields | null;
     department?: string;
-    firstName: string;
-    lastName: string;
+    name: string;
     phoneNumber?: string;
     salutation?: components["schemas"]["Salutation"];
     salutationId?: string;
@@ -2741,13 +2736,11 @@ export type Schemas = {
     customFields?: CustomFields | null;
     /** Name of the department. */
     department?: string;
-    /** First name of the customer. */
-    firstName: string;
     /** Runtime field, cannot be used as part of the criteria. */
     hash?: string;
     id: string;
-    /** Last name of the customer. */
-    lastName: string;
+    /** Full name of the customer. */
+    name: string;
     /** Phone number of the customer. */
     phoneNumber?: string;
     salutation?: components["schemas"]["Salutation"];
@@ -2776,11 +2769,9 @@ export type Schemas = {
     customFields?: CustomFields | null;
     /** Email address of the customer. */
     email: string;
-    /** First name of the customer. */
-    firstName: string;
     id: string;
-    /** Last name of the customer. */
-    lastName: string;
+    /** Full name of the customer. */
+    name: string;
     salutation?: components["schemas"]["Salutation"];
     /** Unique identity of salutation. */
     salutationId?: string;
@@ -9328,10 +9319,8 @@ export type operations = {
       birthdayMonth?: number;
       /** Birthday year */
       birthdayYear?: number;
-      /** Customer first name. Value will be reused for shipping and billing address if not provided explicitly. */
-      firstName: string;
-      /** Customer last name. Value will be reused for shipping and billing address if not provided explicitly. */
-      lastName: string;
+      /** Customer name. Value will be reused for shipping and billing address if not provided explicitly. */
+      name: string;
       /** Id of the salutation for the customer account. Fetch options using `salutation` endpoint. */
       salutationId?: string;
       /** (Academic) title of the customer */
@@ -9553,15 +9542,13 @@ export type operations = {
       campaignCode?: string;
       /** Email of the customer. Has to be unique, unless `guest` is `true` */
       email: string;
-      /** Customer first name. Value will be reused for shipping and billing address if not provided explicitly. */
-      firstName: string;
       /**
        * If set, will create a guest customer. Guest customers can re-use an email address and don't need a password.
        * @default false
        */
       guest?: boolean;
-      /** Customer last name. Value will be reused for shipping and billing address if not provided explicitly. */
-      lastName: string;
+      /** Customer name. Required unless a `billingAddress` is sent, whose name is used instead. When both are sent, this value also replaces the name of the billing address. */
+      name: string;
       /** Password for the customer. Required, unless `guest` is `true` */
       password: string;
       /** Optional customer group registration request. The customer is created in the current sales channel group and this field stores the requested target group. The group must be available for registration in the current sales channel. */
@@ -10598,10 +10585,8 @@ export type operations = {
       email: string;
       /** Entity name for slot config */
       entityName?: string;
-      /** Firstname. This field may be required depending on the system settings. */
-      firstName?: string;
-      /** Lastname. This field may be required depending on the system settings. */
-      lastName?: string;
+      /** Name. Required on a default installation, can be turned off with the `core.basicInformation.nameFieldRequired` setting. */
+      name?: string;
       /**
        * Identifier of the navigation page. Can be used to override the configuration.
        *     Take a look at the settings of a category containing a concat form in the administration.
@@ -12051,12 +12036,10 @@ export type operations = {
       customFields?: CustomFields | null;
       /** Email address that will receive the confirmation and the newsletter. */
       email: string;
-      /** First name */
-      firstName?: string;
       /** Identifier of the language. */
       languageId?: string;
-      /** Last name */
-      lastName?: string;
+      /** Full name */
+      name?: string;
       /** Defines what should be done. */
       option: string;
       /** Identifier of the salutation. */
@@ -13709,10 +13692,8 @@ export type operations = {
       email: string;
       /** Entity name for slot config. */
       entityName?: string;
-      /** First name. This field may be required depending on the system settings. */
-      firstName?: string;
-      /** Last name. This field may be required depending on the system settings. */
-      lastName?: string;
+      /** Name. Required on a default installation, can be turned off with the `core.basicInformation.nameFieldRequired` setting. */
+      name?: string;
       /**
        * Identifier of the navigation page. Can be used to override the configuration.
        *     Take a look at the settings of a category containing a revocation form in the administration.
@@ -14393,10 +14374,8 @@ export type operations = {
       contactForm: {
         /** @constant */
         apiAlias: "shop_settings_contact_form";
-        /** Whether the first name field has to be filled in to submit the form */
-        firstNameFieldRequired: boolean;
-        /** Whether the last name field has to be filled in to submit the form */
-        lastNameFieldRequired: boolean;
+        /** Whether the name field has to be filled in to submit the form */
+        nameFieldRequired: boolean;
         /** Whether the phone number field has to be filled in to submit the form */
         phoneNumberFieldRequired: boolean;
       };

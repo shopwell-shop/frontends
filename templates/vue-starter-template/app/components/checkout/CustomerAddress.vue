@@ -40,30 +40,16 @@ function handleCountryStatesChange(states: Schemas["CountryState"][]) {
 
 <template>
   <div class="flex flex-col gap-4">
-    <div class="flex gap-4">
-      <FormInputField
-        class="basis-1/2"
-        v-model="state.firstName"
-        id="first-name"
-        autocomplete="given-name"
-        data-testid="checkout-pi-first-name-input"
-        :label="$t('checkout.customerAddress.firstNameLabel')"
-        :placeholder="$t('checkout.customerAddress.firstNamePlaceholder')"
-        :errorMessage="validation?.firstName.$errors[0]"
-        @blur="validation?.firstName.$touch()"
-      />
-      <FormInputField
-        class="basis-1/2"
-        v-model="state.lastName"
-        id="last-name"
-        autocomplete="family-name"
-        data-testid="checkout-pi-last-name-input"
-        :label="$t('checkout.customerAddress.lastNameLabel')"
-        :placeholder="$t('checkout.customerAddress.lastNamePlaceholder')"
-        :errorMessage="validation?.lastName.$errors[0]"
-        @blur="validation?.lastName.$touch()"
-      />
-    </div>
+    <FormInputField
+      v-model="state.name"
+      id="name"
+      autocomplete="name"
+      data-testid="checkout-pi-name-input"
+      :label="$t('checkout.customerAddress.nameLabel')"
+      :placeholder="$t('checkout.customerAddress.namePlaceholder')"
+      :errorMessage="validation?.name.$errors[0]"
+      @blur="validation?.name.$touch()"
+    />
     <div>
       <FormInputField
         v-model="state.street"

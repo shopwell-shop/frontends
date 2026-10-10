@@ -5,10 +5,7 @@ import { customValidators } from "#imports";
 export function personalDataFormRules(accountType: Ref<string>) {
   const { required, requiredIf } = customValidators();
   return computed(() => ({
-    firstName: {
-      required,
-    },
-    lastName: {
+    name: {
       required,
     },
     accountType: {

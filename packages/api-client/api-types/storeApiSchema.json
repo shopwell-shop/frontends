@@ -1452,12 +1452,8 @@
             "type": "string",
             "pattern": "^[0-9a-f]{32}$"
           },
-          "firstName": {
-            "description": "First name of the customer.",
-            "type": "string"
-          },
-          "lastName": {
-            "description": "Last name of the customer.",
+          "name": {
+            "description": "Full name of the customer.",
             "type": "string"
           },
           "email": {
@@ -1638,8 +1634,7 @@
           "defaultBillingAddressId",
           "defaultShippingAddressId",
           "customerNumber",
-          "firstName",
-          "lastName",
+          "name",
           "email"
         ],
         "oneOf": [
@@ -1797,12 +1792,8 @@
             "type": "string",
             "pattern": "^[0-9a-f]{32}$"
           },
-          "firstName": {
-            "description": "First name of the customer.",
-            "type": "string"
-          },
-          "lastName": {
-            "description": "Last name of the customer.",
+          "name": {
+            "description": "Full name of the customer.",
             "type": "string"
           },
           "zipcode": {
@@ -1882,8 +1873,7 @@
           "id",
           "customerId",
           "countryId",
-          "firstName",
-          "lastName",
+          "name",
           "city",
           "street"
         ]
@@ -8747,7 +8737,7 @@
       },
       "CustomerAddressBody": {
         "description": "Added since version: 6.0.0.0",
-        "required": ["countryId", "firstName", "lastName", "city", "street"],
+        "required": ["countryId", "name", "city", "street"],
         "properties": {
           "countryId": {
             "type": "string",
@@ -8761,10 +8751,7 @@
             "type": "string",
             "pattern": "^[0-9a-f]{32}$"
           },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
+          "name": {
             "type": "string"
           },
           "zipcode": {
@@ -9930,8 +9917,7 @@
         "required": [
           "id",
           "countryId",
-          "firstName",
-          "lastName",
+          "name",
           "street",
           "city"
         ],
@@ -9954,12 +9940,8 @@
             "type": "string",
             "pattern": "^[0-9a-f]{32}$"
           },
-          "firstName": {
-            "description": "First name of the customer.",
-            "type": "string"
-          },
-          "lastName": {
-            "description": "Last name of the customer.",
+          "name": {
+            "description": "Full name of the customer.",
             "type": "string"
           },
           "street": {
@@ -10034,7 +10016,7 @@
       },
       "OrderCustomer": {
         "description": "Added since version: 6.0.0.0",
-        "required": ["id", "email", "firstName", "lastName"],
+        "required": ["id", "email", "name"],
         "properties": {
           "id": {
             "type": "string",
@@ -10053,12 +10035,8 @@
             "type": "string",
             "pattern": "^[0-9a-f]{32}$"
           },
-          "firstName": {
-            "description": "First name of the customer.",
-            "type": "string"
-          },
-          "lastName": {
-            "description": "Last name of the customer.",
+          "name": {
+            "description": "Full name of the customer.",
             "type": "string"
           },
           "company": {
@@ -31661,7 +31639,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["firstName", "lastName"],
+                "required": ["name"],
                 "properties": {
                   "salutationId": {
                     "description": "Id of the salutation for the customer account. Fetch options using `salutation` endpoint.",
@@ -31671,12 +31649,8 @@
                     "description": "(Academic) title of the customer",
                     "type": "string"
                   },
-                  "firstName": {
-                    "description": "Customer first name. Value will be reused for shipping and billing address if not provided explicitly.",
-                    "type": "string"
-                  },
-                  "lastName": {
-                    "description": "Customer last name. Value will be reused for shipping and billing address if not provided explicitly.",
+                  "name": {
+                    "description": "Customer name. Value will be reused for shipping and billing address if not provided explicitly.",
                     "type": "string"
                   },
                   "birthdayDay": {
@@ -32626,12 +32600,8 @@
                     "description": "Id of the salutation for the customer account. Fetch options using `salutation` endpoint.",
                     "type": "string"
                   },
-                  "firstName": {
-                    "description": "Customer first name. Value will be reused for shipping and billing address if not provided explicitly.",
-                    "type": "string"
-                  },
-                  "lastName": {
-                    "description": "Customer last name. Value will be reused for shipping and billing address if not provided explicitly.",
+                  "name": {
+                    "description": "Customer name. Required unless a `billingAddress` is sent, whose name is used instead. When both are sent, this value also replaces the name of the billing address.",
                     "type": "string"
                   },
                   "acceptedDataProtection": {
@@ -32685,8 +32655,7 @@
                 "required": [
                   "email",
                   "password",
-                  "firstName",
-                  "lastName",
+                  "name",
                   "acceptedDataProtection",
                   "storefrontUrl",
                   "billingAddress"
@@ -34529,12 +34498,8 @@
                     "type": "string",
                     "pattern": "^[0-9a-f]{32}$"
                   },
-                  "firstName": {
-                    "description": "Firstname. This field may be required depending on the system settings.",
-                    "type": "string"
-                  },
-                  "lastName": {
-                    "description": "Lastname. This field may be required depending on the system settings.",
+                  "name": {
+                    "description": "Name. Required on a default installation, can be turned off with the `core.basicInformation.nameFieldRequired` setting.",
                     "type": "string"
                   },
                   "email": {
@@ -37729,12 +37694,8 @@
                     "type": "string",
                     "pattern": "^[0-9a-f]{32}$"
                   },
-                  "firstName": {
-                    "description": "First name",
-                    "type": "string"
-                  },
-                  "lastName": {
-                    "description": "Last name",
+                  "name": {
+                    "description": "Full name",
                     "type": "string"
                   },
                   "street": {
@@ -39688,12 +39649,8 @@
               "schema": {
                 "required": ["email", "contractNumber"],
                 "properties": {
-                  "firstName": {
-                    "description": "First name. This field may be required depending on the system settings.",
-                    "type": "string"
-                  },
-                  "lastName": {
-                    "description": "Last name. This field may be required depending on the system settings.",
+                  "name": {
+                    "description": "Name. Required on a default installation, can be turned off with the `core.basicInformation.nameFieldRequired` setting.",
                     "type": "string"
                   },
                   "email": {
@@ -40957,8 +40914,7 @@
                       "description": "Form field settings (core.basicInformation), used by the contact form and the online revocation request form",
                       "required": [
                         "apiAlias",
-                        "firstNameFieldRequired",
-                        "lastNameFieldRequired",
+                        "nameFieldRequired",
                         "phoneNumberFieldRequired"
                       ],
                       "properties": {
@@ -40966,13 +40922,9 @@
                           "type": "string",
                           "const": "shop_settings_contact_form"
                         },
-                        "firstNameFieldRequired": {
+                        "nameFieldRequired": {
                           "type": "boolean",
-                          "description": "Whether the first name field has to be filled in to submit the form"
-                        },
-                        "lastNameFieldRequired": {
-                          "type": "boolean",
-                          "description": "Whether the last name field has to be filled in to submit the form"
+                          "description": "Whether the name field has to be filled in to submit the form"
                         },
                         "phoneNumberFieldRequired": {
                           "type": "boolean",

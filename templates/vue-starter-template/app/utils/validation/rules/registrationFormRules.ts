@@ -13,11 +13,7 @@ export function registrationFormRules(
     accountType: {
       required,
     },
-    firstName: {
-      required,
-      minLength: minLength(3),
-    },
-    lastName: {
+    name: {
       required,
       minLength: minLength(3),
     },

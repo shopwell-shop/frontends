@@ -9,8 +9,7 @@ export class CheckoutPage {
   readonly loginOnCheckoutButton: Locator;
   readonly notCreateAccountCheck: Locator;
   readonly salutation: Locator;
-  readonly firstName: Locator;
-  readonly lastName: Locator;
+  readonly name: Locator;
   readonly emailAdrdress: Locator;
   readonly street: Locator;
   readonly zipcode: Locator;
@@ -32,8 +31,7 @@ export class CheckoutPage {
       "checkout-create-account-checkbox",
     );
     this.salutation = page.getByTestId("checkout-pi-salutation-select");
-    this.firstName = page.getByTestId("checkout-pi-first-name-input");
-    this.lastName = page.getByTestId("checkout-pi-last-name-input");
+    this.name = page.getByTestId("checkout-pi-name-input");
     this.emailAdrdress = page.getByTestId("checkout-pi-email-input");
     this.street = page.getByTestId("checkout-pi-street-address-input");
     this.zipcode = page.getByTestId("checkout-pi-zip-code-input");
@@ -91,8 +89,7 @@ export class CheckoutPage {
 
   /** Passing a password switches checkout from a guest order to an account. */
   async fillGuestUserData(
-    firstName: string,
-    lastName: string,
+    name: string,
     email: string,
     street: string,
     zipcode: string,
@@ -104,8 +101,7 @@ export class CheckoutPage {
       await this.passwordInput.fill(password);
     }
     await selectFirstOptionIfPresent(this.salutation);
-    await this.firstName.fill(firstName);
-    await this.lastName.fill(lastName);
+    await this.name.fill(name);
     await this.emailAdrdress.fill(email);
     await this.street.fill(street);
     await this.zipcode.fill(zipcode);

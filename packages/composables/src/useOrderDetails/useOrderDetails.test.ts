@@ -26,8 +26,7 @@ describe("useOrderDetails", () => {
 
     expect(vm.personalDetails).toEqual({
       email: Order.orders.elements?.[0]?.orderCustomer.email,
-      firstName: Order.orders.elements?.[0]?.orderCustomer.firstName,
-      lastName: Order.orders.elements?.[0]?.orderCustomer.lastName,
+      name: Order.orders.elements?.[0]?.orderCustomer.name,
     });
 
     expect(vm.billingAddress).toEqual(

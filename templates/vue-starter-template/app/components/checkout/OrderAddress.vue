@@ -25,7 +25,7 @@ const countryName = computed(() =>
       class="not-italic p-4 bg-brand-secondary flex flex-col justify-start items-start gap-0.5"
     >
       <div class="text-surface-on-surface text-base leading-normal">
-        {{ address.firstName }} {{ address.lastName }}
+        {{ address.name }}
       </div>
       <div class="text-surface-on-surface text-base leading-normal">
         {{ address.street }}

@@ -56,7 +56,7 @@ onBeforeMount(async () => {
           :title="$t('account.overview.personalDataSectionHeader')"
         />
         <AccountPersonalDataSection
-          :customer-name="user?.firstName + ' ' + user?.lastName"
+          :customer-name="user?.name || ''"
           :customer-email="user?.email || ''"
         />
       </div>

@@ -25,10 +25,8 @@ type Translations = {
     emailPlaceholder: string;
     salutation: string;
     salutationPlaceholder: string;
-    firstName: string;
-    firstNamePlaceholder: string;
-    lastName: string;
-    lastNamePlaceholder: string;
+    name: string;
+    namePlaceholder: string;
     privacy: string;
     privacyLabel: string;
     submit: string;
@@ -45,10 +43,8 @@ let translations: Translations = {
     emailPlaceholder: "Enter email address...",
     salutation: "Salutation",
     salutationPlaceholder: "Enter salutation...",
-    firstName: "First name",
-    firstNamePlaceholder: "Enter first name...",
-    lastName: "Last name",
-    lastNamePlaceholder: "Enter last name...",
+    name: "Name",
+    namePlaceholder: "Enter name...",
     privacy: "Privacy",
     privacyLabel: "I have read the data protection information.",
     submit: "Submit",
@@ -84,8 +80,7 @@ const getFormTitle = computed(() => getConfigValue("title"));
 type NewsletterFormState = {
   option: "subscribe" | "unsubscribe";
   salutationId: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   checkbox: boolean;
 };
@@ -93,8 +88,7 @@ type NewsletterFormState = {
 const state = reactive<NewsletterFormState>({
   option: subscriptionOptions[0]?.value ?? "subscribe",
   salutationId: "",
-  firstName: "",
-  lastName: "",
+  name: "",
   email: "",
   checkbox: false,
 });
@@ -111,11 +105,7 @@ type RequiredRules = {
 };
 
 type OptionalRules = {
-  firstName: {
-    required: ValidationRuleWithoutParams;
-    minLength: number;
-  };
-  lastName: {
+  name: {
     required: ValidationRuleWithoutParams;
     minLength: number;
   };
@@ -133,11 +123,7 @@ const rules = computed((): RequiredRules & Partial<OptionalRules> => {
     },
   };
   if (state.option === "subscribe") {
-    temp.firstName = {
-      required,
-      minLength: 3,
-    };
-    temp.lastName = {
+    temp.name = {
       required,
       minLength: 3,
     };
@@ -252,52 +238,28 @@ const invokeSubmit = async () => {
             </option>
           </select>
         </div>
-        <div v-if="state.option === 'subscribe'" class="col-span-4">
-          <label for="first-name">{{ translations.form.firstName }} *</label>
+        <div v-if="state.option === 'subscribe'" class="col-span-8">
+          <label for="name">{{ translations.form.name }} *</label>
           <input
-            id="first-name"
-            v-model="state.firstName"
-            name="first-name"
+            id="name"
+            v-model="state.name"
+            name="name"
             type="text"
-            autocomplete="given-name"
+            autocomplete="name"
             class="appearance-none relative block w-full px-3 py-2 border placeholder-surface-on-surface-variant text-surface-on-surface rounded-md focus:outline-none focus:ring-brand-primary focus:z-10 sm:text-sm"
             :class="[
-              $v.firstName?.$error
+              $v.name?.$error
                 ? 'border-red-600 focus:border-red-600'
                 : 'border-outline-outline-variant focus:border-brand-primary',
             ]"
-            :placeholder="translations.form.firstNamePlaceholder"
-            @blur="$v.firstName?.$touch()"
+            :placeholder="translations.form.namePlaceholder"
+            @blur="$v.name?.$touch()"
           />
           <span
-            v-if="$v.firstName?.$error && $v.firstName?.$errors[0]?.$message"
+            v-if="$v.name?.$error && $v.name?.$errors[0]?.$message"
             class="pt-1 text-sm text-red-600 focus:ring-brand-primary border-gray-300"
           >
-            {{ $v.firstName?.$errors[0].$message }}
-          </span>
-        </div>
-        <div v-if="state.option === 'subscribe'" class="col-span-4">
-          <label for="last-name">{{ translations.form.lastName }} *</label>
-          <input
-            id="last-name"
-            v-model="state.lastName"
-            name="last-name"
-            type="text"
-            autocomplete="family-name"
-            class="appearance-none relative block w-full px-3 py-2 border placeholder-surface-on-surface-variant text-surface-on-surface rounded-md focus:outline-none focus:ring-brand-primary focus:z-10 sm:text-sm"
-            :class="[
-              $v.lastName?.$error
-                ? 'border-red-600 focus:border-red-600'
-                : 'border-outline-outline-variant focus:border-brand-primary',
-            ]"
-            :placeholder="translations.form.lastNamePlaceholder"
-            @blur="$v.lastName?.$touch()"
-          />
-          <span
-            v-if="$v.lastName?.$error && $v.lastName?.$errors[0]?.$message"
-            class="pt-1 text-sm text-red-600 focus:ring-brand-primary border-gray-300"
-          >
-            {{ $v.lastName?.$errors[0].$message }}
+            {{ $v.name?.$errors[0].$message }}
           </span>
         </div>
         <div class="col-span-12">
