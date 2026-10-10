@@ -8,11 +8,7 @@ export function addressFormRules(countryHasStates: Ref<boolean>) {
     salutationId: {
       required,
     },
-    firstName: {
-      required,
-      minLength: minLength(2),
-    },
-    lastName: {
+    name: {
       required,
       minLength: minLength(2),
     },

@@ -111,8 +111,7 @@ async function validateCustomerForm() {
 
 function getBillingAddressFields() {
   return {
-    firstName: billingAddress.value.firstName,
-    lastName: billingAddress.value.lastName,
+    name: billingAddress.value.name,
     street: billingAddress.value.street,
     zipcode: billingAddress.value.zipcode,
     city: billingAddress.value.city,
@@ -131,8 +130,7 @@ async function updateCustomerDetails() {
   }
 
   await updatePersonalInfo({
-    firstName: billingAddress.value.firstName,
-    lastName: billingAddress.value.lastName,
+    name: billingAddress.value.name,
     ...(user.value?.salutationId
       ? { salutationId: user.value.salutationId }
       : {}),
@@ -147,8 +145,7 @@ async function saveCustomerDetails() {
   } else {
     await register({
       accountType: "private",
-      firstName: billingAddress.value.firstName,
-      lastName: billingAddress.value.lastName,
+      name: billingAddress.value.name,
       email: customerBaseInfo.value.email,
       password: createAccount.value ? customerBaseInfo.value.password : "",
       guest: !createAccount.value,

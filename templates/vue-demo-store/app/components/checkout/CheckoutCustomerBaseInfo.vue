@@ -4,8 +4,7 @@ import { getTranslatedProperty } from "@shopwell/helpers";
 import { useVuelidate } from "@vuelidate/core";
 
 type BaseInfo = {
-  firstName?: string;
-  lastName?: string;
+  name?: string;
   salutationId?: string;
 };
 
@@ -20,20 +19,14 @@ const emit = defineEmits<{
 
 const state = reactive({
   salutationId: props.customerData.salutationId || "",
-  firstName: props.customerData.firstName || "",
-  lastName: props.customerData.lastName || "",
+  name: props.customerData.name || "",
 }) as {
   salutationId: string;
-  firstName: string;
-  lastName: string;
+  name: string;
 };
 const { required, minLength } = customValidators();
 const rules = computed(() => ({
-  firstName: {
-    required,
-    minLength: minLength(3),
-  },
-  lastName: {
+  name: {
     required,
     minLength: minLength(3),
   },
@@ -83,53 +76,29 @@ const handleUpdateData = async () => {
           </option>
         </select>
       </div>
-      <div class="col-span-6 sm:col-span-3">
+      <div class="col-span-6">
         <label
-          for="first-name"
+          for="name"
           class="block text-sm font-medium text-secondary-700"
-          >{{ $t("form.firstName") }}</label
+          >{{ $t("form.name") }}</label
         >
         <input
-          id="first-name"
-          v-model="state.firstName"
+          id="name"
+          v-model="state.name"
           type="text"
           required
-          name="first-name"
-          :placeholder="$t('form.firstNamePlaceholder')"
+          name="name"
+          autocomplete="name"
+          :placeholder="$t('form.namePlaceholder')"
           class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
-          data-testid="checkout-pi-first-name-input"
-          @blur="$v.firstName.$touch()"
+          data-testid="checkout-pi-name-input"
+          @blur="$v.name.$touch()"
         />
         <span
-          v-if="$v.firstName.$error && $v.firstName.$errors[0]?.$message"
+          v-if="$v.name.$error && $v.name.$errors[0]?.$message"
           class="pt-1 text-sm text-red-600 focus:ring-primary border-secondary-300"
         >
-          {{ $v.firstName.$errors[0].$message }}
-        </span>
-      </div>
-
-      <div class="col-span-6 sm:col-span-3">
-        <label
-          for="last-name"
-          class="block text-sm font-medium text-secondary-700"
-          >{{ $t("form.lastName") }}</label
-        >
-        <input
-          id="last-name"
-          v-model="state.lastName"
-          type="text"
-          required
-          name="last-name"
-          :placeholder="$t('form.lastNamePlaceholder')"
-          class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
-          data-testid="checkout-pi-last-name-input"
-          @blur="$v.lastName.$touch()"
-        />
-        <span
-          v-if="$v.lastName.$error && $v.lastName.$errors[0]?.$message"
-          class="pt-1 text-sm text-red-600 focus:ring-primary border-secondary-300"
-        >
-          {{ $v.lastName.$errors[0].$message }}
+          {{ $v.name.$errors[0].$message }}
         </span>
       </div>
     </div>

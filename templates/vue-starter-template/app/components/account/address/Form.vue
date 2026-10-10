@@ -19,8 +19,7 @@ const emit = defineEmits<{
 const router = useRouter();
 
 const state = ref({
-  firstName: "",
-  lastName: "",
+  name: "",
   salutationId: "",
   company: "",
   street: "",
@@ -68,24 +67,13 @@ async function handleSubmit() {
       :errorMessage="r$.salutationId.$errors[0]"
     />
 
-    <div class="flex gap-4">
-      <FormInputField
-        class="basis-1/2"
-        v-model="state.firstName"
-        id="first-name"
-        :label="$t('form.firstName')"
-        :placeholder="$t('form.firstNamePlaceholder')"
-        :errorMessage="r$.firstName.$errors[0]"
-      />
-      <FormInputField
-        class="basis-1/2"
-        v-model="state.lastName"
-        id="last-name"
-        :label="$t('form.lastName')"
-        :placeholder="$t('form.lastNamePlaceholder')"
-        :errorMessage="r$.lastName.$errors[0]"
-      />
-    </div>
+    <FormInputField
+      v-model="state.name"
+      id="name"
+      :label="$t('form.name')"
+      :placeholder="$t('form.namePlaceholder')"
+      :errorMessage="r$.name.$errors[0]"
+    />
 
     <FormInputField
       v-model="state.street"

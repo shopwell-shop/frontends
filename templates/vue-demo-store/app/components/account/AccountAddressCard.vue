@@ -84,7 +84,7 @@ const addressSaved = () => {
         class="text-xl leading-none text-secondary-900 mr-2"
         data-testid="address-box-name"
       >
-        {{ `${address.firstName} ${address.lastName}` }}
+        {{ address.name }}
       </h5>
       <button
         v-if="canEdit"

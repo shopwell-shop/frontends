@@ -37,8 +37,7 @@ export function useTemplateCheckout(): UseTemplateCheckoutReturn {
   const countryHasStates = ref(false);
 
   const billingAddress = ref<CheckoutBillingAddress>({
-    firstName: "",
-    lastName: "",
+    name: "",
     street: "",
     zipcode: "",
     city: "",
@@ -56,11 +55,7 @@ export function useTemplateCheckout(): UseTemplateCheckoutReturn {
   );
 
   const { r$: $vBillingAddress } = useRegle(billingAddress, () => ({
-    firstName: {
-      required,
-      minLength: minLength(3),
-    },
-    lastName: {
+    name: {
       required,
       minLength: minLength(3),
     },

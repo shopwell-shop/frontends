@@ -21,8 +21,7 @@ test.describe("Registration new user", { tag: "@frontends" }, () => {
     await homePage.clickOnSignIn();
     await homePage.openRegistrationPage();
     await registrationPage.fillCustomerData(
-      `e2e ${faker.person.firstName()}`,
-      `e2e ${faker.person.lastName()}`,
+      `e2e ${faker.person.firstName()} ${faker.person.lastName()}`,
       uniqueEmail(),
       faker.internet.password(),
     );
@@ -49,8 +48,7 @@ test.describe("Registration new user", { tag: "@frontends" }, () => {
       "DE123456789",
     );
     await registrationPage.fillCustomerData(
-      `e2e ${faker.person.firstName()}`,
-      `e2e ${faker.person.lastName()}`,
+      `e2e ${faker.person.firstName()} ${faker.person.lastName()}`,
       uniqueEmail(),
       faker.internet.password(),
     );

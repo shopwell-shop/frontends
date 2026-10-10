@@ -43,16 +43,14 @@ type RegistrationFormState = Omit<
 
 const initialState: RegistrationFormState = {
   accountType: companyOnly ? "business" : "private",
-  firstName: "",
-  lastName: "",
+  name: "",
   email: "",
   password: "",
   vatIds: [""],
   billingAddress: {
     id: "",
     customerId: "",
-    firstName: "",
-    lastName: "",
+    name: "",
     company: "",
     street: "",
     zipcode: "",
@@ -183,25 +181,14 @@ const invokeSubmit = async () => {
         />
 
         <FormInputField
-          class="col-span-12 md:col-span-4"
-          id="firstName"
-          v-model="state.firstName"
-          autocomplete="given-name"
-          :label="$t('form.firstName')"
-          :errorMessage="r$.firstName.$errors[0]"
-          @blur="r$.firstName.$touch()"
-          data-testid="registration-first-name-input"
-        />
-
-        <FormInputField
-          class="col-span-12 md:col-span-4"
-          id="lastName"
-          v-model="state.lastName"
-          autocomplete="family-name"
-          :label="$t('form.lastName')"
-          :errorMessage="r$.lastName.$errors[0]"
-          @blur="r$.lastName.$touch()"
-          data-testid="registration-last-name-input"
+          class="col-span-12 md:col-span-8"
+          id="name"
+          v-model="state.name"
+          autocomplete="name"
+          :label="$t('form.name')"
+          :errorMessage="r$.name.$errors[0]"
+          @blur="r$.name.$touch()"
+          data-testid="registration-name-input"
         />
 
         <FormInputField

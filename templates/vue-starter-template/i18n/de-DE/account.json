@@ -96,8 +96,7 @@
       "changePasswordButton": "Passwort ändern",
       "form": {
         "accountType": "Kontotyp",
-        "firstName": "Vorname",
-        "lastName": "Nachname",
+        "name": "Name",
         "company": "Firma",
         "vatIds": "Umsatzsteuer-Identifikationsnummer",
         "buttonSubmit": "Speichern",

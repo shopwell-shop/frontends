@@ -9,8 +9,7 @@ export class RegisterForm {
   readonly page: Page;
   readonly accountType: Locator;
   readonly salutation: Locator;
-  readonly firstName: Locator;
-  readonly lastName: Locator;
+  readonly name: Locator;
   readonly emailAdrdress: Locator;
   readonly password: Locator;
   readonly vatId: Locator;
@@ -27,8 +26,7 @@ export class RegisterForm {
     this.page = page;
     this.accountType = page.getByTestId("registration-account-type-select");
     this.salutation = page.getByTestId("registration-salutation-select");
-    this.firstName = page.getByTestId("registration-first-name-input");
-    this.lastName = page.getByTestId("registration-last-name-input");
+    this.name = page.getByTestId("registration-name-input");
     this.emailAdrdress = page.getByTestId("registration-email-input");
     this.password = page.getByTestId("registration-password-input");
     this.vatId = page.getByTestId("registration-vatid-input");
@@ -42,15 +40,9 @@ export class RegisterForm {
   }
 
   // Define login page methods
-  async fillCustomerData(
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-  ) {
+  async fillCustomerData(name: string, email: string, password: string) {
     await selectFirstOptionIfPresent(this.salutation);
-    await this.firstName.fill(firstName);
-    await this.lastName.fill(lastName);
+    await this.name.fill(name);
     await this.emailAdrdress.fill(email);
     await this.password.fill(password);
   }
@@ -93,8 +85,9 @@ export class RegisterForm {
 
   async createUser() {
     await selectFirstOptionIfPresent(this.salutation);
-    await this.firstName.fill(`e2e ${faker.person.firstName()}`);
-    await this.lastName.fill(`e2e ${faker.person.lastName()}`);
+    await this.name.fill(
+      `e2e ${faker.person.firstName()} ${faker.person.lastName()}`,
+    );
     await this.emailAdrdress.fill(uniqueEmail());
     await this.password.fill(faker.internet.password());
     await this.street.fill(faker.location.street());

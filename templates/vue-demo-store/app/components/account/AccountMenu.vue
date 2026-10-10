@@ -70,7 +70,7 @@ async function invokeResetPassword() {
               data-testid="account-menu-hello-button"
               @click="isAccountMenuOpen = !isAccountMenuOpen"
             >
-              {{ $t("account.menu.hello") }}, {{ user?.firstName }}!
+              {{ $t("account.menu.hello") }}, {{ user?.name }}!
             </button>
 
             <!-- Profile dropdown -->

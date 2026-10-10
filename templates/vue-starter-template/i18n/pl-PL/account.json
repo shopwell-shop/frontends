@@ -96,8 +96,7 @@
       "changePasswordButton": "Zmień hasło",
       "form": {
         "accountType": "Typ konta",
-        "firstName": "Imię",
-        "lastName": "Nazwisko",
+        "name": "Imię i nazwisko",
         "company": "Firma",
         "vatIds": "Numer identyfikacji podatkowej",
         "buttonSubmit": "Zapisz",

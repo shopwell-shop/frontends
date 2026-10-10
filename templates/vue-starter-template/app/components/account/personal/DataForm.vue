@@ -7,8 +7,7 @@ const AccountType = {
 type AccountTypeValue = (typeof AccountType)[keyof typeof AccountType];
 
 const state = defineModel<{
-  firstName: string;
-  lastName: string;
+  name: string;
   salutationId: string;
   title: string;
   accountType: AccountTypeValue;
@@ -45,24 +44,14 @@ const handleSubmit = () => {
         :errorMessage="$v?.accountType?.$errors[0]"
       />
     </div>
-    <div class="flex-col md:flex-row flex gap-2">
-      <FormInputField
-        class="w-full"
-        id="firstName"
-        data-testid="account-personal-data-firstname-input"
-        v-model="state.firstName"
-        :label="$t('account.profile.form.firstName')"
-        :errorMessage="$v?.firstName?.$errors[0]"
-      />
-      <FormInputField
-        class="w-full"
-        id="lastName"
-        data-testid="account-personal-data-lastname-input"
-        v-model="state.lastName"
-        :label="$t('account.profile.form.lastName')"
-        :errorMessage="$v?.lastName?.$errors[0]"
-      />
-    </div>
+    <FormInputField
+      class="w-full"
+      id="name"
+      data-testid="account-personal-data-name-input"
+      v-model="state.name"
+      :label="$t('account.profile.form.name')"
+      :errorMessage="$v?.name?.$errors[0]"
+    />
 
     <div
       class="flex-col md:flex-row flex gap-2"

@@ -8,8 +8,7 @@ const { pushError, pushSuccess } = useNotifications();
 const router = useRouter();
 
 const state = ref({
-  firstName: "",
-  lastName: "",
+  name: "",
   salutationId: "",
   company: "",
   street: "",

@@ -32,8 +32,7 @@ const formData = reactive({
   countryId: address?.countryId ?? "",
   countryStateId: address?.countryStateId ?? "",
   salutationId: address?.salutationId ?? "",
-  firstName: address?.firstName ?? "",
-  lastName: address?.lastName ?? "",
+  name: address?.name ?? "",
   zipcode: address?.zipcode ?? "",
   city: address?.city ?? "",
   street: address?.street ?? "",
@@ -61,15 +60,11 @@ const invokeSave = async (): Promise<void> => {
   }
 };
 
-const firstNameInputElement = useTemplateRef("firstNameInputElement");
-useFocus(firstNameInputElement, { initialValue: true });
+const nameInputElement = useTemplateRef("nameInputElement");
+useFocus(nameInputElement, { initialValue: true });
 
 const rules = computed(() => ({
-  firstName: {
-    required,
-    minLength: minLength(3),
-  },
-  lastName: {
+  name: {
     required,
     minLength: minLength(3),
   },
@@ -136,52 +131,29 @@ const $v = useVuelidate(rules, formData);
                 </option>
               </select>
             </div>
-            <div class="col-span-6 sm:col-span-3">
+            <div class="col-span-6">
               <label
-                for="first-name"
+                for="name"
                 class="block mb-2 text-sm font-medium text-secondary-500"
               >
-                {{ $t("form.firstName") }}
+                {{ $t("form.name") }}
               </label>
               <input
-                id="first-name"
-                ref="firstNameInputElement"
-                v-model="formData.firstName"
+                id="name"
+                ref="nameInputElement"
+                v-model="formData.name"
                 type="text"
                 required
-                name="first-name"
+                name="name"
+                autocomplete="name"
                 class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
-                data-testid="account-address-form-firstname-input"
+                data-testid="account-address-form-name-input"
               />
               <span
-                v-if="$v.firstName.$error && $v.firstName.$errors[0]?.$message"
+                v-if="$v.name.$error && $v.name.$errors[0]?.$message"
                 class="pt-1 text-sm text-red-600 focus:ring-primary border-secondary-300"
               >
-                {{ $v.firstName.$errors[0].$message }}
-              </span>
-            </div>
-
-            <div class="col-span-6 sm:col-span-3">
-              <label
-                for="last-name"
-                class="block mb-2 text-sm font-medium text-secondary-500"
-              >
-                {{ $t("form.lastName") }}
-              </label>
-              <input
-                id="last-name"
-                v-model="formData.lastName"
-                type="text"
-                required
-                name="last-name"
-                class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
-                data-testid="account-address-form-lastname-input"
-              />
-              <span
-                v-if="$v.lastName.$error && $v.lastName.$errors[0]?.$message"
-                class="pt-1 text-sm text-red-600 focus:ring-primary border-secondary-300"
-              >
-                {{ $v.lastName.$errors[0].$message }}
+                {{ $v.name.$errors[0].$message }}
               </span>
             </div>
 

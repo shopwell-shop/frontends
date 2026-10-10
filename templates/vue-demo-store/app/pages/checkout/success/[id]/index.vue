@@ -165,8 +165,7 @@ const formatDate = (date: string) =>
                 </div>
                 <div class="pt-2 text-secondary-600">
                   <div>
-                    {{ shippingAddress?.firstName }}
-                    {{ shippingAddress?.lastName }}
+                    {{ shippingAddress?.name }}
                   </div>
                   <div>
                     {{ shippingAddress?.street }}
@@ -182,7 +181,7 @@ const formatDate = (date: string) =>
                 </div>
                 <div class="pt-2 text-secondary-600">
                   <div>
-                    {{ billingAddress.firstName }} {{ billingAddress.lastName }}
+                    {{ billingAddress.name }}
                   </div>
                   <div>
                     {{ billingAddress.street }}

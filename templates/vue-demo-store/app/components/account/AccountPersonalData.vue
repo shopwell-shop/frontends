@@ -14,8 +14,7 @@ const isUpdating = ref(false);
 const loadingData = ref(false);
 
 const state = reactive({
-  firstName: "",
-  lastName: "",
+  name: "",
   salutationId: "",
   title: "",
   accountType: "private" as "private" | "business",
@@ -24,10 +23,7 @@ const state = reactive({
 });
 
 const rules = computed(() => ({
-  firstName: {
-    required,
-  },
-  lastName: {
+  name: {
     required,
   },
   accountType: {
@@ -64,8 +60,7 @@ const invokeUpdate = async (): Promise<void> => {
 
     if (state.accountType === "business") {
       await updatePersonalInfo({
-        firstName: state.firstName,
-        lastName: state.lastName,
+        name: state.name,
         salutationId: state.salutationId,
         title: state.title,
         company: state.company,
@@ -74,8 +69,7 @@ const invokeUpdate = async (): Promise<void> => {
       });
     } else {
       await updatePersonalInfo({
-        firstName: state.firstName,
-        lastName: state.lastName,
+        name: state.name,
         salutationId: state.salutationId,
         title: state.title,
       });
@@ -97,8 +91,7 @@ const invokeUpdate = async (): Promise<void> => {
 onBeforeMount(async () => {
   loadingData.value = true;
   await refreshUser();
-  state.firstName = user.value?.firstName || "";
-  state.lastName = user.value?.lastName || "";
+  state.name = user.value?.name || "";
   state.salutationId = user.value?.salutationId || "";
   state.title = user.value?.title || "";
   state.accountType = user.value?.accountType || "private";
@@ -170,56 +163,29 @@ onBeforeMount(async () => {
 
         <div>
           <label
-            for="firstname"
+            for="name"
             class="block mb-2 text-sm font-medium text-secondary-500"
           >
-            {{ $t("form.firstName") }}
+            {{ $t("form.name") }}
           </label>
           <input
-            id="firstname"
-            v-model="state.firstName"
-            name="firstname"
+            id="name"
+            v-model="state.name"
+            name="name"
             type="text"
-            autocomplete="on"
+            autocomplete="name"
             required
             class="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-secondary-300 text-secondary-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-            :placeholder="$t('form.firstNamePlaceholder')"
-            data-testid="account-personal-data-firstname-input"
+            :placeholder="$t('form.namePlaceholder')"
+            data-testid="account-personal-data-name-input"
             :disabled="loadingData"
-            @blur="$v.firstName.$touch()"
+            @blur="$v.name.$touch()"
           />
           <span
-            v-if="$v.firstName.$error && $v.firstName.$errors[0]?.$message"
+            v-if="$v.name.$error && $v.name.$errors[0]?.$message"
             class="text-red-600 focus:ring-primary border-secondary-300 rounded"
           >
-            {{ $v.firstName.$errors[0].$message }}
-          </span>
-        </div>
-        <div>
-          <label
-            for="lastname"
-            class="block mb-2 text-sm font-medium text-secondary-500"
-          >
-            {{ $t("form.lastName") }}
-          </label>
-          <input
-            id="lastname"
-            v-model="state.lastName"
-            name="lastname"
-            type="text"
-            autocomplete="on"
-            required
-            class="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-secondary-300 text-secondary-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-            :placeholder="$t('form.lastNamePlaceholder')"
-            data-testid="account-personal-data-lastname-input"
-            :disabled="loadingData"
-            @blur="$v.lastName.$touch()"
-          />
-          <span
-            v-if="$v.lastName.$error && $v.lastName.$errors[0]?.$message"
-            class="text-red-600 focus:ring-primary border-secondary-300 rounded"
-          >
-            {{ $v.lastName.$errors[0].$message }}
+            {{ $v.name.$errors[0].$message }}
           </span>
         </div>
         <template v-if="state.accountType === 'business'">

@@ -151,16 +151,14 @@ const isUserSession = computed(() => isLoggedIn.value || isGuestSession.value);
 
 const state = reactive<operations["register post /account/register"]["body"]>({
   salutationId: "",
-  firstName: "",
-  lastName: "",
+  name: "",
   email: "",
   password: "",
   guest: false,
   billingAddress: {
     customerId: "",
-    firstName: "",
+    name: "",
     id: "",
-    lastName: "",
     street: "",
     zipcode: "",
     city: "",
@@ -182,11 +180,7 @@ const termsBox = useTemplateRef("termsBox");
 const shippingMethodBox = useTemplateRef("shippingMethodBox");
 
 const rules = computed(() => ({
-  firstName: {
-    required,
-    minLength: minLength(3),
-  },
-  lastName: {
+  name: {
     required,
     minLength: minLength(3),
   },
@@ -344,14 +338,12 @@ const beforeCreateOrderValidation = () => {
 const { updatePersonalInfo } = useUser();
 
 const handleChangeBaseInfo = async (data: {
-  firstName?: string;
-  lastName?: string;
+  name?: string;
   salutationId?: string;
 }) => {
   try {
     await updatePersonalInfo({
-      firstName: data.firstName ?? "",
-      lastName: data.lastName ?? "",
+      name: data.name ?? "",
       salutationId: data.salutationId ?? "",
     });
   } catch (error) {
@@ -470,57 +462,29 @@ const handleChangeBaseInfo = async (data: {
                     </option>
                   </select>
                 </div>
-                <div class="col-span-6 sm:col-span-3">
+                <div class="col-span-6">
                   <label
-                    for="first-name"
+                    for="name"
                     class="block text-sm font-medium text-secondary-700"
-                    >{{ $t("form.firstName") }}</label
+                    >{{ $t("form.name") }}</label
                   >
                   <input
-                    id="first-name"
-                    v-model="state.firstName"
+                    id="name"
+                    v-model="state.name"
                     type="text"
                     required
-                    name="first-name"
-                    :placeholder="$t('form.firstNamePlaceholder')"
+                    name="name"
+                    autocomplete="name"
+                    :placeholder="$t('form.namePlaceholder')"
                     class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
-                    data-testid="checkout-pi-first-name-input"
-                    @blur="$v.firstName.$touch()"
+                    data-testid="checkout-pi-name-input"
+                    @blur="$v.name.$touch()"
                   />
                   <span
-                    v-if="
-                      $v.firstName.$error && $v.firstName.$errors[0]?.$message
-                    "
+                    v-if="$v.name.$error && $v.name.$errors[0]?.$message"
                     class="pt-1 text-sm text-red-600 focus:ring-primary border-secondary-300"
                   >
-                    {{ $v.firstName.$errors[0].$message }}
-                  </span>
-                </div>
-
-                <div class="col-span-6 sm:col-span-3">
-                  <label
-                    for="last-name"
-                    class="block text-sm font-medium text-secondary-700"
-                    >{{ $t("form.lastName") }}</label
-                  >
-                  <input
-                    id="last-name"
-                    v-model="state.lastName"
-                    type="text"
-                    required
-                    name="last-name"
-                    :placeholder="$t('form.lastNamePlaceholder')"
-                    class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
-                    data-testid="checkout-pi-last-name-input"
-                    @blur="$v.lastName.$touch()"
-                  />
-                  <span
-                    v-if="
-                      $v.lastName.$error && $v.lastName.$errors[0]?.$message
-                    "
-                    class="pt-1 text-sm text-red-600 focus:ring-primary border-secondary-300"
-                  >
-                    {{ $v.lastName.$errors[0].$message }}
+                    {{ $v.name.$errors[0].$message }}
                   </span>
                 </div>
 
@@ -696,7 +660,7 @@ const handleChangeBaseInfo = async (data: {
               </button>
             </form>
             <div v-else>
-              {{ $t("checkout.loggedInAs") }} {{ user?.firstName }}.
+              {{ $t("checkout.loggedInAs") }} {{ user?.name }}.
               <span
                 v-if="isGuestSession"
                 class="bg-secondary-100 text-secondary-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-secondary-700 dark:text-secondary-300"
@@ -715,8 +679,7 @@ const handleChangeBaseInfo = async (data: {
                 v-if="editPersonalInfo"
                 class="mt-4"
                 :customerData="{
-                  firstName: user?.firstName,
-                  lastName: user?.lastName,
+                  name: user?.name,
                   salutationId: user?.salutationId,
                 }"
                 @update="handleChangeBaseInfo"
