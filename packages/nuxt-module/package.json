@@ -1,6 +1,6 @@
 {
   "name": "@shopwell/nuxt-module",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "description": "Nuxt 3 module for Shopwell Frontends",
   "author": "Shopwell",
   "repository": {

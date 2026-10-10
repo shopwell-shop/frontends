@@ -1,6 +1,6 @@
 {
   "name": "@shopwell/api-gen",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Shopwell CLI for API client generation.",
   "author": "Shopwell",
   "type": "module",

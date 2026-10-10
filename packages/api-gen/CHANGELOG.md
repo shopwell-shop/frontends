@@ -1,5 +1,12 @@
 # @shopwell/api-gen
 
+## 1.5.3
+
+### Patch Changes
+
+- Updated dependencies [[`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95)]:
+  - @shopwell/api-client@2.0.0
+
 ## 1.5.2
 
 ### Patch Changes
