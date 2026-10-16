@@ -220,16 +220,14 @@ type RegisterPayload = Omit<
 const form = reactive<RegisterPayload>({
   accountType: "private",
   salutationId: "",
-  firstName: "",
-  lastName: "",
+  name: "",
   email: "",
   password: "",
   acceptedDataProtection: false,
   billingAddress: {
     id: "",
     customerId: "",
-    firstName: "",
-    lastName: "",
+    name: "",
     company: "",
     street: "",
     zipcode: "",
@@ -309,8 +307,7 @@ const submit = async () => {
         : { company: null, vatIds: null }),
       billingAddress: {
         ...form.billingAddress,
-        firstName: form.firstName,
-        lastName: form.lastName,
+        name: form.name,
       },
     });
 
@@ -405,13 +402,8 @@ const submit = async () => {
       </label>
 
       <label>
-        First name
-        <input v-model="form.firstName" autocomplete="given-name" required />
-      </label>
-
-      <label>
-        Last name
-        <input v-model="form.lastName" autocomplete="family-name" required />
+        Name
+        <input v-model="form.name" autocomplete="name" required />
       </label>
 
       <label>
