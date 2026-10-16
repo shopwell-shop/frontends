@@ -366,7 +366,7 @@ const submit = async () => {
   </p>
 
   <p v-else-if="isLoggedIn" role="status">
-    Signed in as {{ user?.firstName || user?.email }}
+    Signed in as {{ user?.name || user?.email }}
   </p>
 
   <template v-else>
