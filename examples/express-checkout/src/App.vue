@@ -253,8 +253,7 @@ onMounted(async () => {
           Billing address
         </h5>
         <p class="font-normal text-gray-700 dark:text-gray-400">
-          {{ orderCreated.addresses?.[0]?.firstName }}
-          {{ orderCreated.addresses?.[0]?.lastName }}
+          {{ orderCreated.addresses?.[0]?.name }}
         </p>
         <p class="font-normal text-gray-700 dark:text-gray-400">
           {{ orderCreated.addresses?.[0]?.street }}

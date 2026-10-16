@@ -92,11 +92,7 @@ export function useAmazonPayCheckout(amazonSessionId?: string) {
     amazonSessionData.value = sessionData;
 
     await shopwellRegister({
-      firstName: sessionData.billingAddress.name?.split(" ")[0] || "",
-      lastName:
-        sessionData.billingAddress.name?.split(" ")[
-          sessionData.billingAddress.name?.split(" ").length - 1
-        ] || "",
+      name: sessionData.billingAddress.name || "",
       email: sessionData.buyer.email,
       guest: true,
       password: "",
@@ -105,11 +101,7 @@ export function useAmazonPayCheckout(amazonSessionId?: string) {
       salutationId: getNotSpecifiedSalutation(),
       billingAddress: {
         customerId: "",
-        firstName: sessionData.billingAddress.name?.split(" ")[0] || "",
-        lastName:
-          sessionData.billingAddress.name?.split(" ")[
-            sessionData.billingAddress.name?.split(" ").length - 1
-          ] || "",
+        name: sessionData.billingAddress.name || "",
         id: "",
         salutationId: getNotSpecifiedSalutation(),
         countryId: mapCountryId(sessionData.billingAddress.countryCode),
