@@ -143,16 +143,14 @@ Those data will be used to create a standard or temporary account.
 const state = reactive({
   acceptedDataProtection: true,
   salutationId: "",
-  firstName: "",
-  lastName: "",
+  name: "",
   email: "",
   password: "",
   guest: false,
   billingAddress: {
     id: "",
     customerId: "",
-    firstName: "",
-    lastName: "",
+    name: "",
     street: "",
     zipcode: "",
     city: "",
@@ -185,21 +183,8 @@ const invokeSubmit = () => {
       </option>
     </select>
 
-    <label for="first-name">First name</label>
-    <input
-      id="first-name"
-      v-model="state.firstName"
-      type="text"
-      name="first-name"
-    />
-
-    <label for="last-name">Last name</label>
-    <input
-      id="last-name"
-      v-model="state.lastName"
-      type="text"
-      name="last-name"
-    />
+    <label for="name">Name</label>
+    <input id="name" v-model="state.name" type="text" name="name" />
 
     <input id="create-account" v-model="state.guest" type="checkbox" />
     <label for="create-account">Do not create a customer account.</label>

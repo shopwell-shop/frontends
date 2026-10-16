@@ -61,7 +61,7 @@ export const useB2bEmployeeSession = () => {
 
     return (
       [employeeFirstName, employeeLastName].filter(Boolean).join(" ") ||
-      [customer?.firstName, customer?.lastName].filter(Boolean).join(" ") ||
+      customer?.name ||
       "Logged-in customer"
     );
   });

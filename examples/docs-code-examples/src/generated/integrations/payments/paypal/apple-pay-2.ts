@@ -59,8 +59,7 @@ async function renderApplePay() {
     administrativeArea: address.countryState?.name,
     country: address.country?.iso3,
     countryCode: address.country?.iso,
-    familyName: address.lastName,
-    givenName: address.firstName,
+    givenName: address.name,
     locality: address.city,
     postalCode: address.zipcode,
   };

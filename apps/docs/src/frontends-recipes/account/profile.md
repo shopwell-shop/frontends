@@ -225,8 +225,7 @@ const profile = reactive<
 >({
   salutationId: "",
   title: "",
-  firstName: "",
-  lastName: "",
+  name: "",
 });
 
 const birthday = ref("");
@@ -284,8 +283,7 @@ watch(
 
     profile.salutationId = customer.salutationId ?? "";
     profile.title = customer.title ?? "";
-    profile.firstName = customer.firstName ?? "";
-    profile.lastName = customer.lastName ?? "";
+    profile.name = customer.name ?? "";
     birthday.value = customer.birthday?.slice(0, 10) ?? "";
 
     if (customer.accountType === "business") {
@@ -424,40 +422,18 @@ const saveEmail = async () => {
           </option>
         </select>
 
-        <label for="first-name">First name</label>
+        <label for="name">Name</label>
         <input
-          id="first-name"
-          v-model="profile.firstName"
+          id="name"
+          v-model="profile.name"
           type="text"
           required
-          autocomplete="given-name"
-          :aria-invalid="profileFieldErrors.firstName ? true : undefined"
-          :aria-describedby="
-            profileFieldErrors.firstName ? 'first-name-error' : undefined
-          "
+          autocomplete="name"
+          :aria-invalid="profileFieldErrors.name ? true : undefined"
+          :aria-describedby="profileFieldErrors.name ? 'name-error' : undefined"
         />
-        <p
-          v-if="profileFieldErrors.firstName"
-          id="first-name-error"
-          role="alert"
-        >
-          {{ profileFieldErrors.firstName }}
-        </p>
-
-        <label for="last-name">Last name</label>
-        <input
-          id="last-name"
-          v-model="profile.lastName"
-          type="text"
-          required
-          autocomplete="family-name"
-          :aria-invalid="profileFieldErrors.lastName ? true : undefined"
-          :aria-describedby="
-            profileFieldErrors.lastName ? 'last-name-error' : undefined
-          "
-        />
-        <p v-if="profileFieldErrors.lastName" id="last-name-error" role="alert">
-          {{ profileFieldErrors.lastName }}
+        <p v-if="profileFieldErrors.name" id="name-error" role="alert">
+          {{ profileFieldErrors.name }}
         </p>
 
         <label for="birthday">Date of birth</label>

@@ -37,8 +37,7 @@ const heading = ref<HTMLElement>();
 const form = reactive<operations["sendContactMail post /contact-form"]["body"]>(
   {
     salutationId: "",
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     phone: "",
     subject: "",
@@ -168,36 +167,18 @@ const submit = async () => {
         {{ errorsByField.salutationId }}
       </p>
 
-      <label for="first-name">First name</label>
+      <label for="name">Name</label>
       <input
-        id="first-name"
-        v-model="form.firstName"
+        id="name"
+        v-model="form.name"
         type="text"
-        autocomplete="given-name"
+        autocomplete="name"
         required
-        :aria-invalid="errorsByField.firstName ? 'true' : undefined"
-        :aria-describedby="
-          errorsByField.firstName ? 'first-name-error' : undefined
-        "
+        :aria-invalid="errorsByField.name ? 'true' : undefined"
+        :aria-describedby="errorsByField.name ? 'name-error' : undefined"
       />
-      <p v-if="errorsByField.firstName" id="first-name-error" role="alert">
-        {{ errorsByField.firstName }}
-      </p>
-
-      <label for="last-name">Last name</label>
-      <input
-        id="last-name"
-        v-model="form.lastName"
-        type="text"
-        autocomplete="family-name"
-        required
-        :aria-invalid="errorsByField.lastName ? 'true' : undefined"
-        :aria-describedby="
-          errorsByField.lastName ? 'last-name-error' : undefined
-        "
-      />
-      <p v-if="errorsByField.lastName" id="last-name-error" role="alert">
-        {{ errorsByField.lastName }}
+      <p v-if="errorsByField.name" id="name-error" role="alert">
+        {{ errorsByField.name }}
       </p>
 
       <label for="email">Email</label>

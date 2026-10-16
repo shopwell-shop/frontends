@@ -153,7 +153,7 @@ const submit = async () => {
   </form>
 
   <div v-else>
-    <p>Signed in as {{ user?.firstName || user?.email }}</p>
+    <p>Signed in as {{ user?.name || user?.email }}</p>
     <button type="button" @click="logout()">Sign out</button>
   </div>
 </template>

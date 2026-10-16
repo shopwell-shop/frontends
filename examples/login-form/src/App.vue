@@ -72,7 +72,7 @@ const invokeLogin = async () => {
       </div>
     </div>
     <div v-else>
-      <h1>Hi, {{ user?.firstName }}!</h1>
+      <h1>Hi, {{ user?.name }}!</h1>
       <button
         class="bg-sky-400 text-white mt-4 w-full font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-sky-500"
         @click="logout()"

@@ -118,9 +118,7 @@ const downloadDocument = async (orderDocument: Schemas["Document"]) => {
   <article v-else>
     <h1>Order {{ order.orderNumber }}</h1>
     <p aria-live="polite">Status: {{ status }}</p>
-    <p>
-      Customer: {{ personalDetails.firstName }} {{ personalDetails.lastName }}
-    </p>
+    <p>Customer: {{ personalDetails.name }}</p>
 
     <h2>Items</h2>
     <ul>

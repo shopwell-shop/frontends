@@ -18,8 +18,7 @@ const { defaultBillingAddressId, defaultShippingAddressId } = useUser();
 
 const emptyAddress = () => ({
   salutationId: "",
-  firstName: "",
-  lastName: "",
+  name: "",
   street: "",
   zipcode: "",
   city: "",
@@ -68,8 +67,7 @@ const startEdit = (address: Schemas["CustomerAddress"]) => {
   editedId.value = address.id;
   Object.assign(form, {
     salutationId: address.salutationId ?? "",
-    firstName: address.firstName,
-    lastName: address.lastName,
+    name: address.name,
     street: address.street,
     zipcode: address.zipcode ?? "",
     city: address.city,
@@ -162,8 +160,8 @@ const makeDefaultShipping = (addressId: string) =>
   <ul v-else>
     <li v-for="address in customerAddresses" :key="address.id">
       <p>
-        {{ address.firstName }} {{ address.lastName }}, {{ address.street }},
-        {{ address.zipcode }} {{ address.city }}
+        {{ address.name }}, {{ address.street }}, {{ address.zipcode }}
+        {{ address.city }}
       </p>
 
       <p v-if="address.id === defaultBillingAddressId">
@@ -231,13 +229,8 @@ const makeDefaultShipping = (addressId: string) =>
     </label>
 
     <label>
-      First name
-      <input v-model="form.firstName" type="text" autocomplete="given-name" />
-    </label>
-
-    <label>
-      Last name
-      <input v-model="form.lastName" type="text" autocomplete="family-name" />
+      Name
+      <input v-model="form.name" type="text" autocomplete="name" />
     </label>
 
     <label>
