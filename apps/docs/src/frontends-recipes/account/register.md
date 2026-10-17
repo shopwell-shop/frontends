@@ -109,24 +109,13 @@ Build a customer registration form and understand what the Store API does with t
 
 ## Shopwell Flow
 
-Registration is a single write. `register post /account/register` takes `email`, `password`, `firstName`, `lastName`, `acceptedDataProtection`, `storefrontUrl`, and a `billingAddress`, and returns the created `Customer`. An optional `shippingAddress` uses the same `CustomerAddress` shape, and the Store API reuses the customer name for the addresses when you do not send it explicitly.
+Registration is a single write. `register post /account/register` takes `email`, `password`, `name`, `acceptedDataProtection`, `storefrontUrl`, and a `billingAddress`, and returns the created `Customer`. An optional `shippingAddress` uses the same `CustomerAddress` shape, and the Store API reuses the customer name for the addresses when you do not send it explicitly.
 
 `useUser().register()` accepts the body without `storefrontUrl` and fills that field itself from `useInternationalization().getStorefrontUrl()`. Everything else the form needs comes from separate read routes: `readSalutation post /salutation` for `salutationId` and `readCountry post /country` for `billingAddress.countryId` and `billingAddress.countryStateId`.
 
 The response, not the HTTP status, tells you what happened. When double opt-in registration is enabled in the Shopwell Admin, the returned customer carries `doubleOptInRegistration` and no session is created until the customer opens the confirmation email, which points at `registerConfirm post /account/register-confirm`.
 
-Hover a type chip to inspect fields generated from the current Store API schema.
-
 <RecipeFlowDiagram label="Register flow diagram" :steps="steps" />
-
-Read the diagram from left to right:
-
-1. The customer fills one object shaped like the register body, including the nested `billingAddress`, with salutation and country options loaded from their own routes.
-2. `useUser().register()` adds `storefrontUrl` from `getStorefrontUrl()` and posts the body.
-3. The Store API creates the customer in the session identified by `sw-context-token` and returns the `Customer`.
-4. `register()` writes that customer into the shared customer context only when `active` is true and `doubleOptInRegistration` is false.
-5. `register()` awaits `refreshSessionContext()`, so `readContext get /context` decides whether the session now carries a customer, and then awaits `refreshCart()`.
-6. The UI reads `user`, `isLoggedIn`, and `isGuestSession` from composables instead of keeping its own copy.
 
 <StorefrontUrlNotice
   operation="register post /account/register"
@@ -657,4 +646,3 @@ The Store API identifies the sales channel session with the `sw-context-token` h
 - [Storefront URL](../../guides/storefront-url.html)
 - [Composables reference](../../packages/composables/)
 - [API client package](../../packages/api-client.html)
-- [devStorefrontUrl troubleshooting](../../resources/troubleshooting.html#what-is-devstorefronturl-and-when-to-use-it)
