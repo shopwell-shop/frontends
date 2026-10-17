@@ -413,5 +413,5 @@ Full changelog for stable version is available [here](https://github.com/shopwel
 
 ### Patch Changes
 
-- Updated dependencies [[`44ece9d`](https://github.com/shopwell-shop/frontends/commit/44ece9dac2e4d0248c2270f7eff496c258632f5b), [`4b43e64`](https://github.com/shopwell-shop/frontends/commit/4b43e64a8d78be6eca1f8d9c24140e046193af41)]:
-  - @shopwell/api-client@1.7.0
+- Updated dependencies [[`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95)]:
+  - @shopwell/api-client@2.0.0

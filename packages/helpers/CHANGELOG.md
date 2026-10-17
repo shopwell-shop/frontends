@@ -1,5 +1,11 @@
 # @shopwell/helpers
 
+## 1.9.0
+
+### Minor Changes
+
+- [#11](https://github.com/shopwell-shop/frontends/pull/11) [`9a48fa4`](https://github.com/shopwell-shop/frontends/commit/9a48fa4b4686da5d3269557963911bbedc189c42) Thanks [@xgll7](https://github.com/xgll7)! - Support SEO URLs of headless (API type) sales channels. Since shopwell-shop/shopwell#17991 headless sales channels persist their SEO URLs against the `store-api.*` route family (`store-api.product.detail`, `store-api.category.detail`, `store-api.landing-page.detail`). `useNavigationSearch().resolvePath()` now maps those route names to their `frontend.*` equivalents, so page resolution works unchanged on a headless sales channel. The new `getFrontendRouteName` helper in `@shopwell/helpers` exposes the same mapping for custom resolvers.
+
 ## 1.8.0
 
 ### Minor Changes

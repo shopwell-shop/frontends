@@ -1,5 +1,15 @@
 # vue-starter-template
 
+## 0.1.5
+
+### Patch Changes
+
+- [#11](https://github.com/shopwell-shop/frontends/pull/11) [`7e9dbd9`](https://github.com/shopwell-shop/frontends/commit/7e9dbd9986c27d3ed1ace4c6e4c6156260f2e63d) Thanks [@xgll7](https://github.com/xgll7)! - Add `data-testid` and `data-*` state attributes to the wishlist toggle, variant options, sort dropdown, pagination and top navigation, so e2e tests no longer depend on translated text or CSS classes. Sort options are now `menuitemradio` items with `aria-checked`, so screen readers announce the active sort.
+
+- [#11](https://github.com/shopwell-shop/frontends/pull/11) [`c7cee4b`](https://github.com/shopwell-shop/frontends/commit/c7cee4b58ef0d108c0189334e1a509b529ccdc7b) Thanks [@xgll7](https://github.com/xgll7)! - Support Nuxt 4.6. `@shopwell/nuxt-module` and `@shopwell/cms-base-layer` now depend on `@nuxt/kit` 4.6.1, and the Nuxt plugin types `ssrContext.event` from `NuxtSSRContext`, so it type-checks on both Nuxt 4.5 and 4.6. The Nuxt templates require Node `^22.22.3 || ^24.15.0 || >=26.0.0`, the range Nuxt 4.6 supports. `@shopwell/unocss-design-tokens-layer` no longer re-exports its generated `.nuxt/imports` from `index.d.ts`, which pulled server routes into the shared type context of apps extending the layer.
+
+- [#11](https://github.com/shopwell-shop/frontends/pull/11) [`499bd67`](https://github.com/shopwell-shop/frontends/commit/499bd67d8de3c2ee79fc057d9beeb6a7c21a1287) Thanks [@xgll7](https://github.com/xgll7)! - Give the Guided setup banner `<aside>` an accessible name and translate the CMS sidebar label, using the new `layout.ariaLabels.guidedSetup` and `layout.ariaLabels.contentSidebar` keys in en-GB, de-DE and pl-PL, so the category page passes the axe `landmark-unique` rule.
+
 ## 0.1.4
 
 ### Patch Changes
