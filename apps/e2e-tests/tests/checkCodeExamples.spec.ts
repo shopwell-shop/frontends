@@ -23,7 +23,7 @@ for (const file of fs.readdirSync(directoryPath)) {
   }
 
   test(`Verify, { tag: "stackblitz" }, ${file}`, async ({ page }) => {
-    const exampleName = `shopwell/frontends/tree/main/examples/${file}`;
+    const exampleName = `shopwell-shop/frontends/tree/main/examples/${file}`;
     await page.goto(`file://${__dirname}/pages/blank.html`, {
       waitUntil: "domcontentloaded",
       timeout: 0,

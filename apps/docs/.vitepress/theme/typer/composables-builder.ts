@@ -96,7 +96,7 @@ export async function ComposablesBuilder({
         interfacesBlock += prepareGithubPermalink({
           label: "source code",
           path: `${relativeDir}/${composableName}/${composableName}.ts`,
-          project: "shopwell/frontends",
+          project: "shopwell-shop/frontends",
           line: astJson?.functions[key]?.location?.line + 1,
         });
       }
@@ -111,7 +111,7 @@ export async function ComposablesBuilder({
         typesBlock += prepareGithubPermalink({
           label: "source code",
           path: `${relativeDir}/${composableName}/${composableName}.ts`,
-          project: "shopwell/frontends",
+          project: "shopwell-shop/frontends",
           line: astJson?.types[key]?.location?.line + 1,
         });
       }

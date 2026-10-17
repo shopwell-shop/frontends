@@ -174,7 +174,7 @@ const srcset = coverMedia?.thumbnails
 ### Live example
 
 Have a look on live example:
-<StackBlitzLiveExample projectPath="shopwell/frontends/tree/main/examples/responsive-images" openPath="/" />
+<StackBlitzLiveExample projectPath="shopwell-shop/frontends/tree/main/examples/responsive-images" openPath="/" />
 <br/>
 
 The example above shows how to use dimension sizes configured in admin panel as ranges for viewport. However it can be adjusted to your needs.

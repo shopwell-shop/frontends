@@ -335,7 +335,7 @@ Thanks to the internal logic of the PayPal extension, the is already connected w
 
 The example shows the specific case, when a product can be bought in one action from the frontend.
 
-<StackBlitzLiveExample projectPath="shopwell/frontends/tree/main/examples/express-checkout" openPath="/" />
+<StackBlitzLiveExample projectPath="shopwell-shop/frontends/tree/main/examples/express-checkout" openPath="/" />
 
 ## Integrating other PayPal payment methods
 

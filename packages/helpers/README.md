@@ -1,4 +1,4 @@
-# shopwell/frontends - helpers
+# shopwell-shop/frontends - helpers
 
 Welcome to `@shopwell/helpers` package.
 

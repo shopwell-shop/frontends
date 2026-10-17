@@ -12,7 +12,7 @@ export type HeadlessRouteName = keyof typeof HEADLESS_ROUTE_NAME_MAP;
  * returned unchanged.
  *
  * Headless sales channels persist their SEO URLs against the `store-api.*`
- * route family (see shopwell/shopwell#17991), while all routing helpers and
+ * route family (see shopwell-shop/shopwell#17991), while all routing helpers and
  * page resolvers work with the `frontend.*` names.
  *
  * @public

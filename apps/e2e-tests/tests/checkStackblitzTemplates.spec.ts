@@ -24,7 +24,7 @@ const { templates } = JSON.parse(fs.readFileSync(manifestPath, "utf8")) as {
 for (const template of templates.filter((t) => t.scaffoldable)) {
   test(`Open, { tag: "@stackblitz" },  ${template.id}`, async ({ page }) => {
     test.setTimeout(200000);
-    const templateName = `shopwell/frontends/tree/main/templates/${template.id}`;
+    const templateName = `shopwell-shop/frontends/tree/main/templates/${template.id}`;
     await page.goto(`file://${__dirname}/pages/blank.html`, {
       waitUntil: "domcontentloaded",
       timeout: 0,
