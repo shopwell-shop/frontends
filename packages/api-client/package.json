@@ -59,13 +59,13 @@
     "lint:fix": "oxlint --fix . && oxfmt --write . && pnpm typecheck",
     "typecheck": "tsgo --noEmit",
     "test": "vitest run --typecheck --exclude '**/*.e2e.test.ts'",
-    "test:e2e": "vitest run --typecheck e2e.test.ts",
     "test:bench": "vitest bench",
     "test:watch": "vitest --typecheck",
     "load-schema": "esno ../api-gen/src/cli.ts loadSchema --apiType=store",
     "load-admin-schema": "esno ../api-gen/src/cli.ts loadSchema --apiType=admin",
     "generate-types": "esno ../api-gen/src/cli.ts generate --apiType=store",
-    "generate-admin-types": "esno ../api-gen/src/cli.ts generate --apiType=admin"
+    "generate-admin-types": "esno ../api-gen/src/cli.ts generate --apiType=admin",
+    "test:e2e": "vitest run --typecheck e2e.test.ts"
   },
   "devDependencies": {
     "@typescript/native-preview": "7.0.0-dev.20260205.1",

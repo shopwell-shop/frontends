@@ -1,9 +1,9 @@
-# shopwell/frontends - api-client
+# shopwell-shop/frontends - api-client
 
 [![](https://img.shields.io/npm/v/@shopwell/api-client?color=blue&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCA0ODggNTUzIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNDM5LjA0MSAxMjkuNTkzTDI1OC43NjkgMzEuMzA3NkMyNDQuOTE1IDIzLjc1NDEgMjI4LjExNiAyNC4wMDkzIDIxNC40OTcgMzEuOTgwMkw0Ny4yNjkgMTI5Ljg1OEMzMy40NzYzIDEzNy45MzEgMjUgMTUyLjcxMyAyNSAxNjguNjk1VjM4OC40NjZDMjUgNDA0LjczMiAzMy43Nzg1IDQxOS43MzIgNDcuOTYwMiA0MjcuNjk5TDIxNS4xNzggNTIxLjYzNkMyMjguNDUxIDUyOS4wOTIgMjQ0LjU5MyA1MjkuMzMyIDI1OC4wODIgNTIyLjI3NEw0MzguMzY0IDQyNy45MzRDNDUzLjIwMSA0MjAuMTcgNDYyLjUgNDA0LjgwOSA0NjIuNSAzODguMDYzVjE2OS4xMDJDNDYyLjUgMTUyLjYzMiA0NTMuNTAyIDEzNy40NzcgNDM5LjA0MSAxMjkuNTkzWiIgc3Ryb2tlPSJ1cmwoI3BhaW50MF9saW5lYXJfMTUzXzY5MjY1KSIgc3Ryb2tlLXdpZHRoPSI1MCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyXzE1M182OTI2NSIgeDE9Ii0xNi4yOTg5IiB5MT0iMTY1LjM0OSIgeDI9IjI3Ni40MTIiIHkyPSItODkuMzIzNCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjMDA4NUZGIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0MwRTJGNSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==)](https://npmjs.com/package/@shopwell/api-client)
-[![](https://img.shields.io/github/package-json/v/shopwell/frontends?color=blue&filename=packages%2Fapi-client%2Fpackage.json&label=frontends/api-client&logo=github)](https://github.com/shopwell-shop/frontends/tree/main/packages/api-client)
-[![](https://img.shields.io/github/issues/shopwell/frontends/api-client?label=package%20issues&logo=github)](https://github.com/shopwell-shop/frontends/issues?q=is%3Aopen+is%3Aissue+label%3Aapi-client)
-[![](https://img.shields.io/github/license/shopwell/frontends?color=blue)](#)
+[![](https://img.shields.io/github/package-json/v/shopwell-shop/frontends?color=blue&filename=packages%2Fapi-client%2Fpackage.json&label=frontends/api-client&logo=github)](https://github.com/shopwell-shop/frontends/tree/main/packages/api-client)
+[![](https://img.shields.io/github/issues/shopwell-shop/frontends/api-client?label=package%20issues&logo=github)](https://github.com/shopwell-shop/frontends/issues?q=is%3Aopen+is%3Aissue+label%3Aapi-client)
+[![](https://img.shields.io/github/license/shopwell-shop/frontends?color=blue)](#)
 
 Dynamic and fully typed API Client for Shopwell 6. Usable in any JavaScript and TypeScript project.
 You can use types generated from your custom API instance to have autocompletion and type safety.
@@ -574,19 +574,9 @@ Full changelog for stable version is available [here](https://github.com/shopwel
 
 ### Latest changes: 2.0.0
 
-### Major Changes
-
-- [#6](https://github.com/shopwell-shop/frontends/pull/6) [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983) Thanks [@xgll7](https://github.com/xgll7)! - Customers, users, order customers, addresses and newsletter recipients now carry a single `name` instead of `firstName` and `lastName`.
-
-  `firstName` and `lastName` are gone from the Admin API and Store API schemas of `Customer`, `CustomerAddress`, `OrderCustomer`, `OrderAddress`, `User` and `NewsletterRecipient`. They expose `name` (the full name) instead. The same applies to the request bodies that used to send both fields — customer registration, profile update, contact form, newsletter subscription and the revocation request form — and to the `contactForm` shop settings, where `firstNameFieldRequired` and `lastNameFieldRequired` are merged into `nameFieldRequired`.
-
-  `useOrderDetails()` returns the customer's full name as `name` in the personal details.
-
-  The newsletter and contact form CMS elements render a single name input instead of separate first and last name inputs.
-
 ### Minor Changes
 
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Added `isTimeoutError()` to tell a request that ran into `fetchOptions.timeout` apart from other errors. Such a request rejects without an HTTP status, so `instanceof ApiClientError` does not match it. The request may already have reached the API and been processed, so the server-side outcome is unknown, and a mutation must not be retried without checking.
+- [#2702](https://github.com/shopwell-shop/frontends/pull/2702) [`44ece9d`](https://github.com/shopwell-shop/frontends/commit/44ece9dac2e4d0248c2270f7eff496c258632f5b) Thanks [@mkucmus](https://github.com/mkucmus)! - Added `isTimeoutError()` to tell a request that ran into `fetchOptions.timeout` apart from other errors. Such a request rejects without an HTTP status, so `instanceof ApiClientError` does not match it. The request may already have reached the API and been processed, so the server-side outcome is unknown, and a mutation must not be retried without checking.
 
   A per-request `signal` no longer switches off `timeout`. Both are combined, so whichever fires first aborts the request. Before, ofetch ignored `timeout` as soon as a `signal` was set. Combining needs `AbortSignal.any`, so runtimes without it keep the old behaviour. The admin client forwards the signal and timeout to its token refresh as well.
 
@@ -594,4 +584,4 @@ Full changelog for stable version is available [here](https://github.com/shopwel
 
 ### Patch Changes
 
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Add `WithApiOverrides` to merge local operation or schema overlays onto the types shipped with the client.
+- [#2708](https://github.com/shopwell-shop/frontends/pull/2708) [`4b43e64`](https://github.com/shopwell-shop/frontends/commit/4b43e64a8d78be6eca1f8d9c24140e046193af41) Thanks [@patzick](https://github.com/patzick)! - Add `WithApiOverrides` to merge local operation or schema overlays onto the types shipped with the client.
