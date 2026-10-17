@@ -23,7 +23,7 @@ Some of its components are based on Vue.js and Nuxt.js. The framework is designe
 
 This section deals with the different packages and their abstractions. It is sorted by reusability / abstraction level from high to low and shows the main dependencies of each component respectively.
 
-<PageRef title="shopwell/frontends packages" sub="Explore all Shopwell Frontends packages on GitHub" :icon="githubIcon" page="https://github.com/shopwell-shop/frontends/tree/main/packages" target="_blank" />
+<PageRef title="shopwell-shop/frontends packages" sub="Explore all Shopwell Frontends packages on GitHub" :icon="githubIcon" page="https://github.com/shopwell-shop/frontends/tree/main/packages" target="_blank" />
 
 ## api-client
 
