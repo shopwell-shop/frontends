@@ -574,9 +574,19 @@ Full changelog for stable version is available [here](https://github.com/shopwel
 
 ### Latest changes: 2.0.0
 
+### Major Changes
+
+- [#6](https://github.com/shopwell-shop/frontends/pull/6) [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983) Thanks [@xgll7](https://github.com/xgll7)! - Customers, users, order customers, addresses and newsletter recipients now carry a single `name` instead of `firstName` and `lastName`.
+
+  `firstName` and `lastName` are gone from the Admin API and Store API schemas of `Customer`, `CustomerAddress`, `OrderCustomer`, `OrderAddress`, `User` and `NewsletterRecipient`. They expose `name` (the full name) instead. The same applies to the request bodies that used to send both fields — customer registration, profile update, contact form, newsletter subscription and the revocation request form — and to the `contactForm` shop settings, where `firstNameFieldRequired` and `lastNameFieldRequired` are merged into `nameFieldRequired`.
+
+  `useOrderDetails()` returns the customer's full name as `name` in the personal details.
+
+  The newsletter and contact form CMS elements render a single name input instead of separate first and last name inputs.
+
 ### Minor Changes
 
-- [#2702](https://github.com/shopwell-shop/frontends/pull/2702) [`44ece9d`](https://github.com/shopwell-shop/frontends/commit/44ece9dac2e4d0248c2270f7eff496c258632f5b) Thanks [@mkucmus](https://github.com/mkucmus)! - Added `isTimeoutError()` to tell a request that ran into `fetchOptions.timeout` apart from other errors. Such a request rejects without an HTTP status, so `instanceof ApiClientError` does not match it. The request may already have reached the API and been processed, so the server-side outcome is unknown, and a mutation must not be retried without checking.
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Added `isTimeoutError()` to tell a request that ran into `fetchOptions.timeout` apart from other errors. Such a request rejects without an HTTP status, so `instanceof ApiClientError` does not match it. The request may already have reached the API and been processed, so the server-side outcome is unknown, and a mutation must not be retried without checking.
 
   A per-request `signal` no longer switches off `timeout`. Both are combined, so whichever fires first aborts the request. Before, ofetch ignored `timeout` as soon as a `signal` was set. Combining needs `AbortSignal.any`, so runtimes without it keep the old behaviour. The admin client forwards the signal and timeout to its token refresh as well.
 
@@ -584,4 +594,4 @@ Full changelog for stable version is available [here](https://github.com/shopwel
 
 ### Patch Changes
 
-- [#2708](https://github.com/shopwell-shop/frontends/pull/2708) [`4b43e64`](https://github.com/shopwell-shop/frontends/commit/4b43e64a8d78be6eca1f8d9c24140e046193af41) Thanks [@patzick](https://github.com/patzick)! - Add `WithApiOverrides` to merge local operation or schema overlays onto the types shipped with the client.
+- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Add `WithApiOverrides` to merge local operation or schema overlays onto the types shipped with the client.

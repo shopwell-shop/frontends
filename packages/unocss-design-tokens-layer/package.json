@@ -1,6 +1,6 @@
 {
   "name": "@shopwell/unocss-design-tokens-layer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Reusable Nuxt Layer for Shopwell design tokens and UnoCSS configuration",
   "author": "Shopwell",
   "repository": {

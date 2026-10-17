@@ -1,5 +1,13 @@
 # lumora-demo-store
 
+## 0.0.7
+
+### Patch Changes
+
+- [#11](https://github.com/shopwell-shop/frontends/pull/11) [`c7cee4b`](https://github.com/shopwell-shop/frontends/commit/c7cee4b58ef0d108c0189334e1a509b529ccdc7b) Thanks [@xgll7](https://github.com/xgll7)! - Support Nuxt 4.6. `@shopwell/nuxt-module` and `@shopwell/cms-base-layer` now depend on `@nuxt/kit` 4.6.1, and the Nuxt plugin types `ssrContext.event` from `NuxtSSRContext`, so it type-checks on both Nuxt 4.5 and 4.6. The Nuxt templates require Node `^22.22.3 || ^24.15.0 || >=26.0.0`, the range Nuxt 4.6 supports. `@shopwell/unocss-design-tokens-layer` no longer re-exports its generated `.nuxt/imports` from `index.d.ts`, which pulled server routes into the shared type context of apps extending the layer.
+- Updated dependencies [[`7e9dbd9`](https://github.com/shopwell-shop/frontends/commit/7e9dbd9986c27d3ed1ace4c6e4c6156260f2e63d), [`c7cee4b`](https://github.com/shopwell-shop/frontends/commit/c7cee4b58ef0d108c0189334e1a509b529ccdc7b), [`499bd67`](https://github.com/shopwell-shop/frontends/commit/499bd67d8de3c2ee79fc057d9beeb6a7c21a1287)]:
+  - vue-starter-template@0.1.5
+
 ## 0.0.6
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @shopwell/nuxt-module
 
+## 1.6.1
+
+### Patch Changes
+
+- [#11](https://github.com/shopwell-shop/frontends/pull/11) [`c7cee4b`](https://github.com/shopwell-shop/frontends/commit/c7cee4b58ef0d108c0189334e1a509b529ccdc7b) Thanks [@xgll7](https://github.com/xgll7)! - Support Nuxt 4.6. `@shopwell/nuxt-module` and `@shopwell/cms-base-layer` now depend on `@nuxt/kit` 4.6.1, and the Nuxt plugin types `ssrContext.event` from `NuxtSSRContext`, so it type-checks on both Nuxt 4.5 and 4.6. The Nuxt templates require Node `^22.22.3 || ^24.15.0 || >=26.0.0`, the range Nuxt 4.6 supports. `@shopwell/unocss-design-tokens-layer` no longer re-exports its generated `.nuxt/imports` from `index.d.ts`, which pulled server routes into the shared type context of apps extending the layer.
+- Updated dependencies [[`de57de5`](https://github.com/shopwell-shop/frontends/commit/de57de5a1624d14521467c48429151d4c9fa736d), [`9a48fa4`](https://github.com/shopwell-shop/frontends/commit/9a48fa4b4686da5d3269557963911bbedc189c42)]:
+  - @shopwell/composables@2.1.0
+  - @shopwell/helpers@1.9.0
+
 ## 1.6.0
 
 ### Minor Changes
