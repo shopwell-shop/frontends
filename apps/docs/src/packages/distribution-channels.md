@@ -118,10 +118,10 @@ The pkg-pr-new bot then comments the install commands on the PR. Install directl
 
 ```bash
 # By PR number
-npm i https://pkg.pr.new/shopwell/frontends/@shopwell/api-client@1349
+npm i https://pkg.pr.new/shopwell-shop/frontends/@shopwell/api-client@1349
 
 # A commit SHA also works in place of the PR number
-npm i https://pkg.pr.new/shopwell/frontends/@shopwell/api-client@<commit-sha>
+npm i https://pkg.pr.new/shopwell-shop/frontends/@shopwell/api-client@<commit-sha>
 ```
 
 <!-- /automd -->

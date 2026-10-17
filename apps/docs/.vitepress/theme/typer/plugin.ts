@@ -126,7 +126,7 @@ export async function ReadmeBasedReference({
           API += prepareGithubPermalink({
             label: "source code",
             path: functionDefinition?.location?.file.replace("../../", ""),
-            project: "shopwell/frontends",
+            project: "shopwell-shop/frontends",
             line: functionDefinition?.location?.line + 1,
           });
 

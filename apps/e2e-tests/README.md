@@ -63,7 +63,7 @@ That is the same command as the `Accessibility Check` workflow, which is manual 
 Every pull request gets a Vercel preview of the starter. Find its URL:
 
 ```sh
-gh api repos/shopwell/frontends/issues/<pr-number>/comments \
+gh api repos/shopwell-shop/frontends/issues/<pr-number>/comments \
   --jq '.[] | select(.user.login | test("vercel")) | .body' \
   | grep -oE 'https://frontends-vue-starter-template[^ )]*'
 ```

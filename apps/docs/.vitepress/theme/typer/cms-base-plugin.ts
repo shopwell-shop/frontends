@@ -62,7 +62,7 @@ export async function CmsBaseReference({
         API += prepareGithubPermalink({
           label: "source code",
           path: `${normalizedPath}/${component.name}`,
-          project: "shopwell/frontends",
+          project: "shopwell-shop/frontends",
         });
 
         try {

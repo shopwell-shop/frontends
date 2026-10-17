@@ -74,7 +74,7 @@ export async function ReadmeLoader(): Promise<Plugin> {
           {
             path,
             label: "visit the source file.",
-            project: "shopwell/frontends",
+            project: "shopwell-shop/frontends",
             inlineStyle: "",
           },
         )}\n\n`;
