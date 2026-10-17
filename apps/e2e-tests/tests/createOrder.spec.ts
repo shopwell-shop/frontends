@@ -1,44 +1,26 @@
 import { faker } from "@faker-js/faker";
 
 import { expect, test } from "../fixtures";
-import { CartPage } from "../page-objects/CartPage";
-import { CheckoutPage } from "../page-objects/CheckoutPage";
-import { HomePage } from "../page-objects/HomePage";
-import { ProductPage } from "../page-objects/ProductPage";
-import { RegisterForm } from "../page-objects/RegisterPage";
 import { uniqueEmail, uniquePassword } from "../utils/data-helpers";
-import { findEnv } from "../utils/helpers";
-import { captureStoreApi } from "../utils/store-api";
 
 // A full purchase, and ProductPage.addToCart alone budgets 60s for its retries.
-require("dotenv").config({ path: findEnv() });
-const userEmail = process.env.USER_EMAIL || "test@shopwell.cn";
-const password = process.env.PASSWORD || "shopwell123";
-
 test.setTimeout(90000);
 
 test.describe("Create Order", { tag: "@frontends" }, () => {
-  let homePage: HomePage;
-  let registrationPage: RegisterForm;
-  let checkoutPage: CheckoutPage;
-  let productPage: ProductPage;
-  let cartPage: CartPage;
-
-  // Before Hook
-  test.beforeEach(async ({ page }) => {
-    homePage = new HomePage(page);
-    cartPage = new CartPage(page);
-    registrationPage = new RegisterForm(page);
-    productPage = new ProductPage(page);
-    checkoutPage = new CheckoutPage(page);
-
+  test.beforeEach(async ({ homePage }) => {
     await homePage.visitMainPage();
   });
 
-  test("Create new order", async ({ page }) => {
+  test("Create new order", async ({
+    page,
+    homePage,
+    registrationPage,
+    productPage,
+    cartPage,
+    checkoutPage,
+  }) => {
     await homePage.clickOnSignIn();
     await homePage.openRegistrationPage();
-    await page.waitForLoadState("networkidle");
     await registrationPage.fillCustomerData(
       `e2e ${faker.person.firstName()} ${faker.person.lastName()}`,
       uniqueEmail(),
@@ -54,30 +36,43 @@ test.describe("Create Order", { tag: "@frontends" }, () => {
     await productPage.addToCart();
     await cartPage.openMiniCart();
     await checkoutPage.goToCheckout();
-    await page.waitForSelector("[data-testid='checkout-shipping-method']");
-    await checkoutPage.markTerms();
+    await page
+      .getByTestId("checkout-shipping-method")
+      .first()
+      .waitFor({ state: "visible" });
     await checkoutPage.placeOrder();
-    await page.waitForLoadState("domcontentloaded");
     await expect(page.getByTestId("order-total")).toHaveCount(1);
   });
 
-  test("Create new order as a signed in customer", async ({ page }) => {
+  test("Create new order as a signed in customer", async ({
+    page,
+    customer,
+    homePage,
+    productPage,
+    cartPage,
+    checkoutPage,
+  }) => {
     // The checkout has no sign-in step, so establish the session first.
-    await homePage.loginAs(userEmail, password);
+    await homePage.loginAs(customer.email, customer.password);
     await homePage.openCartPage();
     await productPage.addToCart();
     await cartPage.openMiniCart();
     await checkoutPage.goToCheckout();
-    await checkoutPage.markTerms();
     await checkoutPage.placeOrder();
-    await page.waitForLoadState("domcontentloaded");
     await expect(page.getByTestId("order-total")).toHaveCount(1);
   });
 
-  test("Create new order and an account", async ({ page, request }) => {
+  test("Create new order and an account", async ({
+    page,
+    request,
+    storeApi,
+    homePage,
+    productPage,
+    cartPage,
+    checkoutPage,
+  }) => {
     const email = uniqueEmail();
     const accountPassword = uniquePassword();
-    const storeApi = captureStoreApi(page);
 
     await homePage.openCartPage();
     await productPage.addToCart();
@@ -91,7 +86,6 @@ test.describe("Create Order", { tag: "@frontends" }, () => {
       faker.location.city(),
       accountPassword,
     );
-    await checkoutPage.markTerms();
     await checkoutPage.placeOrder();
     await expect(page.getByTestId("order-total")).toHaveCount(1);
 
@@ -111,12 +105,17 @@ test.describe("Create Order", { tag: "@frontends" }, () => {
     expect(signIn.status(), await signIn.text()).toBe(200);
   });
 
-  test("Create new order as a guest user", async ({ page }) => {
+  test("Create new order as a guest user", async ({
+    page,
+    homePage,
+    productPage,
+    cartPage,
+    checkoutPage,
+  }) => {
     await homePage.openCartPage();
     await productPage.addToCart();
     await cartPage.openMiniCart();
     await checkoutPage.goToCheckout();
-    await checkoutPage.checkNotCreateAccount();
     await checkoutPage.fillGuestUserData(
       `e2e ${faker.person.firstName()} ${faker.person.lastName()}`,
       uniqueEmail(),
@@ -124,9 +123,7 @@ test.describe("Create Order", { tag: "@frontends" }, () => {
       faker.location.zipCode(),
       faker.location.city(),
     );
-    await checkoutPage.markTerms();
     await checkoutPage.placeOrder();
-    await page.waitForLoadState("domcontentloaded");
     await expect(page.getByTestId("order-total")).toHaveCount(1);
   });
 });

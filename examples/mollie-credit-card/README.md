@@ -12,7 +12,7 @@
 
 ## Requirements
 
-- Frontend side: any Nuxt 3 project, or a project with [Shopwell Frontends](https://developer.shopwell.cn/frontends/getting-started/templates.html) registered and running (you can use one of the Nuxt templates provided in [shopwell/frontends](https://github.com/shopwell-shop/frontends/tree/main/templates) GitHub Project
+- Frontend side: any Nuxt 3 project, or a project with [Shopwell Frontends](https://developer.shopwell.cn/frontends/introduction/templates.html) registered and running (you can use one of the Nuxt templates provided in [shopwell-shop/frontends](https://github.com/shopwell-shop/frontends/tree/main/templates) GitHub Project
 - Backend side: [Mollie Payments App for Shopwell](https://store.shopwell.cn/en/molli23282346664f/mollie-payments-app-for-shopwell.html) installed on your environment ([See how to setup it locally](https://boxblinkracer.com/blog/mollie-app-setup))
 
 ## Setup

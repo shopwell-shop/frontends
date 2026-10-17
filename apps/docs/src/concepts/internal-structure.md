@@ -23,7 +23,7 @@ Some of its components are based on Vue.js and Nuxt.js. The framework is designe
 
 This section deals with the different packages and their abstractions. It is sorted by reusability / abstraction level from high to low and shows the main dependencies of each component respectively.
 
-<PageRef title="shopwell/frontends packages" sub="Explore all Shopwell Frontends packages on GitHub" :icon="githubIcon" page="https://github.com/shopwell-shop/frontends/tree/main/packages" target="_blank" />
+<PageRef title="shopwell-shop/frontends packages" sub="Explore all Shopwell Frontends packages on GitHub" :icon="githubIcon" page="https://github.com/shopwell-shop/frontends/tree/main/packages" target="_blank" />
 
 ## api-client
 
@@ -81,7 +81,7 @@ If you want to use these packages with a different Vue.js framework, see the gui
 
 The CMS base is a Nuxt module that provides an implementation of all CMS components in Shopwell [based on utility-classes](./styling.html) using unocss/Tailwind.css syntax. It is useful for projects that want to use the CMS components but design their own layout.
 
-Head to our [Content Pages](../guides/cms/content-pages#use-the-cms-base-package) guide to learn more.
+Head to the [Rendering CMS Pages recipe](../frontends-recipes/cms/rendering.html) to learn more.
 
 <PageRef page="../packages/cms-base-layer.html" title="CMS Base Reference" sub="Package API reference for the CMS composables" />
 

@@ -16,7 +16,7 @@ This repository is an example demo application built with Shopwell Frontends Fra
 
 ## Requirements
 
-Go to [Documentation > Requirements](https://developer.shopwell.cn/frontends/framework/requirements.html) to see the details.
+Go to [Documentation > Requirements](https://developer.shopwell.cn/frontends/introduction/requirements.html) to see the details.
 
 ## Set up your Shopwell 6 instance
 

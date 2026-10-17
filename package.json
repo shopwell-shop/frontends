@@ -2,7 +2,6 @@
   "name": "shopwell-frontends",
   "version": "0.0.0",
   "private": true,
-  "license": "Apache-2.0",
   "workspaces": [
     "apps/*",
     "packages/*",
@@ -54,7 +53,8 @@
     "turbo": "2.10.12"
   },
   "engines": {
-    "node": "^22.19.0 || ^24.11.0 || >=26.0.0"
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
-  "packageManager": "pnpm@11.5.2"
+  "packageManager": "pnpm@11.5.2",
+  "license": "Apache-2.0"
 }

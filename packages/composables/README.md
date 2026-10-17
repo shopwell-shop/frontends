@@ -1,11 +1,11 @@
-# shopwell/frontends - composables
+# shopwell-shop/frontends - composables
 
 [![](https://img.shields.io/npm/v/@shopwell/composables?color=blue&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCA0ODggNTUzIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNDM5LjA0MSAxMjkuNTkzTDI1OC43NjkgMzEuMzA3NkMyNDQuOTE1IDIzLjc1NDEgMjI4LjExNiAyNC4wMDkzIDIxNC40OTcgMzEuOTgwMkw0Ny4yNjkgMTI5Ljg1OEMzMy40NzYzIDEzNy45MzEgMjUgMTUyLjcxMyAyNSAxNjguNjk1VjM4OC40NjZDMjUgNDA0LjczMiAzMy43Nzg1IDQxOS43MzIgNDcuOTYwMiA0MjcuNjk5TDIxNS4xNzggNTIxLjYzNkMyMjguNDUxIDUyOS4wOTIgMjQ0LjU5MyA1MjkuMzMyIDI1OC4wODIgNTIyLjI3NEw0MzguMzY0IDQyNy45MzRDNDUzLjIwMSA0MjAuMTcgNDYyLjUgNDA0LjgwOSA0NjIuNSAzODguMDYzVjE2OS4xMDJDNDYyLjUgMTUyLjYzMiA0NTMuNTAyIDEzNy40NzcgNDM5LjA0MSAxMjkuNTkzWiIgc3Ryb2tlPSJ1cmwoI3BhaW50MF9saW5lYXJfMTUzXzY5MjY1KSIgc3Ryb2tlLXdpZHRoPSI1MCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyXzE1M182OTI2NSIgeDE9Ii0xNi4yOTg5IiB5MT0iMTY1LjM0OSIgeDI9IjI3Ni40MTIiIHkyPSItODkuMzIzNCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjMDA4NUZGIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0MwRTJGNSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==)](https://npmjs.com/package/@shopwell/composables)
-[![](https://img.shields.io/github/package-json/v/shopwell/frontends?color=blue&filename=packages%2Fcomposables%2Fpackage.json&label=frontends/composables&logo=github)](https://github.com/shopwell-shop/frontends/tree/main/packages/composables)
-[![](https://img.shields.io/github/issues/shopwell/frontends/composables?label=package%20issues&logo=github)](https://github.com/shopwell-shop/frontends/issues?q=is%3Aopen+is%3Aissue+label%3Acomposables)
-[![](https://img.shields.io/github/license/shopwell/frontends?color=blue)](#)
+[![](https://img.shields.io/github/package-json/v/shopwell-shop/frontends?color=blue&filename=packages%2Fcomposables%2Fpackage.json&label=frontends/composables&logo=github)](https://github.com/shopwell-shop/frontends/tree/main/packages/composables)
+[![](https://img.shields.io/github/issues/shopwell-shop/frontends/composables?label=package%20issues&logo=github)](https://github.com/shopwell-shop/frontends/issues?q=is%3Aopen+is%3Aissue+label%3Acomposables)
+[![](https://img.shields.io/github/license/shopwell-shop/frontends?color=blue)](#)
 
-Set of Vue.js composition functions that can be used in any Vue.js project. They provide state management, UI logic and data fetching and are the base for all guides in our [building section](https://developer.shopwell.cn/frontends/guides/page-elements/navigation.html).
+Set of Vue.js composition functions that can be used in any Vue.js project. They provide state management, UI logic and data fetching and are the base for all guides in our [building section](https://developer.shopwell.cn/frontends/frontends-recipes/context/navigation.html).
 
 ## Features
 
@@ -168,19 +168,13 @@ Full changelog for stable version is available [here](https://github.com/shopwel
 
 ### Latest changes: 2.0.0
 
-### Major Changes
-
-- [#6](https://github.com/shopwell-shop/frontends/pull/6) [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983) Thanks [@xgll7](https://github.com/xgll7)! - Customers, users, order customers, addresses and newsletter recipients now carry a single `name` instead of `firstName` and `lastName`.
-
-  `firstName` and `lastName` are gone from the Admin API and Store API schemas of `Customer`, `CustomerAddress`, `OrderCustomer`, `OrderAddress`, `User` and `NewsletterRecipient`. They expose `name` (the full name) instead. The same applies to the request bodies that used to send both fields — customer registration, profile update, contact form, newsletter subscription and the revocation request form — and to the `contactForm` shop settings, where `firstNameFieldRequired` and `lastNameFieldRequired` are merged into `nameFieldRequired`.
-
-  `useOrderDetails()` returns the customer's full name as `name` in the personal details.
-
-  The newsletter and contact form CMS elements render a single name input instead of separate first and last name inputs.
-
 ### Minor Changes
 
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Let the CMS tree lookups follow a changing `content`, and fix `resolveCmsComponent().isResolved`
+- [#2785](https://github.com/shopwell-shop/frontends/pull/2785) [`74a477b`](https://github.com/shopwell-shop/frontends/commit/74a477bfa88e3c518d3a0336e4d301c823122ba8) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - `useCmsElementConfig` accepts a `ref` or a getter. `getConfigValue` reads the element on every call, so a component that passes `() => props.content` follows a new `content` instead of the one it was set up with. Passing a plain object works as before.
+
+- [#2785](https://github.com/shopwell-shop/frontends/pull/2785) [`74a477b`](https://github.com/shopwell-shop/frontends/commit/74a477bfa88e3c518d3a0336e4d301c823122ba8) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add the `CmsBlockCategoryHeading`, `CmsBlockVideo`, `CmsBlockAppRenderer`, `CmsElementCategoryName`, `CmsElementVideo` and `MediaDisplayMode` types.
+
+- [#2774](https://github.com/shopwell-shop/frontends/pull/2774) [`5961f55`](https://github.com/shopwell-shop/frontends/commit/5961f55b9f7cebad626cc073ae0bf857aa26f91b) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Let the CMS tree lookups follow a changing `content`, and fix `resolveCmsComponent().isResolved`
 
   **`useCmsSection` and `useCmsBlock` accept a `ref` or a getter.** Both took a plain object and closed over it, so `getPositionContent()` and `getSlotContent()` kept reading the tree captured at setup: a component receiving a new `content` prop had to remount to see it, and calling the function again did not help. Both now accept `MaybeRefOrGetter` and resolve it with `toValue()` on every call.
 
@@ -201,15 +195,17 @@ Full changelog for stable version is available [here](https://github.com/shopwel
 
 ### Patch Changes
 
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Add an optional notification action (label + link) so add-to-cart toasts can offer a "View cart" shortcut, and keep those toasts visible a little longer.
+- [#2731](https://github.com/shopwell-shop/frontends/pull/2731) [`46d6daa`](https://github.com/shopwell-shop/frontends/commit/46d6daade81e3d9e443f3badfeba2ca0e2751477) Thanks [@patzick](https://github.com/patzick)! - Add an optional notification action (label + link) so add-to-cart toasts can offer a "View cart" shortcut, and keep those toasts visible a little longer.
 
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Fall back `getStorefrontUrl()` to a sales channel domain
+- [#2799](https://github.com/shopwell-shop/frontends/pull/2799) [`7dbca8b`](https://github.com/shopwell-shop/frontends/commit/7dbca8bf8bca1225b365bc03e4dbc07d3764c2e1) Thanks [@mkucmus](https://github.com/mkucmus)! - `useCategorySearch().search()` with `withCmsAssociations: true` now requests the CMS associations. Before, it nested them one level too deep, so the backend ignored them.
+
+- [#2724](https://github.com/shopwell-shop/frontends/pull/2724) [`c78188a`](https://github.com/shopwell-shop/frontends/commit/c78188ac6c95ae19b070f5ea3361a60f21dff281) Thanks [@patzick](https://github.com/patzick)! - Fall back `getStorefrontUrl()` to a sales channel domain
 
   `useUser().register()` injects `storefrontUrl` from `getStorefrontUrl()`. Shopwell rejects that value unless it matches a **Sales Channel → Domains** entry, so guest checkout against the public demo (`devStorefrontUrl` pointing at the starter Vercel host) never reached `POST /checkout/order`.
 
   `getStorefrontUrl()` now uses the preferred URL when it is one of the current sales channel domains, and otherwise the domain for the active language (or the first configured domain).
 
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Refresh the cart after `register()`
+- [#2700](https://github.com/shopwell-shop/frontends/pull/2700) [`0df4c17`](https://github.com/shopwell-shop/frontends/commit/0df4c17b18ec38fc4d0c33f1cb6396f8f532a65d) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Refresh the cart after `register()`
 
   `useUser().register()` changed the session context without refreshing the cart, while `login()` and `logout()` both did. Registration is the first point at which the backend learns the customer's billing country, which drives tax rates, shipping surcharges and customer-group prices, so the cart totals held in `useCart()` could stay at their pre-registration values while the order was placed at the recalculated ones.
 
@@ -217,5 +213,5 @@ Full changelog for stable version is available [here](https://github.com/shopwel
 
   `login()` and `logout()` still call `refreshCart()` without awaiting it and are unchanged here.
 
-- Updated dependencies [[`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95)]:
-  - @shopwell/api-client@2.0.0
+- Updated dependencies [[`44ece9d`](https://github.com/shopwell-shop/frontends/commit/44ece9dac2e4d0248c2270f7eff496c258632f5b), [`4b43e64`](https://github.com/shopwell-shop/frontends/commit/4b43e64a8d78be6eca1f8d9c24140e046193af41)]:
+  - @shopwell/api-client@1.7.0

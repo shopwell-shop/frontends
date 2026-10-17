@@ -44,7 +44,7 @@ export type UseBreadcrumbsReturn = {
 
 /**
  * Composable for breadcrumbs management.
- * Read the [guide](https://developer.shopwell.cn/frontends/guides/page-elements/breadcrumbs.html#building-breadcrumbs-for-cms-pages).
+ * Read the [recipe](https://developer.shopwell.cn/frontends/frontends-recipes/context/navigation.html).
  *
  * @public
  * @category CMS (Shopping Experiences)

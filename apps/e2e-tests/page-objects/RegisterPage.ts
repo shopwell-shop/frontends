@@ -2,13 +2,17 @@ import { faker } from "@faker-js/faker";
 import type { Locator, Page } from "@playwright/test";
 
 import { uniqueEmail } from "../utils/data-helpers";
-import { selectCountry, selectFirstOptionIfPresent } from "../utils/form";
+import {
+  selectDefaultCountry,
+  selectFirstOptionIfPresent,
+} from "../utils/form";
+import type { StoreApi } from "../utils/store-api";
 
 export class RegisterForm {
   // Define selectors
   readonly page: Page;
+  readonly storeApi: { value?: StoreApi };
   readonly accountType: Locator;
-  readonly salutation: Locator;
   readonly name: Locator;
   readonly emailAdrdress: Locator;
   readonly password: Locator;
@@ -22,10 +26,9 @@ export class RegisterForm {
   readonly submitButton: Locator;
 
   // Init selectors using constructor
-  constructor(page: Page) {
+  constructor(page: Page, storeApi: { value?: StoreApi }) {
     this.page = page;
     this.accountType = page.getByTestId("registration-account-type-select");
-    this.salutation = page.getByTestId("registration-salutation-select");
     this.name = page.getByTestId("registration-name-input");
     this.emailAdrdress = page.getByTestId("registration-email-input");
     this.password = page.getByTestId("registration-password-input");
@@ -37,11 +40,11 @@ export class RegisterForm {
     this.country = page.getByTestId("country-select");
     this.countryState = page.getByTestId("checkout-pi-state-input");
     this.submitButton = page.getByTestId("registration-submit-button");
+    this.storeApi = storeApi;
   }
 
   // Define login page methods
   async fillCustomerData(name: string, email: string, password: string) {
-    await selectFirstOptionIfPresent(this.salutation);
     await this.name.fill(name);
     await this.emailAdrdress.fill(email);
     await this.password.fill(password);
@@ -51,12 +54,12 @@ export class RegisterForm {
     await this.street.fill(street);
     await this.zipcode.fill(zipcode);
     await this.city.fill(city);
-    await selectCountry(this.page, this.country, "Germany");
+    await selectDefaultCountry(this.page, this.country, this.storeApi);
     await selectFirstOptionIfPresent(this.countryState);
   }
 
   async fillCompanyData(companyName: string, vatId: string) {
-    await this.accountType.selectOption({ label: "Company" });
+    await this.accountType.selectOption({ value: "business" });
     await this.companyName.fill(companyName);
     await this.vatId.fill(vatId);
   }
@@ -84,7 +87,6 @@ export class RegisterForm {
   }
 
   async createUser() {
-    await selectFirstOptionIfPresent(this.salutation);
     await this.name.fill(
       `e2e ${faker.person.firstName()} ${faker.person.lastName()}`,
     );
@@ -93,7 +95,7 @@ export class RegisterForm {
     await this.street.fill(faker.location.street());
     await this.zipcode.fill(faker.location.zipCode());
     await this.city.fill(faker.location.city());
-    await selectCountry(this.page, this.country, "Germany");
+    await selectDefaultCountry(this.page, this.country, this.storeApi);
     await selectFirstOptionIfPresent(this.countryState);
     await this.submitRegistrationForm();
   }

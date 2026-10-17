@@ -1,9 +1,9 @@
-# shopwell/frontends - cms-base
+# shopwell-shop/frontends - cms-base
 
 [![](https://img.shields.io/npm/v/@shopwell/cms-base-layer?color=blue&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCA0ODggNTUzIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNDM5LjA0MSAxMjkuNTkzTDI1OC43NjkgMzEuMzA3NkMyNDQuOTE1IDIzLjc1NDEgMjI4LjExNiAyNC4wMDkzIDIxNC40OTcgMzEuOTgwMkw0Ny4yNjkgMTI5Ljg1OEMzMy40NzYzIDEzNy45MzEgMjUgMTUyLjcxMyAyNSAxNjguNjk1VjM4OC40NjZDMjUgNDA0LjczMiAzMy43Nzg1IDQxOS43MzIgNDcuOTYwMiA0MjcuNjk5TDIxNS4xNzggNTIxLjYzNkMyMjguNDUxIDUyOS4wOTIgMjQ0LjU5MyA1MjkuMzMyIDI1OC4wODIgNTIyLjI3NEw0MzguMzY0IDQyNy45MzRDNDUzLjIwMSA0MjAuMTcgNDYyLjUgNDA0LjgwOSA0NjIuNSAzODguMDYzVjE2OS4xMDJDNDYyLjUgMTUyLjYzMiA0NTMuNTAyIDEzNy40NzcgNDM5LjA0MSAxMjkuNTkzWiIgc3Ryb2tlPSJ1cmwoI3BhaW50MF9saW5lYXJfMTUzXzY5MjY1KSIgc3Ryb2tlLXdpZHRoPSI1MCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyXzE1M182OTI2NSIgeDE9Ii0xNi4yOTg5IiB5MT0iMTY1LjM0OSIgeDI9IjI3Ni40MTIiIHkyPSItODkuMzIzNCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjMDA4NUZGIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0MwRTJGNSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==)](https://npmjs.com/package/@shopwell/cms-base-layer)
-[![](https://img.shields.io/github/package-json/v/shopwell/frontends?color=blue&filename=packages%2Fcms-base-layer%2Fpackage.json&label=cms-base%40monorepo&logo=github)](https://github.com/shopwell-shop/frontends/tree/main/packages/cms-base-layer)
-[![](https://img.shields.io/github/issues/shopwell/frontends/cms-base?label=cms-base%20issues&logo=github)](https://github.com/shopwell-shop/frontends/issues?q=is%3Aopen+is%3Aissue+label%3Acms-base)
-[![](https://img.shields.io/github/license/shopwell/frontends?color=blue)](#)
+[![](https://img.shields.io/github/package-json/v/shopwell-shop/frontends?color=blue&filename=packages%2Fcms-base-layer%2Fpackage.json&label=cms-base%40monorepo&logo=github)](https://github.com/shopwell-shop/frontends/tree/main/packages/cms-base-layer)
+[![](https://img.shields.io/github/issues/shopwell-shop/frontends/cms-base?label=cms-base%20issues&logo=github)](https://github.com/shopwell-shop/frontends/issues?q=is%3Aopen+is%3Aissue+label%3Acms-base)
+[![](https://img.shields.io/github/license/shopwell-shop/frontends?color=blue)](#)
 
 Nuxt [layer](https://nuxt.com/docs/getting-started/layers) that provides an implementation of all CMS components in Shopwell [based on utility-classes](https://developer.shopwell.cn/frontends/concepts/styling.html).
 
@@ -90,7 +90,7 @@ Since all CMS components are registered in your Nuxt application, you can now st
 
 > `@shopwell/cms-base-layer` no longer owns the default UnoCSS theme. If you want the shared Shopwell Frontends design tokens and UnoCSS defaults, extend `@shopwell/unocss-design-tokens-layer` as shown above.
 
-See a [short guide](https://developer.shopwell.cn/frontends/guides/cms/content-pages.html#use-the-cms-base-package) on how to use `cms-base-layer` in your Nuxt project.
+See a [short guide](https://developer.shopwell.cn/frontends/frontends-recipes/cms/rendering.html) on how to use `cms-base-layer` in your Nuxt project.
 
 ## Styling and Design Tokens
 
@@ -460,6 +460,36 @@ The procedure is:
 
 ✅ Thanks to this, nuxt will take the component registered in your app instead of the one registered by this nuxt layer.
 
+### App blocks (`app-renderer`)
+
+Every block an app registers through the Meteor Admin SDK (`cms.registerCmsBlock`) reaches the Store API with the type `app-renderer`, so they all render through `CmsBlockAppRenderer`. By default it places the block's slots in the CSS grid the app declared, like the Storefront's fallback, in the order the app declared them.
+
+To give one app block its own markup, add a global component named after the block, `CmsBlockAppRenderer` followed by the PascalCase `appBlockName` — for a block registered as `swag-two-columns`, that is `CmsBlockAppRendererSwagTwoColumns.vue`. It receives the block as its `content` prop, and every other app block keeps the fallback:
+
+```vue
+<script setup lang="ts">
+import type { CmsBlockAppRenderer } from "@shopwell/composables";
+
+const props = defineProps<{ content: CmsBlockAppRenderer }>();
+
+const { getSlotContent } = useCmsBlock(() => props.content);
+
+const text = computed(() => getSlotContent("text-0"));
+const image = computed(() => getSlotContent("image-1"));
+</script>
+
+<template>
+  <div class="grid gap-6 md:grid-cols-2">
+    <CmsGenericElement :content="text" />
+    <CmsGenericElement :content="image" />
+  </div>
+</template>
+```
+
+The slots are named `{element}-{index}` in the order the app declared them, so look them up by name rather than by position: the Store API sorts them by name, so `image-1` comes before `text-0` and `text-10` before `text-2`. The fallback restores the declared order from the index, as the Administration preview shows it. The Storefront's fallback keeps the Store API order, so a block that mixes element types can place its slots differently there.
+
+The lookup of these components lives in `CmsBlockAppRenderer` itself. If you override `CmsBlockAppRenderer`, for example to change the fallback markup, your override replaces that lookup too, and your `CmsBlockAppRenderer{AppBlockName}` components are no longer used unless it renders them. A component whose name does not match the `appBlockName` renders the fallback without a warning, as a misnamed override of any other CMS component does.
+
 ### Internal components
 
 ❗**Internal components are not a part of public API. Once overwritten you need to track the changes on your own.**
@@ -493,19 +523,15 @@ Full changelog for stable version is available [here](https://github.com/shopwel
 
 ### Latest changes: 5.0.0
 
-### Major Changes
-
-- [#6](https://github.com/shopwell-shop/frontends/pull/6) [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983) Thanks [@xgll7](https://github.com/xgll7)! - Customers, users, order customers, addresses and newsletter recipients now carry a single `name` instead of `firstName` and `lastName`.
-
-  `firstName` and `lastName` are gone from the Admin API and Store API schemas of `Customer`, `CustomerAddress`, `OrderCustomer`, `OrderAddress`, `User` and `NewsletterRecipient`. They expose `name` (the full name) instead. The same applies to the request bodies that used to send both fields — customer registration, profile update, contact form, newsletter subscription and the revocation request form — and to the `contactForm` shop settings, where `firstNameFieldRequired` and `lastNameFieldRequired` are merged into `nameFieldRequired`.
-
-  `useOrderDetails()` returns the customer's full name as `name` in the personal details.
-
-  The newsletter and contact form CMS elements render a single name input instead of separate first and last name inputs.
-
 ### Minor Changes
 
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Render blocks reactively and survive a missing slot
+- [#2785](https://github.com/shopwell-shop/frontends/pull/2785) [`74a477b`](https://github.com/shopwell-shop/frontends/commit/74a477bfa88e3c518d3a0336e4d301c823122ba8) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Render the CMS blocks and elements Shopwell added since 6.6, which rendered nothing until now:
+
+  - `category-heading` block and `category-name` element (6.7.12), used by the default listing layouts for the category headline.
+  - `video` block and element (6.7.8) for media library videos, with every option of the Administration. New translation keys: `cms.video.playLabel`, `cms.video.pauseLabel`, `cms.video.loadError` and `cms.video.notSupported`.
+  - `app-renderer` block (6.6.1) for blocks registered through the Meteor Admin SDK. A global `CmsBlockAppRenderer{AppBlockName}` component overrides a single app block, see "App blocks" in the README.
+
+- [#2774](https://github.com/shopwell-shop/frontends/pull/2774) [`5961f55`](https://github.com/shopwell-shop/frontends/commit/5961f55b9f7cebad626cc073ae0bf857aa26f91b) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Render blocks reactively and survive a missing slot
 
   `CmsGenericElement` now takes `content` as an optional prop and renders nothing when it is missing, instead of handing `undefined` to `resolveCmsComponent` and throwing. A block does not have to carry every slot its layout allows, so that is no longer an error path.
 
@@ -519,13 +545,27 @@ Full changelog for stable version is available [here](https://github.com/shopwel
 
 ### Patch Changes
 
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Use Three.js vectors for the 3D camera and light positions.
+- [#2778](https://github.com/shopwell-shop/frontends/pull/2778) [`0d4151c`](https://github.com/shopwell-shop/frontends/commit/0d4151ce1fb231606c33e1fd88f525baff60416d) Thanks [@grenzenlos-digital](https://github.com/grenzenlos-digital)! - Use Three.js vectors for the 3D camera and light positions.
 
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Add an optional notification action (label + link) so add-to-cart toasts can offer a "View cart" shortcut, and keep those toasts visible a little longer.
+- [#2731](https://github.com/shopwell-shop/frontends/pull/2731) [`46d6daa`](https://github.com/shopwell-shop/frontends/commit/46d6daade81e3d9e443f3badfeba2ca0e2751477) Thanks [@patzick](https://github.com/patzick)! - Add an optional notification action (label + link) so add-to-cart toasts can offer a "View cart" shortcut, and keep those toasts visible a little longer.
 
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Drive the product listing from the URL. Browser back and forward now update the products, and sorting no longer fires a duplicate request.
+- [#2813](https://github.com/shopwell-shop/frontends/pull/2813) [`c6abd30`](https://github.com/shopwell-shop/frontends/commit/c6abd3000a9c3ad8ec4512704aa99a66ab0e671c) Thanks [@patzick](https://github.com/patzick)! - Fix a 500 on every page with a listing filter (`Cannot read properties of undefined (reading 'query')`) in projects that install the layer outside this monorepo. `useSelectedListingFilters` imported `useRoute` straight from `vue-router`, which the layer does not depend on, so it could resolve to a different `vue-router` copy than the one Nuxt's router uses and get no route back. It now uses Nuxt's `useRoute`, and `SwCategoryNavigationLink` renders `NuxtLink` instead of importing `RouterLink` from `vue-router` for the same reason. The pure filter-state helpers moved from `app/utils/useSelectedListingFilters.ts` to `app/utils/listingFilterState.ts`; their auto-imported names are unchanged.
 
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Write listing filters to the URL before fetching, so a slow or failed request no longer drops the selection. Expose the product id on the add-to-cart button.
-- Updated dependencies [[`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95), [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983), [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95)]:
-  - @shopwell/api-client@2.0.0
-  - @shopwell/composables@2.0.0
+- [#2785](https://github.com/shopwell-shop/frontends/pull/2785) [`74a477b`](https://github.com/shopwell-shop/frontends/commit/74a477bfa88e3c518d3a0336e4d301c823122ba8) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Fix how `CmsElementText` renders CMS text. `CmsElementProductName` and `CmsElementCategoryName` render through it and get the same fixes.
+
+  - It renders only the content the Store API resolved. When that content was empty, it fell back to the raw `config.content` value, which the backend sanitizer never saw. Static content that the sanitizer removed completely, such as a lone `<script>`, came back unsanitized, and a `{{ … }}` placeholder that resolved to nothing was shown as it was typed. Both now render nothing, as in the Storefront. An element built by hand without `data` still renders its static config.
+  - It no longer shows a mapping path. The backend answers a mapping to a value that is not a string with the path itself, for example `category.customFields`. That is now treated as unresolved.
+  - It follows a new `content`. It read its content and config once, when it was set up, so a component that received a new `content` kept the old text.
+  - HTML attributes other than `class`, `style` and `align` now reach the page, for example `id`, `title` and `colspan`. They were passed in the Vue 2 shape, so server renders dropped them and client renders added `attrs="[object Object]"`. That also made the server and client markup differ on hydration.
+
+- [#2677](https://github.com/shopwell-shop/frontends/pull/2677) [`62c8d4c`](https://github.com/shopwell-shop/frontends/commit/62c8d4c86130c076b8391271593372eac83380e3) Thanks [@mkucmus](https://github.com/mkucmus)! - Drive the product listing from the URL. Browser back and forward now update the products, and sorting no longer fires a duplicate request.
+
+- [#2677](https://github.com/shopwell-shop/frontends/pull/2677) [`62c8d4c`](https://github.com/shopwell-shop/frontends/commit/62c8d4c86130c076b8391271593372eac83380e3) Thanks [@mkucmus](https://github.com/mkucmus)! - Write listing filters to the URL before fetching, so a slow or failed request no longer drops the selection. Expose the product id on the add-to-cart button.
+
+- [#2812](https://github.com/shopwell-shop/frontends/pull/2812) [`09d8b0f`](https://github.com/shopwell-shop/frontends/commit/09d8b0fea5489e973ef4f1f49d09e72372ab9ecf) Thanks [@mkucmus](https://github.com/mkucmus)! - Show "Details" instead of "Add to cart" for variant parents, and show success only when the product is in the cart. A product with a single price tier now shows "Add to cart", like in the Twig storefront.
+
+  New translation key: `product.notAddedToCart`. Variant parents now use `product.details`. Add both to your locale files.
+
+- Updated dependencies [[`44ece9d`](https://github.com/shopwell-shop/frontends/commit/44ece9dac2e4d0248c2270f7eff496c258632f5b), [`46d6daa`](https://github.com/shopwell-shop/frontends/commit/46d6daade81e3d9e443f3badfeba2ca0e2751477), [`7dbca8b`](https://github.com/shopwell-shop/frontends/commit/7dbca8bf8bca1225b365bc03e4dbc07d3764c2e1), [`74a477b`](https://github.com/shopwell-shop/frontends/commit/74a477bfa88e3c518d3a0336e4d301c823122ba8), [`74a477b`](https://github.com/shopwell-shop/frontends/commit/74a477bfa88e3c518d3a0336e4d301c823122ba8), [`5961f55`](https://github.com/shopwell-shop/frontends/commit/5961f55b9f7cebad626cc073ae0bf857aa26f91b), [`c78188a`](https://github.com/shopwell-shop/frontends/commit/c78188ac6c95ae19b070f5ea3361a60f21dff281), [`0df4c17`](https://github.com/shopwell-shop/frontends/commit/0df4c17b18ec38fc4d0c33f1cb6396f8f532a65d), [`4b43e64`](https://github.com/shopwell-shop/frontends/commit/4b43e64a8d78be6eca1f8d9c24140e046193af41)]:
+  - @shopwell/api-client@1.7.0
+  - @shopwell/composables@1.14.0
