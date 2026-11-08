@@ -1,5 +1,11 @@
 # @shopwell/api-client
 
+## 2.1.0
+
+### Minor Changes
+
+- [#16](https://github.com/shopwell-shop/frontends/pull/16) [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a) Thanks [@xgll7](https://github.com/xgll7)! - Header names now merge case-insensitively. A header set to `""` is removed from the request. A response to a request with an empty `sw-context-token` never changes the client's token. The Store API `invoke` types `sw-context-token` as a header of every operation. Added `mergeRequestHeaders` and its `RequestHeaders` type to `@shopwell/api-client/helpers`. It takes boolean header values and returns strings. Exported the `ClientHeaders` and `ClientHeadersProxy` types. Dropped the `defu` dependency.
+
 ## 2.0.0
 
 ### Major Changes
