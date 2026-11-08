@@ -1,14 +1,11 @@
-import { encodeForQuery } from "@shopwell/api-client/helpers";
+import { useCacheableRead } from "#imports";
 
-import { useShopwellContext } from "#imports";
-
-const { apiClient, cacheableReads } = useShopwellContext();
+const { invokeRead } = useCacheableRead();
 const criteria = {};
 
-const result = cacheableReads
-  ? await apiClient.invoke("readCountryGet get /country", {
-      query: { _criteria: encodeForQuery(criteria) },
-    })
-  : await apiClient.invoke("readCountry post /country", {
-      body: criteria,
-    });
+async function fetchCountries() {
+  const result = await invokeRead("readCountry post /country", {
+    body: criteria,
+  });
+  return result.data;
+}

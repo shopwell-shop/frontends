@@ -1,7 +1,12 @@
 import { urlIsAbsolute } from "@shopwell/helpers";
 import type { Ref } from "vue";
 
-import { useContext, useSessionContext, useShopwellContext } from "#imports";
+import {
+  useCacheableRead,
+  useContext,
+  useSessionContext,
+  useShopwellContext,
+} from "#imports";
 import type { Schemas, operations } from "#shopwell";
 
 export type UseInternationalizationReturn = {
@@ -81,7 +86,8 @@ export type RouteObject = {
 export function useInternationalization(
   pathResolver?: (path: string) => string,
 ): UseInternationalizationReturn {
-  const { devStorefrontUrl, apiClient, cacheableReads } = useShopwellContext();
+  const { devStorefrontUrl, apiClient } = useShopwellContext();
+  const { invokeRead } = useCacheableRead();
   const { sessionContext } = useSessionContext();
 
   const _storeLanguages = useContext<Schemas["Language"][]>("swLanguages");
@@ -113,9 +119,7 @@ export function useInternationalization(
   }
 
   async function getAvailableLanguages() {
-    const { data } = cacheableReads
-      ? await apiClient.invoke("readLanguagesGet get /language")
-      : await apiClient.invoke("readLanguages post /language");
+    const { data } = await invokeRead("readLanguages post /language");
     _storeLanguages.value = data.elements;
     return data;
   }

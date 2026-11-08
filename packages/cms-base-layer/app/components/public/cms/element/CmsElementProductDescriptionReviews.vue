@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { encodeForQuery } from "@shopwell/api-client/helpers";
 import type { CmsElementProductDescriptionReviews } from "@shopwell/composables";
 import { useCmsTranslations } from "@shopwell/composables";
 import { getTranslatedProperty } from "@shopwell/helpers";
@@ -7,7 +6,7 @@ import { defu } from "defu";
 import { type Ref, computed, onMounted, ref } from "vue";
 import xss from "xss";
 
-import { useProduct, useShopwellContext, useUser } from "#imports";
+import { useCacheableRead, useProduct, useUser } from "#imports";
 import type { Schemas } from "#shopwell";
 
 const props = defineProps<{
@@ -57,26 +56,18 @@ const isSectionOpen = (sectionNumber: number) => {
 };
 
 const reviews: Ref<Schemas["ProductReview"][]> = ref([]);
-const { apiClient, cacheableReads } = useShopwellContext();
+const { invokeRead } = useCacheableRead();
 const { isLoggedIn } = useUser();
 const reviewAdded = ref(false);
 
 const fetchReviews = async () => {
   try {
-    const reviewsResponse = cacheableReads
-      ? await apiClient.invoke(
-          "readProductReviewsGet get /product/{productId}/reviews",
-          {
-            pathParams: { productId: product.value.id },
-            query: { _criteria: encodeForQuery({}) },
-          },
-        )
-      : await apiClient.invoke(
-          "readProductReviews post /product/{productId}/reviews",
-          {
-            pathParams: { productId: product.value.id },
-          },
-        );
+    const reviewsResponse = await invokeRead(
+      "readProductReviews post /product/{productId}/reviews",
+      {
+        pathParams: { productId: product.value.id },
+      },
+    );
     reviews.value = reviewsResponse.data.elements || [];
   } catch (error) {
     console.error("Failed to fetch reviews:", error);

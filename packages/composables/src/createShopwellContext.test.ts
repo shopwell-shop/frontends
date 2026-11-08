@@ -9,6 +9,7 @@ describe("createShopwellContext", () => {
     const context = createShopwellContext(app, {});
     context.install(app);
     expect(context).toBeDefined();
+    expect(context.ssrWithoutUserContext).toBe(false);
   });
 
   it("should create a Shopwell context with custom options", () => {
@@ -16,9 +17,11 @@ describe("createShopwellContext", () => {
     const options = {
       devStorefrontUrl: "https://devstorefront.com",
       enableDevtools: true,
+      ssrWithoutUserContext: true,
     };
     const context = createShopwellContext(app, options);
 
     expect(context).toBeDefined();
+    expect(context.ssrWithoutUserContext).toBe(true);
   });
 });
