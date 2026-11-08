@@ -5,9 +5,6 @@ import type { Schemas } from "#shopwell";
 useHead({
   title: "Shopwell Starter Demo store",
   meta: [{ name: "description", content: "Shopwell Starter Demo store" }],
-  htmlAttrs: {
-    lang: "en",
-  },
   link: [
     {
       rel: "preconnect",
@@ -72,6 +69,11 @@ const {
   localeProperties,
   messages,
 } = useI18n();
+
+useHead({
+  htmlAttrs: { lang: () => localeProperties.value.language },
+});
+
 const router = useRouter();
 
 const { languageIdChain, currentLocaleCode, refreshSessionContext } =

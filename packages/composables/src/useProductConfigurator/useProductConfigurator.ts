@@ -1,9 +1,8 @@
-import { encodeForQuery } from "@shopwell/api-client/helpers";
 import { getTranslatedProperty } from "@shopwell/helpers";
 import { computed, ref } from "vue";
 import type { ComputedRef, Ref } from "vue";
 
-import { useProduct, useShopwellContext } from "#imports";
+import { useCacheableRead, useProduct } from "#imports";
 import type { Schemas } from "#shopwell";
 
 export type UseProductConfiguratorReturn = {
@@ -42,7 +41,7 @@ export type UseProductConfiguratorReturn = {
  * @category Product
  */
 export function useProductConfigurator(): UseProductConfiguratorReturn {
-  const { apiClient, cacheableReads } = useShopwellContext();
+  const { invokeRead } = useCacheableRead();
 
   const { configurator, product } = useProduct();
 
@@ -104,13 +103,9 @@ export function useProductConfigurator(): UseProductConfiguratorReturn {
           seoUrls: {},
         },
       };
-      const response = cacheableReads
-        ? await apiClient.invoke("readProductGet get /product", {
-            query: { _criteria: encodeForQuery(criteria) },
-          })
-        : await apiClient.invoke("readProduct post /product", {
-            body: criteria,
-          });
+      const response = await invokeRead("readProduct post /product", {
+        body: criteria,
+      });
       return response.data.elements?.[0]; // return first matching product
     } catch (e) {
       console.error("SwProductDetails:findVariantForSelectedOptions", e);

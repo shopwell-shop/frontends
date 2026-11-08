@@ -204,6 +204,7 @@ function setupShopwellPlugin(NuxtApp: ShopwellPluginNuxtApp): {
     devStorefrontUrl: shopwellRuntimeConfigPublic?.devStorefrontUrl || null,
     browserLocale,
     cacheableReads: shopwellRuntimeConfigPublic?.cacheableReads ?? false,
+    ssrWithoutUserContext: !shouldUseSessionContextInServerRender,
   });
   NuxtApp.vueApp.provide("shopwell", shopwellContext);
 
@@ -212,6 +213,8 @@ function setupShopwellPlugin(NuxtApp: ShopwellPluginNuxtApp): {
   NuxtApp.vueApp.provide("swSessionContext", sessionContextData);
   // in case someone tries to use it in nuxt specific code like middleware
   useState("swSessionContext", () => sessionContextData);
+  // app-wide, so cacheable reads see the cart from any component
+  NuxtApp.vueApp.provide("swCart", ref());
 
   return {
     provide: {

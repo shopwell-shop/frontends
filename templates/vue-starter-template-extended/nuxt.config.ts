@@ -9,7 +9,7 @@ export default defineNuxtConfig({
       shopwell: {
         endpoint: "https://demo-frontends.shopwell.store/store-api/",
         accessToken: "SWSCT0RWATU1RG9RT200M29XNA",
-        devStorefrontUrl: "https://frontends-demo.vercel.app",
+        devStorefrontUrl: "https://demo-frontends.shopwell.store/candles",
         cacheableReads: true,
       },
     },
