@@ -166,14 +166,14 @@ All composable functions are fully typed with TypeScript and they are registed g
 
 Full changelog for stable version is available [here](https://github.com/shopwell-shop/frontends/blob/main/packages/composables/CHANGELOG.md)
 
-### Latest changes: 2.1.0
+### Latest changes: 2.2.0
 
 ### Minor Changes
 
-- [#11](https://github.com/shopwell-shop/frontends/pull/11) [`9a48fa4`](https://github.com/shopwell-shop/frontends/commit/9a48fa4b4686da5d3269557963911bbedc189c42) Thanks [@xgll7](https://github.com/xgll7)! - Support SEO URLs of headless (API type) sales channels. Since shopwell-shop/shopwell#17991 headless sales channels persist their SEO URLs against the `store-api.*` route family (`store-api.product.detail`, `store-api.category.detail`, `store-api.landing-page.detail`). `useNavigationSearch().resolvePath()` now maps those route names to their `frontend.*` equivalents, so page resolution works unchanged on a headless sales channel. The new `getFrontendRouteName` helper in `@shopwell/helpers` exposes the same mapping for custom resolvers.
+- [#16](https://github.com/shopwell-shop/frontends/pull/16) [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a) Thanks [@xgll7](https://github.com/xgll7)! - Added `useCacheableRead().invokeRead`. It uses the cacheable GET route only for a fresh default guest. That GET has no `sw-context-token`. Other sessions stay POST. Branching on `useShopwellContext().cacheableReads` is deprecated. Keep reads that `invokeRead` does not take on POST. New `createShopwellContext` option: `ssrWithoutUserContext`. A category read over GET now sends its listing params as plain query params, so `limit` is no longer dropped.
 
 ### Patch Changes
 
-- [#11](https://github.com/shopwell-shop/frontends/pull/11) [`de57de5`](https://github.com/shopwell-shop/frontends/commit/de57de5a1624d14521467c48429151d4c9fa736d) Thanks [@xgll7](https://github.com/xgll7)! - Point the README and JSDoc documentation links at the Frontends Recipes that replaced the redirected guides
-- Updated dependencies [[`9a48fa4`](https://github.com/shopwell-shop/frontends/commit/9a48fa4b4686da5d3269557963911bbedc189c42)]:
-  - @shopwell/helpers@1.9.0
+- [#16](https://github.com/shopwell-shop/frontends/pull/16) [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a) Thanks [@xgll7](https://github.com/xgll7)! - `useWishlist().mergeWishlistProducts()` now clears the local (localStorage) wishlist after merging it into the customer's wishlist. Before, it cleared the API wishlist instead: the local items stayed and were merged again on every login, and products the sync store still held from earlier in the session were removed from the customer's wishlist on the server.
+- Updated dependencies [[`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a)]:
+  - @shopwell/api-client@2.1.0

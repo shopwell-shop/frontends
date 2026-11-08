@@ -590,26 +590,8 @@ headers["sw-language-id"]; // "my-language-id"
 
 Full changelog for stable version is available [here](https://github.com/shopwell-shop/frontends/blob/main/packages/api-client/CHANGELOG.md)
 
-### Latest changes: 2.0.0
-
-### Major Changes
-
-- [#6](https://github.com/shopwell-shop/frontends/pull/6) [`30f4541`](https://github.com/shopwell-shop/frontends/commit/30f454108dd15c1639df7788fc7a590bd15e0983) Thanks [@xgll7](https://github.com/xgll7)! - Customers, users, order customers, addresses and newsletter recipients now carry a single `name` instead of `firstName` and `lastName`.
-
-  `firstName` and `lastName` are gone from the Admin API and Store API schemas of `Customer`, `CustomerAddress`, `OrderCustomer`, `OrderAddress`, `User` and `NewsletterRecipient`. They expose `name` (the full name) instead. The same applies to the request bodies that used to send both fields — customer registration, profile update, contact form, newsletter subscription and the revocation request form — and to the `contactForm` shop settings, where `firstNameFieldRequired` and `lastNameFieldRequired` are merged into `nameFieldRequired`.
-
-  `useOrderDetails()` returns the customer's full name as `name` in the personal details.
-
-  The newsletter and contact form CMS elements render a single name input instead of separate first and last name inputs.
+### Latest changes: 2.1.0
 
 ### Minor Changes
 
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Added `isTimeoutError()` to tell a request that ran into `fetchOptions.timeout` apart from other errors. Such a request rejects without an HTTP status, so `instanceof ApiClientError` does not match it. The request may already have reached the API and been processed, so the server-side outcome is unknown, and a mutation must not be retried without checking.
-
-  A per-request `signal` no longer switches off `timeout`. Both are combined, so whichever fires first aborts the request. Before, ofetch ignored `timeout` as soon as a `signal` was set. Combining needs `AbortSignal.any`, so runtimes without it keep the old behaviour. The admin client forwards the signal and timeout to its token refresh as well.
-
-  A `timeout` is now validated before it is used. It is rounded up to whole milliseconds and capped at the largest value a timer can hold, and a value that is not a finite positive number is ignored instead of failing the request. A per-request `timeout: undefined` now falls back to the client timeout instead of dropping it.
-
-### Patch Changes
-
-- [`934734e`](https://github.com/shopwell-shop/frontends/commit/934734e9d18aaa8bc62ecd4d899eaced69fbba95) Thanks [@gxiaosong](https://github.com/gxiaosong)! - Add `WithApiOverrides` to merge local operation or schema overlays onto the types shipped with the client.
+- [#16](https://github.com/shopwell-shop/frontends/pull/16) [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a) Thanks [@xgll7](https://github.com/xgll7)! - Header names now merge case-insensitively. A header set to `""` is removed from the request. A response to a request with an empty `sw-context-token` never changes the client's token. The Store API `invoke` types `sw-context-token` as a header of every operation. Added `mergeRequestHeaders` and its `RequestHeaders` type to `@shopwell/api-client/helpers`. It takes boolean header values and returns strings. Exported the `ClientHeaders` and `ClientHeadersProxy` types. Dropped the `defu` dependency.

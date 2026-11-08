@@ -1,5 +1,18 @@
 # @shopwell/cms-base-layer
 
+## 5.0.2
+
+### Patch Changes
+
+- [#16](https://github.com/shopwell-shop/frontends/pull/16) [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a) Thanks [@xgll7](https://github.com/xgll7)! - `CmsElementProductDescriptionReviews` loads reviews with `useCacheableRead().invokeRead`.
+
+- [#16](https://github.com/shopwell-shop/frontends/pull/16) [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a) Thanks [@xgll7](https://github.com/xgll7)! - Align the `@nuxt/kit` dependency with the Nuxt 4.6.2 bump. The advisories themselves (GHSA-vjh5-4x84-xrqp, GHSA-xfq5-w38q-pc2x) are fixed by `nuxt` and `@nuxt/nitro-server` 4.6.2; `@nuxt/kit` is not an affected package.
+
+- [#16](https://github.com/shopwell-shop/frontends/pull/16) [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a) Thanks [@xgll7](https://github.com/xgll7)! - Update `@nuxt/kit` to 4.6.3 and `vue` to 3.5.44, the minimum Nuxt 4.6.3 requires.
+- Updated dependencies [[`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a), [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a), [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a)]:
+  - @shopwell/composables@2.2.0
+  - @shopwell/api-client@2.1.0
+
 ## 5.0.1
 
 ### Patch Changes

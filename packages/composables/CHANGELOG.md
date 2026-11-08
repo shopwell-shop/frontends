@@ -1,5 +1,17 @@
 # @shopwell/composables
 
+## 2.2.0
+
+### Minor Changes
+
+- [#16](https://github.com/shopwell-shop/frontends/pull/16) [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a) Thanks [@xgll7](https://github.com/xgll7)! - Added `useCacheableRead().invokeRead`. It uses the cacheable GET route only for a fresh default guest. That GET has no `sw-context-token`. Other sessions stay POST. Branching on `useShopwellContext().cacheableReads` is deprecated. Keep reads that `invokeRead` does not take on POST. New `createShopwellContext` option: `ssrWithoutUserContext`. A category read over GET now sends its listing params as plain query params, so `limit` is no longer dropped.
+
+### Patch Changes
+
+- [#16](https://github.com/shopwell-shop/frontends/pull/16) [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a) Thanks [@xgll7](https://github.com/xgll7)! - `useWishlist().mergeWishlistProducts()` now clears the local (localStorage) wishlist after merging it into the customer's wishlist. Before, it cleared the API wishlist instead: the local items stayed and were merged again on every login, and products the sync store still held from earlier in the session were removed from the customer's wishlist on the server.
+- Updated dependencies [[`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a)]:
+  - @shopwell/api-client@2.1.0
+
 ## 2.1.0
 
 ### Minor Changes

@@ -192,11 +192,15 @@ The API Client instance is aware of your custom API types thanks to declaring `#
 
 Full changelog for stable version is available [here](https://github.com/shopwell-shop/frontends/blob/main/packages/nuxt-module/CHANGELOG.md)
 
-### Latest changes: 1.6.1
+### Latest changes: 1.6.2
 
 ### Patch Changes
 
-- [#11](https://github.com/shopwell-shop/frontends/pull/11) [`c7cee4b`](https://github.com/shopwell-shop/frontends/commit/c7cee4b58ef0d108c0189334e1a509b529ccdc7b) Thanks [@xgll7](https://github.com/xgll7)! - Support Nuxt 4.6. `@shopwell/nuxt-module` and `@shopwell/cms-base-layer` now depend on `@nuxt/kit` 4.6.1, and the Nuxt plugin types `ssrContext.event` from `NuxtSSRContext`, so it type-checks on both Nuxt 4.5 and 4.6. The Nuxt templates require Node `^22.22.3 || ^24.15.0 || >=26.0.0`, the range Nuxt 4.6 supports. `@shopwell/unocss-design-tokens-layer` no longer re-exports its generated `.nuxt/imports` from `index.d.ts`, which pulled server routes into the shared type context of apps extending the layer.
-- Updated dependencies [[`de57de5`](https://github.com/shopwell-shop/frontends/commit/de57de5a1624d14521467c48429151d4c9fa736d), [`9a48fa4`](https://github.com/shopwell-shop/frontends/commit/9a48fa4b4686da5d3269557963911bbedc189c42)]:
-  - @shopwell/composables@2.1.0
-  - @shopwell/helpers@1.9.0
+- [#16](https://github.com/shopwell-shop/frontends/pull/16) [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a) Thanks [@xgll7](https://github.com/xgll7)! - Align the `@nuxt/kit` dependency with the Nuxt 4.6.2 bump. The advisories themselves (GHSA-vjh5-4x84-xrqp, GHSA-xfq5-w38q-pc2x) are fixed by `nuxt` and `@nuxt/nitro-server` 4.6.2; `@nuxt/kit` is not an affected package.
+
+- [#16](https://github.com/shopwell-shop/frontends/pull/16) [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a) Thanks [@xgll7](https://github.com/xgll7)! - Update `@nuxt/kit` to 4.6.3.
+
+- [#16](https://github.com/shopwell-shop/frontends/pull/16) [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a) Thanks [@xgll7](https://github.com/xgll7)! - The cart state is now app-wide. The plugin sets `ssrWithoutUserContext` for server renders without a visitor session.
+- Updated dependencies [[`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a), [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a), [`7ceab3d`](https://github.com/shopwell-shop/frontends/commit/7ceab3d603aac3d0efee753b8a61bba17d40cb8a)]:
+  - @shopwell/composables@2.2.0
+  - @shopwell/api-client@2.1.0
